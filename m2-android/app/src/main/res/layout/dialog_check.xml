@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:minWidth="280dp">
+
+    <LinearLayout
+        android:id="@+id/discount_code_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/base_margin">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/base_margin_vertical"
+            android:layout_marginTop="@dimen/base_margin_vertical"
+            android:textColorHint="@color/colorPrimaryLight">
+
+            <EditText
+                android:id="@+id/dialog_check_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/base_margin_vertical"
+                android:layout_marginTop="@dimen/base_margin_vertical"
+                android:hint="@string/CheckNumber"
+                android:inputType="textNoSuggestions"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/order_create_delivery_shipping_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Bank"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textBlack"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+                <Spinner
+                    android:id="@+id/dialog_check_banks_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/spinner_background_black_baseline"
+                    android:gravity="start"
+                    android:paddingBottom="8dp"
+                    android:visibility="visible"
+                    android:spinnerMode="dropdown"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/base_margin_vertical"
+            android:textColorHint="@color/colorPrimaryLight">
+
+            <EditText
+                android:id="@+id/dialog_check_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/base_margin_vertical"
+                android:layout_marginTop="@dimen/base_margin_vertical"
+                android:hint="@string/Amount"
+                android:inputType="textNoSuggestions"
+                android:textColor="@color/textPrimary"
+                android:textSize="16sp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <EditText
+            android:id="@+id/dialog_check_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/base_margin_vertical"
+            android:layout_marginTop="@dimen/base_margin_vertical"
+            android:hint="@string/Date"
+            android:inputType="date"
+            android:textColor="@color/textPrimary"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/dialog_check_cancel"
+                style="@style/buttonPrimaryStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:text="@string/Cancel"/>
+
+            <Button
+                android:id="@+id/dialog_check_ok"
+                style="@style/buttonPrimaryStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/Ok"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

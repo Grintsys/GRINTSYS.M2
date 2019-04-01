@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:padding="4dp"
+              android:weightSum="1">
+
+    <TextView
+        android:id="@+id/client_transaction_reference_number"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.15"
+        android:gravity="start"
+        android:textSize="14sp"
+        tools:text="1"/>
+
+    <TextView
+        android:id="@+id/client_transaction_date"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.30"
+        android:gravity="start"
+        android:textSize="14sp"
+        tools:text="2016-01-01"/>
+
+    <TextView
+        android:id="@+id/client_transaction_description"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.35"
+        android:gravity="start"
+        android:textSize="14sp"
+        tools:text="pago"/>
+
+    <TextView
+        android:id="@+id/client_transaction_amount"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:gravity="end"
+        android:textSize="14sp"
+        tools:text="125364"/>
+
+
+</LinearLayout>
