@@ -1,0 +1,146 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textSize="12sp"
+                android:text="@string/Transfer" />
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:text="@string/Bank" />
+
+            <Spinner
+                android:id="@+id/payment_transfer_banks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:text="@string/Date" />
+
+            <EditText
+                android:id="@+id/payment_transfer_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:layout_marginLeft="1dp"
+                android:layout_marginStart="1dp"
+                android:text=""
+                android:inputType="date"
+                android:focusable="false"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:text="Tipo de Pago" />
+
+        <Spinner
+            android:id="@+id/payment_transfer_paymentTypes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/PaymentTypes"
+            android:spinnerMode="dialog" />
+
+            <TextView
+                android:id="@+id/document_balance_text"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Reference"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:visibility="visible"
+                tools:text="@string/Reference" />
+
+            <EditText
+                android:id="@+id/payment_transfer_reference_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Zero"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:inputType="textNoSuggestions"
+                android:visibility="visible"
+                tools:text="@string/Zero" />
+
+            <TextView
+                android:id="@+id/document_balance"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:text="@string/Amount" />
+
+            <EditText
+                android:id="@+id/payment_transfer_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:inputType="numberDecimal"
+                android:textSize="12sp"
+                android:text="@string/Zero" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp"
+            android:text="Razon de pago" />
+
+        <Spinner
+            android:id="@+id/payment_transfer_paymentreason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:addStatesFromChildren="false"
+            android:entries="@array/PaymentReason"
+            android:spinnerMode="dialog" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="@dimen/base_margin_vertical_half"
+                    android:layout_marginTop="@dimen/base_margin_vertical_half"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

@@ -1,0 +1,316 @@
+<resources>
+    <!-- General strings-->
+    <string name="No_network_connection">No hay conexion a internet</string>
+    <string name="Internal_error">Error interno, porfavor intenta mas tarde</string>
+    <string name="Loading">Cargando …</string>
+    <string name="Retry">Reintentar</string>
+    <string name="Ok">OK</string>
+    <string name="Cancel">Cancelar</string>
+    <string name="Close">Cerrar</string>
+    <string name="Clear">Limpiar</string>
+    <string name="Undo">Deshacer</string>
+    <string name="Required_field">Campo requerido</string>
+    <string name="The_entries_must_match">Estas entrada debe ser igual</string>
+    <string name="Content_is_empty">Contenido esta vacio.</string>
+    <string name="You_must_select_a_client_before_creating_and_order">Debes seleccionar un cliente antes de crear una una orden.</string>
+
+    <!-- Strings related to splash screen -->
+    <string name="Select_shop">Seleccionar Tienda</string>
+    <string name="Select_the_country_where_you_want_to_shop">Seleccionar el País \n Que quieres utilizar</string>
+    <string name="Continue">Continue</string>
+
+    <!-- Main activity related -->
+    <string name="MainMenu">Menu Principal</string>
+    <string name="Another_click_for_leaving_app">Otro Click para salir de la aplicacion</string>
+    <string name="All_categories">Todas las categorias</string>
+    <string name="menu_action_search">Buscar</string>
+    <string name="Type_your_wish">Ingresa tu deseo</string>
+    <string name="menu_action_cart">Carrito de compra</string>
+    <string name="menu_action_wishlist">Lista de deseos</string>
+
+
+    <!-- Products related strings -->
+    <string name="Just_arrived">Recien llegado</string>
+    <string name="No_banners">No anuncio</string>
+    <string name="Show_offers">Mostrar ofertas</string>
+    <string name="FILTER">Filtro</string>
+    <string name="Apply">Aplicar</string>
+    <string name="Restart">Reiniciar</string>
+    <string name="Filter_unavailable">Filtro no disponible</string>
+    <string name="Products_not_found">Productos no encontrodos.</string>
+    <string name="Product_not_found">Producto no encontrado</string>
+    <string name="ADD_TO_CART">AGREGAR AL CARRITO</string>
+    <string name="SEND_TO_A_FRIEND">ENVIAR A UN AMIGO</string>
+    <string name="RECOMMENDED">RECOMENDACIONES</string>
+    <string name="Select_size">Seleccionar Talla</string>
+    <string name="Product">Producto</string>
+    <string name="All">Todo</string>
+
+    <!-- Products sort options -->
+    <string name="Recommended">Recomendado</string>
+    <string name="Whats_new">Lo Nuevo</string>
+    <string name="Highest_price">Mas caro</string>
+    <string name="Lowest_price">Mas barato</string>
+
+
+    <!-- User related strings -->
+    <string name="Unknown_user">Usuario Desconocido</string>
+    <string name="Profile">Perfil</string>
+    <string name="Name_colon">Nombre:</string>
+    <string name="Address_colon">Direccion:</string>
+    <string name="Email_colon">Correo:</string>
+    <string name="Phone_colon">Telefono:</string>
+
+    <string name="Account">Cuenta</string>
+    <string name="Email">Correo</string>
+    <string name="Phone">Tel</string>
+    <string name="Fax">Fax</string>
+    <string name="Street">Calle</string>
+    <string name="House_code">No Casa</string>
+    <string name="City">Ciudad</string>
+    <string name="ZIP">ZIP</string>
+
+    <string name="Changing_the_password">Cambiar la contrasena</string>
+    <string name="Password">Contrasena</string>
+    <string name="New_password">Nueva Contrasena</string>
+    <string name="Password_again">Contrasena de nuevo</string>
+    <string name="Change_password">Cambiar contrasena</string>
+    <string name="Save">Guardar</string>
+
+    <string name="My_orders">Mis Ordenes</string>
+    <string name="Branches">Derivados</string>
+    <string name="Settings">Configuraciones</string>
+
+
+    <!-- Login related strings-->
+    <string name="Log_in">Iniciar</string>
+    <string name="Log_out">Salir</string>
+    <string name="Log_in_to_shop_via">Iniciar vía</string>
+    <string name="Log_in_to_shop_via_email">Iniciar vía correo</string>
+    <string name="Dont_have_an_account">No tienes cuenta?</string>
+    <string name="Skip">Saltar</string>
+    <string name="Forgot_your_password">Olvidaste Contrasena?</string>
+    <string name="Email_for_recovery">Correo alterno</string>
+    <string name="Reset">Resetear</string>
+    <string name="Resend">Reenviar</string>
+    <string name="Print">Imprimir</string>
+    <string name="Log_me_in">Log me in</string>
+    <string name="E_MAIL">E-MAIL</string>
+    <string name="FACEBOOK">FACEBOOK</string>
+    <string name="Register">Registrar</string>
+    <string name="Male">Hombre</string>
+    <string name="Female">Mujer</string>
+    <string name="Check_your_email_we_sent_you_an_confirmation_email">Revisa tu correo. Te enviamos un correo para resear tu cuenta</string>
+    <string name="Facebook_login_failed">Inicio de Facebook fallido</string>
+    <string name="Receiving_facebook_profile_failed">Opteniendo perfil de facebook fallido</string>
+    <string name="Oops_login_expired">Oops inicio expirado</string>
+    <string name="Your_session_has_expired_Please_log_in_again">Su seccion ha expirado, por favor inicia de nuevo</string>
+
+
+    <!-- Cart and order related strings -->
+    <string name="Shopping_cart">Carrito de compras</string>
+    <string name="Your_cart_is_empty">Tu carrito esta vacio</string>
+    <string name="START_SHOPPING">INICIAR COMPRA</string>
+    <string name="SHIPPING_AND_PAYMENT">Crear Orden</string>
+    <string name="Please_select_a_size">Por favor selecciona talla</string>
+    <string name="added_to_cart">Agregado al carrito</string>
+    <string name="Go_to_cart">Ir al carrito</string>
+    <string name="Delete">Eliminar</string>
+    <string name="Edit">Editar</string>
+    <string name="Update_item">Actualizar:</string>
+    <string name="The_item_has_been_successfully_removed">El articulo fue eliminado correctamente</string>
+    <string name="Discount_code">Codigo de descuento</string>
+    <string name="Do_you_have_a_discount_code">Tienes codigo de descuento?</string>
+    <string name="Enter_the_discount_code">Digita codigo de descuento</string>
+    <string name="Internal_error_reload_cart_please">Error internto, por favor recarga carrito</string>
+    <string name="Customer">Cliente</string>
+    <string name="Success">Finalizado</string>
+    <string name="Quota">Cuota</string>
+
+    <!-- Order related strings-->
+    <string name="Begin">Inicio</string>
+    <string name="Status">Estado</string>
+    <string name="Back">Atras</string>
+    <string name="End">Final</string>
+    <string name="DeliveryDate">Fecha de envio</string>
+    <string name="Chart">Graficas</string>
+    <string name="Order">Orden</string>
+    <string name="Order_colon">Orden:</string>
+    <string name="Date_created">Creación</string>
+    <string name="Date_created_colon">Fecha de creación:</string>
+    <string name="Total_price">Precio Total</string>
+    <string name="Order_summary">Resumen</string>
+    <string name="Order_history">Historico</string>
+    <string name="Your_orders_history_is_empty">Tu historico de ordenes esta vacio</string>
+    <string name="Order_details">Detalle de ordenes</string>
+    <string name="Shipping">Envío</string>
+    <string name="Payment">Pago</string>
+    <string name="PaymentProcess">Pago esta comenzando a procesarse</string>
+    <string name="Shipping_method">Metodo de Envío</string>
+    <string name="Choose_shipping_method">Escoge metodo de envio</string>
+    <string name="Choose_payment_method">Escoge metodo de pago</string>
+    <string name="Shipping_details">Detalle de envio</string>
+    <string name="Note">Nota</string>
+    <string name="Click_on_Order_to_allow_our_Terms_and_Conditions">Has clic en la orden para permitir nuestros <![CDATA[<b><font color=#ee1f65>terminos y condiciones</b>]]></string>
+    <string name="Finish_order">Finalizar orden</string>
+    <string name="Shipping_is_empty">Envío esta vacio</string>
+    <string name="Personal_pickup">Recoger </string>
+    <string name="Shipping_type_colon">Tipo de envio:</string>
+    <string name="Shipping_price_colon">Precio de envio:</string>
+    <string name="free">Gratis</string>
+    <string name="Summary">Resumen</string>
+    <string name="Total_colon">Total:</string>
+    <string name="Comment_colon">Comentario:</string>
+    <string name="Comment">Comentario</string>
+    <string name="AddCheck">Agregar cheque</string>
+
+    <!-- Wishlist related -->
+    <string name="Your_wishlist_is_empty">Tu lista de deseos esta vacía</string>
+    <string name="Wishlist">Lista de deseos</string>
+    <string name="Product_deleted_from_wishlist">Product deleted from wishlist</string>
+    <string name="Product_added_to_wishlist">Producto agregado a tu lista de deseos</string>
+    <string name="Go_to_wishlist">Ir a tu lista de deseos</string>
+
+    <!-- Others -->
+    <string name="Select">Seleccionar</string>
+    <string name="Open_source_libraries">Librerias de Codigo Abierto</string>
+    <string name="License_details_for_open_source_software">Detalles de Licencia</string>
+    <string name="App_needs_to_be_restarted">Aplicación necesita ser reiniciada</string>
+    <string name="including_VAT">Imp. Inc.</string>
+    <string name="Thank_you_for_your_order">Gracias por ordenar</string>
+    <string name="Wait_for_sms_or_email_order_confirmation">Espera &lt;b>email&lt; para confirmar pedido/b> .</string>
+    <string name="This_is_a_sample_app">Esta es una aplicacion demo</string>
+    <string name="Sample_app_description">Gracias por tu tiempo. Intellisys: <a href="http://grintsys.com/">Grintsys.com</a>.</string>
+    <string name="Link_is_invalid">Link es invalido</string>
+    <string name="Min">Mínimo</string>
+    <string name="Max">Máximo</string>
+
+
+    <!-- Format strings -->
+    <string name="format_space_prefix"> %1$s</string>
+    <string name="format_comma_prefix">, %1$s</string>
+    <string name="format_string_division">%1$s / %2$s</string>
+    <string name="format_quantity">%1$d u</string>
+    <string name="format_quantity_lines">%1$d Lineas</string>
+    <string name="format_string_quantity">%1$s %2$dx</string>
+    <string name="format_plus">+ %1$s</string>
+    <string name="format_number">%1$d</string>
+    <string name="format_price_range">%1$d %2$s - %3$d %4$s</string>
+    <string name="format_price_discount_percents">-%1$d %%</string>
+
+    <!-- Content description strings -->
+    <string name="content_description_open_navigation_drawer">Abrir navegador de app</string>
+    <string name="content_description_close_navigation_drawer">Cerrar navegador de app</string>
+    <string name="content_description_submenu">Submenu</string>
+    <string name="content_description_move_right">Mover derecho</string>
+    <string name="content_description_move_left">Mover Izq</string>
+    <string name="content_description_background">Segundo Plano</string>
+    <string name="content_description_back_arrow">Hacia atrás</string>
+    <string name="content_description_intro_screen">Pantalla de Inicio</string>
+    <string name="content_description_product_image">Imagen del producto</string>
+    <string name="content_description_shipping_info">Informacion de envio</string>
+    <string name="brand">Marca</string>
+    <string name="season">Temporada</string>
+    <string name="IsCommitted">Reservado</string>
+    <string name="Stock">Cantidad</string>
+    <string name="Price">Precio</string>
+    <string name="Seller">Vendedor</string>
+    <string name="Choose_seller">Escoger Vendedor</string>
+    <string name="AccountStatus">Estado de Cuenta</string>
+    <string name="AccountPayment">Efectuar Pago</string>
+    <string name="Warehouse">Bodega</string>
+    <string name="Discount">Descuento:</string>
+    <string name="Printer">Impresora</string>
+    <string name="Payments">Mis Cobros</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hola!</string>
+
+    <!-- Invoice Related Data -->
+    <string name="CompanyName">VAN HEUSEN DE C.A.</string>
+    <string name="CompanyAddress">Col San Fernando, Ave. Juan Pablo II frente a la Leyde. SPS Cortes</string>
+    <string name="CompanyPhone">25160100</string>
+    <string name="CompanyFax">25164080</string>
+    <string name="CompanyRTN">05019995143200</string>
+    <string name="RTN">RTN</string>
+    <string name="SalesOrder">Ordern de Ventas</string>
+
+    <string name="Invoiced">Facturado</string>
+    <string name="Date">Fecha</string>
+    <string name="ClientCode">Codigo de Cliente</string>
+    <string name="Address">Direccion</string>
+    <string name="Amount">Cantidad</string>
+    <string name="Total">Total</string>
+    <string name="TotalAfterDiscount">Total despues del descuento</string>
+    <string name="IVA">ISV</string>
+    <string name="NameAndSignature">Nombre y Firma</string>
+    <string name="Cash">Efectivo</string>
+    <string name="Check">Cheque</string>
+    <string name="Transfer">Transferencia</string>
+
+    <string name="Document">Numero de Factura</string>
+    <string name="DocumentCode">Codigo de Documento</string>
+    <string name="CreatedDate">Creacion</string>
+    <string name="DueDate">F. Vencimiento</string>
+    <string name="TotalAmount">Cantidad Total</string>
+    <string name="PayedAmount">Cantidad Pagada</string>
+    <string name="Selected">Seleccionado: </string>
+
+    <!-- Payment Related Strings -->
+    <string name="Stats">Estadisticas</string>
+    <string name="created_date">Fecha Creacion</string>
+    <string name="due_date">Vencimiento</string>
+    <string name="total_amount">Total</string>
+    <string name="payed_amount">A Pagar</string>
+    <string name="Balance">Balance</string>
+    <string name="BalanceDue">V. adeudado</string>
+    <string name="InOrder">En Ordenes</string>
+    <string name="CreditLimit">Limite de Credito</string>
+    <string name="PayCondition">Condicion de Pago</string>
+    <string name="BeginOrder">Comenzar Orden</string>
+    <string name="SubTotal">Subtotal</string>
+    <string name="ISV">ISV</string>
+    <string name="DueDays">D. atrazados</string>
+    <string name="PastDue">V. atrazado</string>
+    <string name="Bank">Banco</string>
+    <string name="CheckNumber">Numero de cheque</string>
+    <string name="PaymentHistory">Historial de pagos</string>
+    <string name="MyPayments">Mis Pagos</string>
+    <string name="Client">Cliente</string>
+    <string name="Clients">Clientes</string>
+    <string name="Reference">Referencia</string>
+    <string name="Your_payment_history_is_empty">Tu historico de cobros esta vacio</string>
+    <string name="Sku">SKU</string>
+    <string name="Type">Tipo</string>
+    <string name="Description">Descripcion</string>
+    <string name="ClientTransactions">Transacciones</string>
+    <string name="ShippingDate">Fecha de Envio</string>
+    <string name="QuotaMonth">Cuota Mensual</string>
+    <string name="QuotaMonthAccum">Cuota semanal acumulada</string>
+    <string name="Week">Semana</string>
+    <string name="Fields">Campos</string>
+    <string name="Reports">Reportes</string>
+    <string name="Target">Meta</string>
+    <string name="DailyQuota">Cuota Diaria</string>
+    <string name="Inventory">Inventario</string>
+    <string name="Refund">Devolucion</string>
+    <string name="SendToSap">Enviar a SAP</string>
+    <string name="Receipt">No. Recibo</string>
+
+    <string-array name="PaymentTypes">
+        <item>Cheque</item>
+        <item>Deposito</item>
+        <item>Efectivo</item>
+        <item>Transferencia</item>
+    </string-array>
+
+    <string-array name="PaymentReason">
+        <item>Pago Realizado</item>
+        <item>No se Visito</item>
+        <item>Sobre Stock</item>
+        <item>No estaba el responsable (fuera de ciudad)</item>
+        <item>Fecha Re-programada</item>
+    </string-array>
+
+    <string name="title_activity_rcobros_diarios">RCobrosDiarios</string>
+    <string name="title_activity_rventas_diarias">activity_rventas_diarias</string>
+</resources>

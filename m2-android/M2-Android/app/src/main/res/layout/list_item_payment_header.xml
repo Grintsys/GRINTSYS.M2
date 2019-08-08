@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="4dp">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:id="@+id/order_create_scroll_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/base_margin_vertical"
+                android:paddingTop="@dimen/base_margin_vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/base_margin_horizontal"
+                    android:paddingRight="@dimen/base_margin_horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/order_create_summary_text"
+                        android:text="@string/Summary"
+                        android:textAllCaps="true"
+                        android:textColor="@color/textBlack"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <!-- Cart content-->
+                    <LinearLayout
+                        android:id="@+id/order_create_cart_items_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical"/>
+
+                </LinearLayout>
+
+                <!-- Visual screen divider-->
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/base_margin_vertical"
+                    android:layout_marginBottom="@dimen/base_margin_vertical"
+                    android:layout_marginTop="@dimen/base_margin_vertical"
+                    android:background="@color/background_grey"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/order_history_subtotal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:paddingTop="4dp"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="@string/Zero"
+                        tools:text="Subtotal: 0.0 USD"/>
+
+                    <!-- Total cart price-->
+                    <TextView
+                        android:id="@+id/order_history_discount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:paddingTop="4dp"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="@string/Zero"
+                        tools:text="Descuento: 0.0 USD"/>
+
+                    <!-- Total cart price-->
+                    <TextView
+                        android:id="@+id/order_history_isv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:paddingTop="4dp"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="@string/Zero"
+                        tools:text="Impuesto: 0.0 USD"/>
+
+                    <!-- Total cart price-->
+                    <TextView
+                        android:id="@+id/order_history_total_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:paddingTop="4dp"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="@string/Zero"
+                        tools:text="Total: 15212 USD"/>
+                </LinearLayout>
+
+                <!-- Visual screen divider-->
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/base_margin_vertical"
+                    android:layout_marginBottom="@dimen/base_margin_vertical"
+                    android:layout_marginTop="@dimen/base_margin_vertical"
+                    android:background="@color/background_grey"/>
+
+
+                <!-- Delivery part -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/base_margin_horizontal"
+                    android:paddingRight="@dimen/base_margin_horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/order_create_delivery_shipping_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:orientation="vertical"
+                        android:visibility="visible"
+                        tools:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Seller"
+                            android:textAllCaps="true"
+                            android:textColor="@color/textBlack"
+                            android:textSize="14sp"
+                            android:textStyle="bold"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/order_create_seller"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:text="@string/Choose_seller"
+                                android:textColor="@color/textPrimary"
+                                android:textSize="14sp"
+                                tools:text="@string/Choose_seller"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/order_history_comment_section"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_below="@+id/order_create_delivery_shipping_layout"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_marginTop="12dp">
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Comment"
+                            android:textAllCaps="true"
+                            android:textColor="@color/textBlack"
+                            android:padding="0dp"
+                            android:textSize="14sp"
+                            android:textStyle="bold"/>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/order_comment_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textColorHint="@color/colorPrimaryLight">
+
+                            <TextView
+                                android:id="@+id/order_comment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:hint="@string/Comment"
+                                android:inputType="textPersonName"
+                                android:nextFocusForward="@+id/order_create_street"
+                                android:singleLine="true"
+                                android:textColor="@color/textPrimary"/>
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_below="@+id/order_history_comment_section"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_marginTop="12dp">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Status"
+                        android:textAllCaps="true"
+                        android:textColor="@color/textBlack"
+                        android:padding="0dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textColorHint="@color/colorPrimaryLight">
+
+                            <TextView
+                                android:id="@+id/order_history_status"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:hint="@string/Comment"
+                                android:inputType="textPersonName"
+                                android:nextFocusForward="@+id/order_create_street"
+                                android:singleLine="true"
+                                android:textColor="@color/textPrimary"/>
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                    <ProgressBar
+                        android:id="@+id/delivery_progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:visibility="visible"/>
+                </RelativeLayout>
+
+                <!-- Visual screen divider-->
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/base_margin_vertical"
+                    android:layout_marginBottom="@dimen/base_margin_vertical_half"
+                    android:layout_marginTop="@dimen/base_margin_vertical_half"
+                    android:background="@color/background_grey"/>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <Button
+        android:layout_marginTop="5dp"
+        android:id="@+id/order_resend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Resend"/>
+
+    <Button
+        android:layout_marginTop="5dp"
+        android:id="@+id/order_print"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Print"/>
+</LinearLayout>

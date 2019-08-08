@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/product_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp">
+
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/document_client_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        tools:text="C0261" />
+
+                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/document_client_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:textColor="@color/colorAccentDark"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        tools:text="ABARROTERIA POPULAR" />
+
+                    <TextView
+                        android:id="@+id/document_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Address"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingLeft="4dp"
+                    android:paddingEnd="4dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/document_document_credit_limit_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/CreditLimit"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:visibility="visible"
+                            tools:text="@string/CreditLimit" />
+
+                        <TextView
+                            android:id="@+id/document_document_pay_condition_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/PayCondition"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:visibility="visible"
+                            tools:text="@string/PayCondition" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/document_document_credit_limit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            tools:text="0.0" />
+
+                        <TextView
+                            android:id="@+id/document_document_pay_condition"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:text="C - CLIENTE 30 DIAS"
+                            tools:text="C - CLIENTE 30 DIAS" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/document_balance_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Balance"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:visibility="visible"
+                            tools:text="@string/Balance" />
+
+                        <TextView
+                            android:id="@+id/document_orders_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mora"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:visibility="visible"
+                            tools:text="Mora" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/document_balance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            tools:text="0.0" />
+
+                        <TextView
+                            android:id="@+id/document_orders"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            tools:text="0.0" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/base_margin_vertical"
+                    android:layout_marginBottom="@dimen/base_margin_vertical_half"
+                    android:layout_marginTop="@dimen/base_margin_vertical_half"
+                    android:background="@color/background_grey" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/documents_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/base_margin_vertical"
+                    android:layout_marginBottom="@dimen/base_margin_vertical_half"
+                    android:layout_marginTop="@dimen/base_margin_vertical_half"
+                    android:background="@color/background_grey" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/base_margin_horizontal"
+                    android:paddingRight="@dimen/base_margin_horizontal">
+
+                    <Button
+                        android:id="@+id/document_transactions"
+                        style="@style/buttonPrimaryStyle"
+                        android:layout_width="150dp"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/ClientTransactions" />
+                    <Button
+                        android:id="@+id/document_begin"
+                        style="@style/buttonPrimaryStyle"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/BeginOrder" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/base_margin_vertical"
+                    android:layout_marginBottom="@dimen/base_margin_vertical_half"
+                    android:layout_marginTop="@dimen/base_margin_vertical_half"
+                    android:background="@color/background_grey" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/documents_load_more_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true" />
+</RelativeLayout>

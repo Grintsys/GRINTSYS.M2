@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/client_item_linear_layout"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/client_item_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/client_item_card_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="left"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:maxLines="2"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            tools:text="C0001"/>
+
+        <TextView
+            android:id="@+id/client_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/client_item_card_code"
+            android:ellipsize="end"
+            android:gravity="left"
+            android:maxLines="2"
+            android:textSize="14sp"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            tools:text="Client example"/>
+
+        <TextView
+            android:id="@+id/invoice_doc_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/client_item_name"
+            android:ellipsize="end"
+            android:gravity="left"
+            android:fontFamily="sans-serif-light"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:maxLines="2"
+            android:textSize="14sp"
+            tools:text="2665-3862"/>
+    </RelativeLayout>
+</LinearLayout>
+
+    <View
+        android:id="@+id/client_drawer_list_item_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/client_item_linear_layout"
+        android:background="@color/line_lighter_grey"
+        android:visibility="visible"
+        tools:visibility="visible"/>
+
+</RelativeLayout>
+
