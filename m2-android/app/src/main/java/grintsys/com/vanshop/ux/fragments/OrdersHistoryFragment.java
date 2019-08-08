@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Set;
 
 import grintsys.com.vanshop.CONST;
 import grintsys.com.vanshop.MyApplication;
@@ -197,7 +198,7 @@ public class OrdersHistoryFragment extends Fragment {
             ordersHistoryRecyclerAdapter.clear();
             if (url == null) {
                 //url = String.format(EndPoints.ORDERS, SettingsMy.getActualNonNullShop(getActivity()).getId());
-                url = String.format(EndPoints.ORDERS_RANGE, user.getId(), beginEdit.getText().toString(), endEdit.getText().toString());
+                url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.ORDERS_RANGE, user.getId(), beginEdit.getText().toString(), endEdit.getText().toString());
             }
             GsonRequest<OrderResponse> req = new GsonRequest<>(Request.Method.GET, url, null, OrderResponse.class, new Response.Listener<OrderResponse>() {
                 @Override

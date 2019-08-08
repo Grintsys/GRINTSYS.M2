@@ -14,6 +14,8 @@ public class Shop {
     private String googleUa;
     private String language;
     private String currency;
+    private String taxcode;
+    private double isv;
 
     @SerializedName("flag_icon")
     private String flagIcon;

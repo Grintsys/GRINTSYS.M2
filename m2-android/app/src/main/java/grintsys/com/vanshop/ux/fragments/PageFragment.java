@@ -116,9 +116,9 @@ public class PageFragment extends Fragment {
     private void getPage(long pageId) {
         String url;
         if (pageId == TERMS_AND_CONDITIONS) {
-            url = String.format(EndPoints.PAGES_TERMS_AND_COND, SettingsMy.getActualNonNullShop(getActivity()).getId());
+            url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.PAGES_TERMS_AND_COND, SettingsMy.getActualNonNullShop(getActivity()).getId());
         } else {
-            url = String.format(EndPoints.PAGES_SINGLE, SettingsMy.getActualNonNullShop(getActivity()).getId(), pageId);
+            url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.PAGES_SINGLE, SettingsMy.getActualNonNullShop(getActivity()).getId(), pageId);
         }
 
         progressDialog.show();

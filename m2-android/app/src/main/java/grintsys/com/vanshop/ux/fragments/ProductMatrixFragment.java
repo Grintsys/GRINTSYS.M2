@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import grintsys.com.vanshop.BuildConfig;
 import grintsys.com.vanshop.CONST;
@@ -152,7 +153,7 @@ public class ProductMatrixFragment extends Fragment {
     }
 
     private void addProductToCart(ProductVariant variant, User user, String cardcode) {
-            String url = String.format(EndPoints.CART_ADD_ITEM, user.getId(), variant.getId(), variant.getNew_quantity(), cardcode, 0);
+            String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.CART_ADD_ITEM, user.getId(), variant.getId(), variant.getNew_quantity(), cardcode, 0);
             JsonRequest addToCart = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -166,10 +167,8 @@ public class ProductMatrixFragment extends Fragment {
                     MsgUtils.logAndShowErrorMessage(getActivity(), error);
                 }
             }, getFragmentManager(), user.getAccessToken());
-        //DEM. Enero 10-2018. Cambiar: getDefaultRetryPolice -> getSimpleRetryPolice
-        //El default tiene un intento, quiero suponer que intenta nuevamente. El simple, tiene 0 intentos. Es probable solo
-        //corra una vez. Error de duplicados, puede estar ahi.
-        addToCart.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+
+        addToCart.setRetryPolicy(MyApplication.getDefaultRetryPolice());
             addToCart.setShouldCache(false);
             MyApplication.getInstance().addToRequestQueue(addToCart, CONST.PRODUCT_ADD_TO_CART_TAG);
     }
@@ -200,7 +199,7 @@ public class ProductMatrixFragment extends Fragment {
         // Load product info
         //TODO: multiple companies
         //String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, SettingsMy.getActualNonNullShop(getActivity()).getId(), productId);
-        String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, productId);
+        String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.PRODUCTS_SINGLE_RELATED, productId);
         setContentVisible(CONST.VISIBLE.PROGRESS);
 
         GsonRequest<Product> getProductRequest = new GsonRequest<>(Request.Method.GET, url, null, Product.class,
@@ -465,9 +464,10 @@ public class ProductMatrixFragment extends Fragment {
 
         private void messageDialog(String message){
 
-            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, message, MsgUtils.ToastLength.LONG);
+            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, message, MsgUtils.ToastLength.LONG);
 
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Light_Dialog_Alert);
+            //buil-der1.setTitle(message);
             builder1.setMessage(message);
             builder1.setCancelable(true);
 

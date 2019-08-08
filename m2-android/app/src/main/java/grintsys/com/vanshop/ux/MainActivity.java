@@ -522,7 +522,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
                 // If cart count is loaded for the first time, we need to load whole cart because of synchronization.
                 if (initialize) {
                     //String url = String.format(EndPoints.CART, SettingsMy.getActualNonNullShop(this).getId());
-                    String url = String.format(EndPoints.CART, user.getId(), 0);
+                    String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.CART, user.getId(), 0);
                     JsonRequest req = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -546,7 +546,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
                     MyApplication.getInstance().addToRequestQueue(req, CONST.MAIN_ACTIVITY_REQUESTS_TAG);
                 } else {
                     //String url = String.format(EndPoints.CART_INFO, SettingsMy.getActualNonNullShop(this).getId());
-                    String url = String.format(EndPoints.CART_INFO, user.getId());
+                    String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.CART_INFO, user.getId());
                     GsonRequest<CartInfo> req = new GsonRequest<>(Request.Method.GET, url, null, CartInfo.class, new Response.Listener<CartInfo>() {
                         @Override
                         public void onResponse(CartInfo response) {
@@ -1088,8 +1088,6 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
             toast.show();
         }
     }
-
-
 
     public void onClientSelected(String card_code) {
 

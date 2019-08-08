@@ -410,7 +410,7 @@ public class CategoryFragment extends Fragment {
         if (url == null) {
             if (endlessRecyclerScrollListener != null) endlessRecyclerScrollListener.clean();
             productsRecyclerAdapter.clear();
-            url = String.format(EndPoints.PRODUCTS, SettingsMy.getActualNonNullShop(getActivity()).getId());
+            url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.PRODUCTS, SettingsMy.getActualNonNullShop(getActivity()).getId());
 
             // Build request url
             if (searchQuery != null) {

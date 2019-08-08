@@ -218,7 +218,7 @@ public class OrderCreateFragment extends Fragment {
 
 
     private void getSellers(){
-        GsonRequest<UsersResponse> usersRequest = new GsonRequest<>(Request.Method.GET, EndPoints.USERS, null, UsersResponse.class, new Response.Listener<UsersResponse>() {
+        GsonRequest<UsersResponse> usersRequest = new GsonRequest<>(Request.Method.GET, SettingsMy.getActualShop().getUrl()+EndPoints.USERS, null, UsersResponse.class, new Response.Listener<UsersResponse>() {
             @Override
             public void onResponse(@NonNull UsersResponse usersResponse) {
                 //deliveryProgressBar.setVisibility(View.GONE);
@@ -240,7 +240,7 @@ public class OrderCreateFragment extends Fragment {
         final User user = SettingsMy.getActiveUser();
         if (user != null) {
             //String url = String.format(EndPoints.CART, SettingsMy.getActualNonNullShop(getActivity()).getId());
-            String url = String.format(EndPoints.CART, user.getId(), 0);
+            String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.CART, user.getId(), 0);
 
             progressDialog.show();
             GsonRequest<Cart> getCart = new GsonRequest<>(Request.Method.GET, url, null, Cart.class,
@@ -352,7 +352,7 @@ public class OrderCreateFragment extends Fragment {
 
             Timber.d("Post order jo: %s", jo.toString());
             //String url = String.format(EndPoints.ORDERS, SettingsMy.getActualNonNullShop(getActivity()).getId());
-            String url = String.format(EndPoints.ORDERS_CREATE, user.getId(), cart.getId(), jo.toString());
+            String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.ORDERS_CREATE, user.getId(), cart.getId(), jo.toString());
 
             progressDialog.show();
             postOrderRequest = new GsonRequest<>(Request.Method.GET, url, null, Order.class, new Response.Listener<Order>() {

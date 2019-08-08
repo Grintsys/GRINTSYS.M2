@@ -44,7 +44,7 @@ public class MsgUtils {
                 Timber.e(e, error.getMessage());
             else
                 Timber.e(e, "Cannot parse error message");
-            showToast(activity, TOAST_TYPE_INTERNAL_ERROR, null, ToastLength.SHORT);
+            showToast(activity, TOAST_TYPE_MESSAGE, error.getMessage(), ToastLength.SHORT);
         }
     }
 

@@ -216,7 +216,7 @@ public class ClientTransactionsFragment extends Fragment {
             String beginString = beginEdit.getText().toString(), endString = endEdit.getText().toString();
 
             if (url == null) {
-                url = String.format(EndPoints.CLIENT_TRANSACTIONS, cardCode, beginString, endString);
+                url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.CLIENT_TRANSACTIONS, cardCode, beginString, endString);
             }
             GsonRequest<ClientTransactionsResponse> req = new GsonRequest<>(Request.Method.GET, url, null, ClientTransactionsResponse.class, new Response.Listener<ClientTransactionsResponse>() {
                 @Override

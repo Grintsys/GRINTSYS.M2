@@ -168,7 +168,7 @@ public class ShippingDialogFragment extends DialogFragment {
     }
 
     private void getOnlyBranches() {
-        String url = String.format(EndPoints.BRANCHES, SettingsMy.getActualNonNullShop(getActivity()).getId());
+        String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.BRANCHES, SettingsMy.getActualNonNullShop(getActivity()).getId());
 
         GsonRequest<BranchesRequest> getCart = new GsonRequest<>(Request.Method.GET, url, null, BranchesRequest.class,
                 new Response.Listener<BranchesRequest>() {

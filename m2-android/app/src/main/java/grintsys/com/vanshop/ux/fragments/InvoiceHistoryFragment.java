@@ -29,6 +29,7 @@ import java.net.URLEncoder;
 import grintsys.com.vanshop.CONST;
 import grintsys.com.vanshop.MyApplication;
 import grintsys.com.vanshop.R;
+import grintsys.com.vanshop.SettingsMy;
 import grintsys.com.vanshop.api.EndPoints;
 import grintsys.com.vanshop.api.GsonRequest;
 import grintsys.com.vanshop.entities.client.Client;
@@ -175,7 +176,7 @@ public class InvoiceHistoryFragment extends Fragment {
     private void getInvoices() {
         loadMoreProgress.setVisibility(View.VISIBLE);
 
-        String url = EndPoints.INVOICE_HISTORY;
+        String url = SettingsMy.getActualShop().getUrl() + EndPoints.INVOICE_HISTORY;
 
         if (searchQuery != null) {
             String newSearchQueryString;

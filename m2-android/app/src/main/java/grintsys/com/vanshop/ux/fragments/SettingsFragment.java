@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
 import java.util.List;
+import java.util.Set;
 
 import grintsys.com.vanshop.CONST;
 import grintsys.com.vanshop.MyApplication;
@@ -75,7 +76,7 @@ public class SettingsFragment extends Fragment {
      */
     private void requestShops() {
         if (progressDialog != null) progressDialog.show();
-        GsonRequest<ShopResponse> getShopsRequest = new GsonRequest<>(Request.Method.GET, EndPoints.SHOPS, null, ShopResponse.class,
+        GsonRequest<ShopResponse> getShopsRequest = new GsonRequest<>(Request.Method.GET, SettingsMy.getActualShop().getUrl() +  EndPoints.SHOPS, null, ShopResponse.class,
                 new Response.Listener<ShopResponse>() {
                     @Override
                     public void onResponse(@NonNull ShopResponse response) {

@@ -247,7 +247,7 @@ public class GridMenuFragment extends Fragment {
     }*/
 
     public void getBadgeCount(){
-        GsonRequest<MainMenu> getProductRequest = new GsonRequest<>(Request.Method.GET, EndPoints.MAIN_MENU_BADGE_COUNT, null, MainMenu.class,
+        GsonRequest<MainMenu> getProductRequest = new GsonRequest<>(Request.Method.GET, SettingsMy.getActualShop().getUrl() + EndPoints.MAIN_MENU_BADGE_COUNT, null, MainMenu.class,
                 new Response.Listener<MainMenu>() {
                     @Override
                     public void onResponse(@NonNull MainMenu response) {

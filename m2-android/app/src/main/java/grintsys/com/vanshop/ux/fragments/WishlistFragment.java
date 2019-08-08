@@ -79,7 +79,7 @@ public class WishlistFragment extends Fragment {
      */
     public static void addToWishList(final FragmentActivity activity, long variantId, User user, String requestTag, final RequestListener requestListener) {
         if (activity != null && variantId != 0 && user != null && requestTag != null && requestListener != null) {
-            String url = String.format(EndPoints.WISHLIST_CREATE, user.getId(), variantId);
+            String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.WISHLIST_CREATE, user.getId(), variantId);
             JsonRequest req = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {

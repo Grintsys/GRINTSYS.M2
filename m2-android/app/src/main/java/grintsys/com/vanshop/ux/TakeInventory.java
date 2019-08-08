@@ -55,11 +55,12 @@ public class TakeInventory extends Activity {
         setContentView(R.layout.fragment_take_inventory);
 
 
-        spinClientSelection = (Spinner) findViewById(R.id.spiClientes);
-        btnScan = (Button) findViewById(R.id.btnScan);
-        edtSKU = (EditText) findViewById(R.id.edtSKU);
-        String SKU="";
+        //spinClientSelection = (Spinner) findViewById(R.id.spiClientes);
+        //btnScan = (Button) findViewById(R.id.btnScan);
+        //edtSKU = (EditText) findViewById(R.id.edtSKU);
+        //String SKU="";
 
+        /*
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +71,7 @@ public class TakeInventory extends Activity {
 
             }
         });
-
+        */
     }
 
 

@@ -297,7 +297,8 @@ public class DrawerFragment extends Fragment {
         }
     }
 
-    private void getDrawerItems() {
+    private void
+    getDrawerItems() {
         drawerLoading = true;
         drawerProgress.setVisibility(View.VISIBLE);
         drawerRetryBtn.setVisibility(View.GONE);

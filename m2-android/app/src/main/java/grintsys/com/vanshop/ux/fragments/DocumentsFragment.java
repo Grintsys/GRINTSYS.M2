@@ -256,7 +256,7 @@ public class DocumentsFragment extends Fragment {
     private void getDocuments(String card_code) {
         loadMoreProgress.setVisibility(View.VISIBLE);
 
-        String url = String.format(EndPoints.DOCUMENTS_SINGLE, card_code);
+        String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.DOCUMENTS_SINGLE, card_code);
 
         GsonRequest<DocumentListResponse> getDocumentRequest = new GsonRequest<>(Request.Method.GET, url, null, DocumentListResponse.class,
                 new Response.Listener<DocumentListResponse>() {
@@ -265,7 +265,6 @@ public class DocumentsFragment extends Fragment {
 //                        Timber.d("response:" + response.toString());
                         documentsRecyclerAdapter.addDocuments(response.getDocuments());
                         checkEmptyContent();
-
                         clientCode.setText(response.getClientCardCode());
                         clientName.setText(response.getClientName());
                         clientAddress.setText(response.getAddress());

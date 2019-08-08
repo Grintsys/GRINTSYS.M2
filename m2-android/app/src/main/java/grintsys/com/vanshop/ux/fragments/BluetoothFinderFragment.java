@@ -154,7 +154,7 @@ public class BluetoothFinderFragment extends Fragment implements AbsListView.OnI
         User activeUser = SettingsMy.getActiveUser();
         if (activeUser != null) {
 
-            String url = String.format(EndPoints.USER_UPDATE, activeUser.getId(),bluetooth);
+            String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.USER_UPDATE, activeUser.getId(),bluetooth);
             GsonRequest<User> req = new GsonRequest<>(Request.Method.GET, url, null, User.class,
                     new Response.Listener<User>() {
                         @Override

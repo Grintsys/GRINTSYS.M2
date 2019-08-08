@@ -460,7 +460,7 @@ public class ProductFragment extends Fragment {
         // Load product info
         //TODO: multiple companies
         //String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, SettingsMy.getActualNonNullShop(getActivity()).getId(), productId);
-        String url = String.format(EndPoints.PRODUCTS_SINGLE_RELATED, productId);
+        String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.PRODUCTS_SINGLE_RELATED, productId);
         setContentVisible(CONST.VISIBLE.PROGRESS);
 
         GsonRequest<Product> getProductRequest = new GsonRequest<>(Request.Method.GET, url, null, Product.class,

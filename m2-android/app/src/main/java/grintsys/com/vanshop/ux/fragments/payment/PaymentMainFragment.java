@@ -154,7 +154,7 @@ public class PaymentMainFragment extends Fragment {
     }
 
     private void getClient(String card_code) {
-        String url = String.format(EndPoints.CLIENT, card_code);
+        String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.CLIENT, card_code);
         setContentVisible(CONST.VISIBLE.PROGRESS);
 
         GsonRequest<Client> clientGsonRequest = new GsonRequest<>(Request.Method.GET, url, null, Client.class,
@@ -179,7 +179,7 @@ public class PaymentMainFragment extends Fragment {
 
     private void getBanks() {
         setContentVisible(CONST.VISIBLE.PROGRESS);
-        GsonRequest<BankResponse> banksGsonRequest = new GsonRequest<>(Request.Method.GET, EndPoints.BANKS, null, BankResponse.class,
+        GsonRequest<BankResponse> banksGsonRequest = new GsonRequest<>(Request.Method.GET, SettingsMy.getActualShop().getUrl() + EndPoints.BANKS, null, BankResponse.class,
                 new Response.Listener<BankResponse>() {
                     @Override
                     public void onResponse(@NonNull BankResponse response) {
@@ -533,7 +533,7 @@ public class PaymentMainFragment extends Fragment {
 
             double total = transfer != null ? transfer.getAmount() : 0.0;
             //SentPayment?userId=%d&clientId=%d&totalPaid=%d&cash=%s&transfer=%s&checks=%s%invoices=%s
-            String url = String.format(EndPoints.SENT_PAYMENT,
+            String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.SENT_PAYMENT,
                     user.getId(),
                     payment.getClient().getId(),
                     total,
@@ -730,7 +730,7 @@ public class PaymentMainFragment extends Fragment {
                 PagoInvalido = true;
             }
 
-            String url = String.format(EndPoints.ADD_PAYMENT,
+            String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.ADD_PAYMENT,
                     user.getId(),
                     client.getId(),
                     total,
@@ -777,7 +777,7 @@ public class PaymentMainFragment extends Fragment {
 
     public void cancelPayment(int id)
     {
-        String url = String.format(EndPoints.CANCEL_PAYMENT, id);
+        String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.CANCEL_PAYMENT, id);
 
         GsonRequest<JSONObject> req = new GsonRequest<>(Request.Method.GET, url, null, JSONObject.class,
                 new Response.Listener<JSONObject>() {

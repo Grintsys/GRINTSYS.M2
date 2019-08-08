@@ -74,6 +74,7 @@ public class TakeInventoryFragment extends Activity {
     private EditText edtSKU;
     private Button btnScan;
 
+    /*
     //@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Timber.d("%s - onCreateView", this.getClass().getSimpleName());
@@ -148,9 +149,9 @@ public class TakeInventoryFragment extends Activity {
     }
 
 
+    */
 
-
-    /**
+    /*
      * event handler for scan button
      * @param view view of the activity
      */

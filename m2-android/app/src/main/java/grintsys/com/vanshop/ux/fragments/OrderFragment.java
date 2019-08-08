@@ -90,7 +90,7 @@ public class OrderFragment extends Fragment {
         User user = SettingsMy.getActiveUser();
         if (user != null) {
             //String url = String.format(EndPoints.ORDERS_SINGLE, SettingsMy.getActualNonNullShop(getActivity()).getId(), orderId);
-            String url = String.format(EndPoints.ORDERS_SINGLE, orderId);
+            String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.ORDERS_SINGLE, orderId);
             progressDialog.show();
 
             GsonRequest<Order> req = new GsonRequest<>(Request.Method.GET, url, null, Order.class, new Response.Listener<Order>() {

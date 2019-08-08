@@ -156,7 +156,7 @@ public class BannersFragment extends Fragment {
         progressDialog.show();
         if (url == null) {
             bannersRecyclerAdapter.clear();
-            url = String.format(EndPoints.BANNERS, SettingsMy.getActualNonNullShop(getActivity()).getId());
+            url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.BANNERS, SettingsMy.getActualNonNullShop(getActivity()).getId());
         }
         GsonRequest<BannersResponse> getBannersRequest = new GsonRequest<>(Request.Method.GET, url, null, BannersResponse.class,
                 new Response.Listener<BannersResponse>() {

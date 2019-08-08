@@ -243,7 +243,7 @@ public class AccountEditFragment extends Fragment {
                     return;
                 }
 
-                String url = String.format(EndPoints.USER_SINGLE, SettingsMy.getActualNonNullShop(getActivity()).getId(), activeUser.getId());
+                String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.USER_SINGLE, SettingsMy.getActualNonNullShop(getActivity()).getId(), activeUser.getId());
 
                 progressDialog.show();
                 GsonRequest<User> req = new GsonRequest<>(Request.Method.PUT, url, joUser.toString(), User.class,
@@ -282,7 +282,7 @@ public class AccountEditFragment extends Fragment {
         if (isRequiredPasswordFields()) {
             User user = SettingsMy.getActiveUser();
             if (user != null) {
-                String url = String.format(EndPoints.USER_CHANGE_PASSWORD, SettingsMy.getActualNonNullShop(getActivity()).getId(), user.getId());
+                String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.USER_CHANGE_PASSWORD, SettingsMy.getActualNonNullShop(getActivity()).getId(), user.getId());
 
                 JSONObject jo = new JSONObject();
                 try {

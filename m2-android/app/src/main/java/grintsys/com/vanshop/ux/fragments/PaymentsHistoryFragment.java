@@ -200,7 +200,7 @@ public class PaymentsHistoryFragment extends Fragment {
         if (user != null) {
             progressDialog.show();
             if (url == null) {
-                url = String.format(EndPoints.PAYMENTS, user.getId(),beginEdit.getText().toString(),endEdit.getText().toString());
+                url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.PAYMENTS, user.getId(),beginEdit.getText().toString(),endEdit.getText().toString());
             }
             paymentsHistoryRecyclerAdapter.clear();
             GsonRequest<PaymentResponse> req = new GsonRequest<>(Request.Method.GET, url, null, PaymentResponse.class, new Response.Listener<PaymentResponse>() {

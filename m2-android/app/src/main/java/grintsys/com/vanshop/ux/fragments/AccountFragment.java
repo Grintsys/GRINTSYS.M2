@@ -135,7 +135,7 @@ public class AccountFragment extends Fragment {
     }
 
     private void syncUserData(@NonNull User user) {
-        String url = String.format(EndPoints.USER_SINGLE, user.getId());
+        String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.USER_SINGLE, user.getId());
         pDialog.show();
 
         GsonRequest<User> getUser = new GsonRequest<>(Request.Method.GET, url, null, User.class,

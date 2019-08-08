@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -41,6 +42,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
+import org.apache.http.HttpStatus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -362,30 +364,12 @@ public class LoginDialogFragment extends DialogFragment implements FacebookCallb
         SettingsMy.setUserEmailHint(editTextEmail.getText().toString());
         progressDialog.show();
 
-        //String url = String.format(EndPoints.USER_LOGIN_EMAIL, SettingsMy.getActualNonNullShop(getActivity()).getId());
-       /* JSONObject jo;
-        try {
-            jo = JsonUtils.createUserAuthentication(editTextEmail.getText().toString().trim(), editTextPassword.getText().toString().trim());
-            editTextPassword.setText("");
-        } catch (JSONException e) {
-            Timber.e(e, "Parse logInWithEmail exception");
-            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, null, MsgUtils.ToastLength.SHORT);
-            return;
-        }
-        if (BuildConfig.DEBUG) Timber.d("Login user: %s", jo.toString());*/
-
-       //Verificar Version:
-       // if(BuildConfig.VERSION_NAME.contains("a") = true)
-        //if(BuildConfig.VERSION_NAME != "2.9-DEBUG")
-        //{
-        //    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, "Por favor actualizar M2 a ultima version.", MsgUtils.ToastLength.LONG);
-        //}
-
         String username = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         editTextPassword.setText("");
 
-        String url = String.format(EndPoints.USER_LOGIN_EMAIL, username, password);
+
+        String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.USER_LOGIN_EMAIL, username, password);
         if (BuildConfig.DEBUG) Timber.d("Login user: %s, password %s", username, password);
 
         GsonRequest<User> userLoginEmailRequest = new GsonRequest<>(Request.Method.GET, url, null, User.class,
@@ -396,9 +380,11 @@ public class LoginDialogFragment extends DialogFragment implements FacebookCallb
                         handleUserLogin(response);
                     }
                 }, new Response.ErrorListener() {
+
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (progressDialog != null) progressDialog.cancel();
+
                 MsgUtils.logAndShowErrorMessage(getActivity(), error);
             }
         });
@@ -439,7 +425,7 @@ public class LoginDialogFragment extends DialogFragment implements FacebookCallb
     }
 
     private void resetPassword(EditText emailOfForgottenPassword) {
-        String url = String.format(EndPoints.USER_RESET_PASSWORD, SettingsMy.getActualNonNullShop(getActivity()).getId());
+        String url = String.format(SettingsMy.getActualShop().getUrl() + EndPoints.USER_RESET_PASSWORD, SettingsMy.getActualNonNullShop(getActivity()).getId());
         progressDialog.show();
 
         JSONObject jo = new JSONObject();

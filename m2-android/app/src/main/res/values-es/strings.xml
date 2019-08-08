@@ -295,4 +295,22 @@
     <string name="Refund">Devolucion</string>
     <string name="SendToSap">Enviar a SAP</string>
     <string name="Receipt">No. Recibo</string>
+
+    <string-array name="PaymentTypes">
+        <item>Cheque</item>
+        <item>Deposito</item>
+        <item>Efectivo</item>
+        <item>Transferencia</item>
+    </string-array>
+
+    <string-array name="PaymentReason">
+        <item>Pago Realizado</item>
+        <item>No se Visito</item>
+        <item>Sobre Stock</item>
+        <item>No estaba el responsable (fuera de ciudad)</item>
+        <item>Fecha Re-programada</item>
+    </string-array>
+
+    <string name="title_activity_rcobros_diarios">RCobrosDiarios</string>
+    <string name="title_activity_rventas_diarias">activity_rventas_diarias</string>
 </resources>
