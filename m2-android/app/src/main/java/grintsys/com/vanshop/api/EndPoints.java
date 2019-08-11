@@ -11,11 +11,13 @@ public class EndPoints {
     //production server
     private static final String API_URL = "http://181.199.177.162:98/api/";
 
+    public static final String SHOPS              = API_URL.concat("shop/GetShops");
+
     public static String PAYMENTS                 = "document/GetPayments?userId=%d&begin=%s&end=%s";
     public static String SENT_PAYMENT             = "document/SentPayment?userId=%d&clientId=%d&totalPaid=%f&comment=%s&cash=%s&transfer=%s&checks=%s&invoices=%s&reference=%s&paymentId=%d";
     public static String ADD_PAYMENT              = "document/AddPayment?userId=%d&clientId=%d&totalPaid=%f&comment=%s&cash=%s&transfer=%s&checks=%s&invoices=%s&reference=%s&causanocobro=%s";
     public static String CANCEL_PAYMENT           = "document/CancelPayment?id=%d";
-    public static final String SHOPS              = API_URL.concat("shop/GetShops");
+
     public static String BANKS                    = "bank/GetBanks";
     public static String SHOPS_SINGLE             = "shop/GetShops/%d";
     public static String NAVIGATION_DRAWER        = API_URL.concat("navigation/GetNavigations/%d");
