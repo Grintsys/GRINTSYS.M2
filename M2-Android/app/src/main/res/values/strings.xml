@@ -1,0 +1,281 @@
+<resources>
+
+    <string name="app_name" translatable="false">M2 App</string>
+    <string name="facebook_app_id" translatable="false">1686631971595434</string>
+
+    <!-- General strings-->
+    <string name="No_network_connection">No network connection</string>
+    <string name="Internal_error">Internal error, please try it later</string>
+    <string name="Loading">Loading …</string>
+    <string name="Retry">Retry</string>
+    <string name="Ok">OK</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Close">Close</string>
+    <string name="Clear">Clear</string>
+    <string name="Undo">Undo</string>
+    <string name="Required_field">Required field</string>
+    <string name="The_entries_must_match">The entries must match</string>
+    <string name="Content_is_empty">Content is empty.</string>
+    <string name="You_must_select_a_client_before_creating_and_order">You must select a client before creating and order.</string>
+
+    <!-- Strings related to splash screen -->
+    <string name="Select_shop">Select tenant</string>
+    <string name="Select_the_country_where_you_want_to_shop">Select the country \n where you want to tenant </string>
+    <string name="Continue">Continue</string>
+
+    <!-- Main activity related -->
+    <string name="Another_click_for_leaving_app">Another click for leaving app</string>
+    <string name="All_categories">All categories</string>
+    <string name="menu_action_search">Search</string>
+    <string name="Type_your_wish">Type your wish</string>
+    <string name="menu_action_cart">Shopping cart</string>
+    <string name="menu_action_wishlist">Wishlist</string>
+
+
+    <!-- Products related strings -->
+    <string name="Just_arrived">Just arrived</string>
+    <string name="No_banners">No banners</string>
+    <string name="Show_offers">Show offers</string>
+    <string name="FILTER">FILTER</string>
+    <string name="Apply">Apply</string>
+    <string name="Restart">Restart</string>
+    <string name="Filter_unavailable">Filter is unavailable</string>
+    <string name="Products_not_found">Products not found.</string>
+    <string name="Product_not_found">Product not found.</string>
+    <string name="ADD_TO_CART">ADD TO CART</string>
+    <string name="RECOMMENDED">RECOMMENDED</string>
+    <string name="Select_size">Select size</string>
+    <string name="Product">Product</string>
+    <string name="All">All</string>
+
+    <!-- Products sort options -->
+    <string name="Whats_new">What\'s new</string>
+
+
+    <!-- User related strings -->
+    <string name="Unknown_user">Unknown user</string>
+    <string name="Profile">Profile</string>
+    <string name="Name_colon">Name:</string>
+    <string name="Email_colon">Email:</string>
+
+    <string name="Account">Account</string>
+    <string name="Email">Email</string>
+    <string name="Phone">Phone</string>
+    <string name="Fax">Fax</string>
+    <string name="Street">Street</string>
+    <string name="House_code">House code</string>
+    <string name="City">City</string>
+    <string name="ZIP">ZIP</string>
+
+    <string name="Changing_the_password">Changing the password</string>
+    <string name="Password">Password</string>
+    <string name="New_password">New password</string>
+    <string name="Password_again">Password again</string>
+    <string name="Change_password">Change password</string>
+    <string name="Save">Save</string>
+
+    <string name="My_orders">My orders</string>
+    <string name="Settings">Settings</string>
+
+
+    <!-- Login related strings-->
+    <string name="Log_in">Log in</string>
+    <string name="Log_out">Log out</string>
+    <string name="Log_in_to_shop_via">Log in to tenant via</string>
+    <string name="Log_in_to_shop_via_email">Log in to tenant via email</string>
+    <string name="Dont_have_an_account">Don\'t have an account?</string>
+    <string name="Forgot_your_password">Forget your password?</string>
+    <string name="Email_for_recovery">Email for recovery</string>
+    <string name="Reset">Reset</string>
+    <string name="Log_me_in">Log me in</string>
+    <string name="E_MAIL">E-MAIL</string>
+    <string name="Register">Register</string>
+    <string name="Male">Male</string>
+    <string name="Female">Female</string>
+    <string name="Check_your_email_we_sent_you_an_confirmation_email">Check your email. We sent you an confirmation email about reseting password</string>
+    <string name="Facebook_login_failed">Facebook login failed.</string>
+    <string name="Receiving_facebook_profile_failed">Receiving facebook profile failed</string>
+    <string name="Oops_login_expired">Oops login expired</string>
+    <string name="Your_session_has_expired_Please_log_in_again">Your session has expired Please log in again.</string>
+
+
+    <!-- Cart and order related strings -->
+    <string name="Shopping_cart">Shopping cart</string>
+    <string name="Your_cart_is_empty">Your cart is empty</string>
+    <string name="START_SHOPPING">START SHOPPING</string>
+    <string name="SHIPPING_AND_PAYMENT">Create Order</string>
+    <string name="Please_select_a_size">Please select a size.</string>
+    <string name="added_to_cart">added to cart</string>
+    <string name="Go_to_cart">Go to cart</string>
+    <string name="Delete">Delete</string>
+    <string name="Edit">Edit</string>
+    <string name="Update_item">Update:</string>
+    <string name="The_item_has_been_successfully_removed">The item has been successfully removed</string>
+    <string name="Discount_code">Discount code</string>
+    <string name="Enter_the_discount_code">Enter the discount code</string>
+    <string name="Internal_error_reload_cart_please">Internal error. Reload cart please.</string>
+    <string name="Customer">Customer</string>
+
+    <!-- Order related strings-->
+    <string name="Date_created">Date created</string>
+    <string name="Total_price">Total price</string>
+    <string name="Order_summary">Order summary</string>
+    <string name="Order_history">Order history</string>
+    <string name="Your_orders_history_is_empty">Your order history is empty</string>
+    <string name="Shipping">Shipping</string>
+    <string name="Payment">Payment</string>
+    <string name="PaymentProcess">Payment is processing</string>
+    <string name="Click_on_Order_to_allow_our_Terms_and_Conditions">Click on Order to allow our <![CDATA[<b><font color=#ee1f65>Terms and Conditions</b>]]></string>
+    <string name="Finish_order">Finish order</string>
+    <string name="Shipping_is_empty">Shipping is empty</string>
+    <string name="Personal_pickup">Personal pickup</string>
+    <string name="free">free</string>
+    <string name="Summary">Summary</string>
+    <string name="Total_colon">Total:</string>
+    <string name="Comment">Comment</string>
+    <string name="AddCheck">Add check</string>
+
+
+    <!-- Wishlist related -->
+    <string name="Your_wishlist_is_empty">Your wishlist is empty.</string>
+    <string name="Wishlist">Wishlist</string>
+    <string name="Product_deleted_from_wishlist">Product deleted from wishlist</string>
+    <string name="Product_added_to_wishlist">Product added to wishlist</string>
+    <string name="Go_to_wishlist">Go to wishlist</string>
+
+
+    <!-- Others -->
+    <string name="Select">Select</string>
+    <string name="Open_source_libraries">Open source libraries</string>
+    <string name="License_details_for_open_source_software">License details for open source software</string>
+    <string name="App_needs_to_be_restarted">To change the tenant an app restart is needed.</string>
+    <string name="including_VAT">inc. VAT</string>
+    <string name="Thank_you_for_your_order">Thank you for your order</string>
+    <string name="Wait_for_sms_or_email_order_confirmation">Wait for SMS or email order confirmation.</string>
+    <string name="This_is_a_sample_app">This is a sample app</string>
+    <string name="Sample_app_description">Thank you for your time. To find out more about this project, please visit us here: <a href="http://openshop.io/">Openshop.io</a>.</string>
+    <string name="Link_is_invalid">Link is invalid</string>
+    <string name="Min">Min</string>
+    <string name="Max">Max</string>
+
+
+    <!-- Format strings -->
+    <string name="format_space_prefix"> %1$s</string>
+    <string name="format_comma_prefix">, %1$s</string>
+    <string name="format_semicolon_prefix" translatable="false">%1$s: %2$s</string>
+    <string name="format_quantity">%1$d uni</string>
+    <string name="format_quantity_lines">%1$d items</string>
+    <string name="format_plus">+ %1$s</string>
+    <string name="format_number">%1$d</string>
+    <string name="format_price_range">%1$d %2$s - %3$d %4$s</string>
+    <string name="format_price_discount_percents">-%1$d %%</string>
+
+    <!-- Content description strings -->
+    <string name="content_description_open_navigation_drawer">Open navigation drawer</string>
+    <string name="content_description_close_navigation_drawer">Close navigation drawer</string>
+    <string name="content_description_submenu">Populate submenu</string>
+    <string name="content_description_move_right">Move righ</string>
+    <string name="content_description_move_left">Move left</string>
+    <string name="content_description_background">Background</string>
+    <string name="content_description_back_arrow">Back arrow</string>
+    <string name="content_description_intro_screen">Intro screen</string>
+    <string name="content_description_product_image">Product image</string>
+    <string name="content_description_shipping_info">Shipping info</string>
+    <string name="brand">Brand</string>
+    <string name="season">Season</string>
+    <string name="IsCommitted">Is Committed</string>
+    <string name="Stock">Stock</string>
+    <string name="Price">Price</string>
+    <string name="Seller">Seller</string>
+    <string name="Choose_seller">Choose Seller</string>
+
+
+    <string name="due_date">Due Date</string>
+    <string name="total_amount">Total amount</string>
+    <string name="Balance">Balance</string>
+    <string name="SubTotal">Subtotal:</string>
+    <string name="ISV">ISV:</string>
+    <string name="PastDue">Past due</string>
+    <string name="DueDays">Due days</string>
+    <string name="Discount">Discount:</string>
+    <string name="BalanceDue">Balance Due</string>
+    <string name="Zero" translatable="false">0</string>
+    <string name="Back">Back</string>
+    <string name="MainMenu">Main Menu</string>
+    <string name="Status">Status</string>
+    <string name="Available" translatable="false">Available</string>
+    <string name="Resend">Resend</string>
+    <string name="NameAndSignature">Name and Signature</string>
+    <string name="Print">Print</string>
+    <string name="SAP" translatable="false">SAP</string>
+    <string name="Begin">Begin</string>
+    <string name="End">End</string>
+    <string name="AccountPayment">Payments</string>
+    <string name="Warehouse">Warehouse</string>
+    <string name="Printer">Printer</string>
+    <string name="Payments">My Payments</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+
+    <!-- Invoice Related Data -->
+    <string name="CompanyName">VAN HEUSEN DE C.A.</string>
+    <string name="CompanyAddress">Col San Fernando, Ave. Juan Pablo II frente a la Leyde. SPS Cortes</string>
+    <string name="CompanyPhone">25160100</string>
+    <string name="CompanyFax">25164080</string>
+    <string name="CompanyRTN">05019995143200</string>
+    <string name="RTN">RTN</string>
+    <string name="SalesOrder">Sales Order</string>
+
+    <string name="Date">Date</string>
+    <string name="ClientCode">Client Code</string>
+    <string name="Address">Address</string>
+    <string name="Amount">Amount</string>
+    <string name="Total">Total</string>
+    <string name="TotalAfterDiscount">Total after Discount</string>
+    <string name="IVA">IVA</string>
+    <string name="Transfer">Transfer</string>
+
+    <string name="Document">Document</string>
+    <string name="CreatedDate">Created Date</string>
+
+    <!-- Payment Related Strings -->
+    <string name="Bank">Bank</string>
+    <string name="Version" translatable="false">Version</string>
+    <string name="CheckNumber">Check Number</string>
+    <string name="PaymentHistory">Payment history</string>
+    <string name="Client">Client</string>
+    <string name="Reference">Reference</string>
+    <string name="Your_payment_history_is_empty">Your payment history is empty</string>
+
+    <string name="Stats">Stats</string>
+    <string name="Invoiced">Invoiced</string>
+    <string name="Clients">Clients</string>
+    <string name="Inventory">Inventory</string>
+    <string name="SendToSap">Sent SAP</string>
+    <string name="Success">Success</string>
+    <string name="Description">Description</string>
+    <string name="ClientTransactions">Client Transactions</string>
+    <string name="ShippingDate">Shipping Date</string>
+    <string name="QuotaMonth">Quota Month</string>
+    <string name="QuotaMonthAccum">Quota week accum</string>
+    <string name="Week">Week</string>
+    <string name="Reports">Reports</string>
+    <string name="DailyQuota">Daily Couta</string>
+    <string name="Receipt">No. Receipt</string>
+
+    <string-array name="PaymentTypes">
+        <item>Cheque</item>
+        <item>Deposito</item>
+        <item>Efectivo</item>
+        <item>Transferencia</item>
+    </string-array>
+
+    <string-array name="PaymentReason">
+        <item>Pago Realizado</item>
+        <item>No se Visito</item>
+        <item>Sobre Stock</item>
+        <item>No estaba el responsable (fuera de ciudad)</item>
+        <item>Fecha Re-programada</item>
+    </string-array>
+
+</resources>

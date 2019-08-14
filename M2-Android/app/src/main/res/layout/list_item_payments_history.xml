@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:padding="4dp"
+              android:weightSum="1">
+
+   <TextView
+        android:id="@+id/payment_history_date"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.22"
+        android:gravity="start"
+        android:textSize="14sp"
+        tools:text="2017/01/01"/>
+
+    <TextView
+        android:id="@+id/payment_history_status"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.25"
+        android:gravity="start"
+        android:textSize="14sp"
+        tools:text="Preliminar"/>
+
+    <TextView
+        android:id="@+id/payment_history_client"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.30"
+        android:gravity="start"
+        android:textSize="14sp"
+        tools:text="Sergio Peralta"/>
+
+    <TextView
+        android:id="@+id/payment_history_total_payed"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:gravity="end"
+        android:textSize="14sp"
+        tools:text="3312.0"/>
+
+
+</LinearLayout>
