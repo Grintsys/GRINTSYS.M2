@@ -13,7 +13,6 @@ public class EndPoints {
     public static final String TENANTS            = API_URL.concat("services/app/Tenant/GetAll");
     public static String CATEGORIES               = API_URL.concat("services/app/category/getAll");
 
-
     public static String USER_LOGIN_EMAIL         = API_URL.concat("tokenAuth/AuthenticateTenantUser");
     public static String USER_LOGIN_FACEBOOK      = "%d/login/facebook";
     public static String USER_RESET_PASSWORD      = "%d/users/reset-password";
@@ -23,8 +22,10 @@ public class EndPoints {
     public static String USER_UPDATE              = "/UpdateUser?userId=%d&bluetooth=%s";
 
     public static String PAYMENTS                 = API_URL.concat("services/app/payment/GetPaymentsByUser?tenantId=%d&begin=%s&end=%s");
-    public static String SENT_PAYMENT             = "document/SentPayment?userId=%d&clientId=%d&totalPaid=%f&comment=%s&cash=%s&transfer=%s&checks=%s&invoices=%s&reference=%s&paymentId=%d";
-    public static String ADD_PAYMENT              = "document/AddPayment?userId=%d&clientId=%d&totalPaid=%f&comment=%s&cash=%s&transfer=%s&checks=%s&invoices=%s&reference=%s&causanocobro=%s";
+    public static String PAYMENT_DELETE           = API_URL.concat("services/app/payment/DeletePayment?Id=%d");
+
+    public static String ADD_PAYMENT              = API_URL.concat("services/app/payment/CreatePayment");
+    public static String SENT_PAYMENT             = API_URL.concat("services/app/payment/SentPayment");
     public static String CANCEL_PAYMENT           = "document/CancelPayment?id=%d";
     public static String BANKS                    = API_URL.concat("services/app/bank/getAll?tenantId=%d");
     public static String SHOPS_SINGLE             = "shop/GetShops/%d";

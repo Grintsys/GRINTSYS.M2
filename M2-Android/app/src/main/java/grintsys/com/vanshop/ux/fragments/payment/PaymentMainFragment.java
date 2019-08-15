@@ -28,6 +28,7 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import grintsys.com.vanshop.CONST;
@@ -47,8 +48,10 @@ import grintsys.com.vanshop.entities.payment.CheckPayment;
 import grintsys.com.vanshop.entities.payment.InvoiceItem;
 import grintsys.com.vanshop.entities.payment.Payment;
 import grintsys.com.vanshop.entities.payment.Transfer;
+import grintsys.com.vanshop.entities.tenant.Tenant;
 import grintsys.com.vanshop.listeners.OnSingleClickListener;
 import grintsys.com.vanshop.utils.BluetoothPrinterPayment;
+import grintsys.com.vanshop.utils.JsonUtils;
 import grintsys.com.vanshop.utils.MsgUtils;
 import grintsys.com.vanshop.ux.MainActivity;
 import timber.log.Timber;
@@ -196,15 +199,15 @@ public class PaymentMainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_payment_main, container, false);
 
         MainActivity.setActionBarTitle(getString(R.string.Payments));
-        progressView = (ProgressBar) view.findViewById(R.id.payment_progress);
+        progressView = view.findViewById(R.id.payment_progress);
 
         //agregado Sept. 27.2017. Issues con invoices de pago anterior.    DEM.
         ((MainActivity) getActivity()).ClearPaymentData();
 
-        paymentSentToSapButton = (Button) view.findViewById(R.id.product_payment_main_sent_to_sap);
-        paymentSaveButton = (Button) view.findViewById(R.id.product_payment_main_save);
-        paymentCancelButton = (Button) view.findViewById(R.id.product_payment_main_cancel);
-        paymentPrintButton = (Button) view.findViewById(R.id.product_payment_main_print);
+        paymentSentToSapButton = view.findViewById(R.id.product_payment_main_sent_to_sap);
+        paymentSaveButton = view.findViewById(R.id.product_payment_main_save);
+        paymentCancelButton = view.findViewById(R.id.product_payment_main_cancel);
+        paymentPrintButton = view.findViewById(R.id.product_payment_main_print);
 
         paymentSentToSapButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -245,10 +248,7 @@ public class PaymentMainFragment extends Fragment {
                 String respuesta ="";
 
                 ArrayList<InvoiceItem> invoices = ((MainActivity) getActivity()).getInvoiceItems();
-
-                //Client client = order.getClient();
                 Client client = payment.getClient();
-                //List<OrderItem> products = order.getProducts();
 
                 String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
                 String PaymentId = "";
@@ -260,26 +260,16 @@ public class PaymentMainFragment extends Fragment {
 
                     if(user != null && client != null && invoices != null) {
                         respuesta = BluetoothPrinterPayment.print(context,
-                                user.getPrintBluetoothAddress(),  //Check why it's not working DEM. 8-14-2017
-                                //"00:12:F3:19:2D:C1",
-                                //order.getDateCreated(),
+                                user.getPrintBluetoothAddress(),
                                 date,
                                 client,
-                                //order.getSeller(),
                                 user.getName(),
                                 invoices,
                                 0.0,
                                 0.0,
                                 payment.getComment(),
-                                ////Commented Sept. 23rd. 2017...ya que ahora ese numero sera automatico
-                                //payment.getReferenceNumber(),
                                 PaymentId,
                                 payment.getTotalPaid());
-                        //order.getSubtotal(),
-                        //order.getDiscount(),
-                        //order.getSubtotal() - order.getDiscount(),
-                        //order.getIVA(),
-                        //order.getTotal());
                     }else
                     {
                         //MsgUtils.showToast((Activity)context, MsgUtils.TOAST_TYPE_MESSAGE, context.getString(R.string.Internal_error), MsgUtils.ToastLength.SHORT);
@@ -307,7 +297,7 @@ public class PaymentMainFragment extends Fragment {
             payment = (Payment) arguments.getSerializable(ARG_PAYMENT);
             if(payment != null){
                 ((MainActivity) getActivity()).ClearPaymentData();
-                ((MainActivity) getActivity()).UpdateTransfer(payment.getTransfer());
+                //((MainActivity) getActivity()).UpdateTransfer(payment.getTransfer());
                 ((MainActivity) getActivity()).UpdateCash(payment.getCash());
                 ((MainActivity) getActivity()).UpdateChecks(payment.getChecks());
                 //((MainActivity) getActivity()).UpdateInvoiceItems(payment.getInvoices());
@@ -327,13 +317,10 @@ public class PaymentMainFragment extends Fragment {
             switch (payment.getStatus()){
                 case 1:
                     paymentSaveButton.setVisibility(View.GONE);
-                    //Commented
-                    //paymentSentToSapButton.setVisibility(View.VISIBLE);
                     paymentSentToSapButton.setVisibility(View.GONE);
                     paymentPrintButton.setVisibility(View.VISIBLE);
                 case 3:
                     paymentSaveButton.setVisibility(View.GONE);
-                    //paymentSentToSapButton.setVisibility(View.VISIBLE);
                     paymentSaveButton.setVisibility(View.VISIBLE);
                     paymentCancelButton.setVisibility(View.VISIBLE);
                     break;
@@ -366,398 +353,77 @@ public class PaymentMainFragment extends Fragment {
     public void sendPaymentToDraft() {
 
         final User user = SettingsMy.getActiveUser();
+        final Tenant tenant = SettingsMy.getActualTenant();
+        if (user == null && tenant == null)
+            return;
 
-        if (user != null) {
 
-            Cash cash = ((MainActivity) getActivity()).getCash();
-            //Commented Sept. 27th. 2017....DEM. no debe estar estatico banco Atlantida....will test commenting...
-            //cash.setGeneralAccount("_SYS00000001377");
-            Transfer transfer = ((MainActivity) getActivity()).getTransfer();
-            ArrayList<CheckPayment> checks = ((MainActivity) getActivity()).getChecks();
-            ArrayList<InvoiceItem> invoices = ((MainActivity) getActivity()).getInvoiceItems();
-            //String comment = ((MainActivity) getActivity()).getComment();
-            //DEM 08/15/2017
-            String comment="";
-            //String comment = ((MainActivity) getActivity()).getPaymentType() + "|" + ((MainActivity) getActivity()).getComment() ;
-            //Reactivado nuevamente, 15 oct. 2017 segun requerimimento de vendedores.
-            // comment = ((MainActivity) getActivity()).getPaymentType() + "|" + ((MainActivity) getActivity()).getComment() ;
-            //String comment = ((MainActivity) getActivity()).getPaymentType() + " " + transfer.getNumber();
+        JSONObject joPayment = new JSONObject();
+        JSONArray joInvoices = new JSONArray();
 
-            //Commented Oct. 15th-2017 req. in meeting.
-            if (((MainActivity) getActivity()).getPaymentType().toLowerCase().contains(("efectivo")))
-            {
-                comment = ((MainActivity) getActivity()).getPaymentType() + " " + transfer.getAmount() + " | " + ((MainActivity) getActivity()).getComment();
+        Bank bank =  ((MainActivity) getActivity()).getBank();
+        double payedAmount = ((MainActivity) getActivity()).GetAmount();
+        String comment = ((MainActivity) getActivity()).getPaymentType() + "|" + ((MainActivity) getActivity()).getComment();
+        String referenceNumber = ((MainActivity) getActivity()).getReferenceNumber();
+        Date payedDate = ((MainActivity) getActivity()).getDate();
+        ArrayList<InvoiceItem> invoices = ((MainActivity) getActivity()).getInvoiceItems();
+
+        String myFormat = "yyyy/MM/dd";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        //TODO: FIX THIS WE MUST GET THE SPINNER PAYMENT
+        int paymentType = 0;
+
+        try {
+            joPayment.put(JsonUtils.TAG_TENANT_ID, tenant.getId());
+            joPayment.put(JsonUtils.TAG_BANK_ID, bank.getId());
+            joPayment.put(JsonUtils.TAG_PAYMENT_TYPE, paymentType);
+            joPayment.put(JsonUtils.TAG_PAYED_AMOUNT_ID, payedAmount);
+            joPayment.put(JsonUtils.TAG_COMMENT, comment);
+            joPayment.put(JsonUtils.TAG_REFERENCE_NUMBER, referenceNumber);
+            joPayment.put(JsonUtils.TAG_PAYMENT_TYPE, sdf.format(payedDate));
+
+            if(invoices != null) {
+                for (InvoiceItem invoice : invoices) {
+                    JSONObject invoiceJSON = new JSONObject();
+                    invoiceJSON.put(JsonUtils.TAG_DOCUMENT_CODE, invoice.getDocumentNumber());
+                    joInvoices.put(invoiceJSON);
+                }
+                joPayment.put(JsonUtils.TAG_PAYMENT_ITEM_LIST, joInvoices.toString());
             }
-            else
-            {
-                comment = ((MainActivity) getActivity()).getPaymentType() + " " + transfer.getNumber() + " | " + ((MainActivity) getActivity()).getComment();
-            }
-
-            String reference = ((MainActivity) getActivity()).getReferenceNumber();
-
-            //TODO: este es un fix temporal ya que necesitaban con urgencia este parche
-            // el problema es que cuando dejan la fecha al dia de hoy sin tocar el campo de fecha
-            // esta no se estaba guardando
-            if(transfer.getDueDate() == null){
-                final Calendar myCalendar = Calendar.getInstance();
-                String myFormat = "yyyy/MM/dd";
-                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                transfer.setDueDate(sdf.format(myCalendar.getTime()));
-            }
-
-            putPayment(client, cash, transfer, checks, invoices, comment, reference);
+        } catch (JSONException e) {
+            String message = "Parse new transfer exception.";
+            Timber.e(e, message);
+            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, message, MsgUtils.ToastLength.SHORT);
         }
+
+        GsonRequest<JSONObject> req = new GsonRequest<>(Request.Method.GET, EndPoints.ADD_PAYMENT,null, JSONObject.class,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(@NonNull JSONObject payment) {
+                        //progressDialog.cancel();
+                        Timber.d("Esto devolvio %s", payment);
+                        MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Success), MsgUtils.ToastLength.SHORT);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //if (progressDialog != null) progressDialog.cancel();
+                MsgUtils.logAndShowErrorMessage(getActivity(), error);
+            }
+        }, getFragmentManager(), user.getAccessToken());
+        req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+        req.setShouldCache(false);
+        MyApplication.getInstance().addToRequestQueue(req, CONST.SENT_PAYMENT_TAG);
     }
 
     public void sendPaymentToSap()
     {
-        final User user = SettingsMy.getActiveUser();
 
-        if (user != null) {
-
-            Cash cash = ((MainActivity) getActivity()).getCash();
-            Transfer transfer = ((MainActivity) getActivity()).getTransfer();
-            ArrayList<CheckPayment> checks = ((MainActivity) getActivity()).getChecks();
-            ArrayList<InvoiceItem> invoices = ((MainActivity) getActivity()).getInvoiceItems();
-            String comment = ((MainActivity) getActivity()).getComment();
-            String reference = ((MainActivity) getActivity()).getReferenceNumber();
-
-            //DEM remove payment type para que este no viaje a SAP.
-            //comment = UpdateComment(comment);
-
-            /*ArrayList<InvoiceItem> invoices2 = new ArrayList<>();
-            for(InvoiceItem item: invoices){
-
-                if(invoices2.size() > 0) {
-
-                    Boolean isFound = false;
-                    for (InvoiceItem item2 : invoices2) {
-                        if(item2.getDocumentNumber().equals(item.getDocumentNumber()))
-                        {
-                            isFound = true;
-                            break;
-                        }
-                    }
-
-                    if(!isFound)
-                        invoices2.add(item);
-                }else
-                {
-                    invoices2.add(item);
-                }
-            }*/
-
-           /* if(invoices.size() > 0)
-                invoices = invoices2;*/
-
-            JSONObject joTransfer = new JSONObject();
-            JSONObject joCash = new JSONObject();
-            JSONArray joChecks = new JSONArray();
-            JSONArray joInvoices = new JSONArray();
-
-            if(invoices.size() > 0){
-                try
-                {
-                    for (InvoiceItem invoice : invoices)
-                    {
-                        JSONObject invoiceJSON = new JSONObject();
-                        invoiceJSON.put("DocumentNumber", invoice.getDocumentNumber());
-                        invoiceJSON.put("TotalAmount", invoice.getTotalAmount());
-                        invoiceJSON.put("PayedAmount", invoice.getPayedAmount());
-                        invoiceJSON.put("DocEntry", invoice.getDocEntry());
-                        joInvoices.put(invoiceJSON);
-                        //DEM
-                        TotalFacturas += (invoice.getTotalAmount() - invoice.getPayedAmount()) ;
-                    }
-                    //jObject.put("StudentList", joInvoices);
-                } catch (JSONException e) {
-                    Timber.e(e, "Parse new Invoice exception.");
-                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, "Parse new Invoice exception.", MsgUtils.ToastLength.SHORT);
-                }
-
-                if (transfer != null) {
-                    try {
-                        joTransfer.put("ReferenceNumber", transfer.getNumber());
-                        joTransfer.put("Amount", transfer.getAmount());
-                        joTransfer.put("Date", transfer.getDueDate());
-                        joTransfer.put("GeneralAccount", transfer.getBank().getGeneralAccount());
-                    } catch (JSONException e) {
-                        Timber.e(e, "Parse new transfer exception.");
-                        MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, "Parse new transfer exception.", MsgUtils.ToastLength.SHORT);
-                    }
-                }
-
-                try {
-                    joCash.put("GeneralAccount", cash.getGeneralAccount());
-                    joCash.put("Amount", cash.getAmount());
-                } catch (JSONException e) {
-                    Timber.e(e, "Parse new chash exception.");
-                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, "Parse new chash exception.", MsgUtils.ToastLength.SHORT);
-                }
-
-                if(checks != null) {
-                    try {
-                        for (CheckPayment c : checks) {
-                            JSONObject checkJSON = new JSONObject();
-                            checkJSON.put("RefenceNumber", c.getCheckNumber());
-                            checkJSON.put("BankId", c.getBank().getId());
-                            checkJSON.put("Amount", c.getAmount());
-                            checkJSON.put("Date", c.getDate());
-                            joInvoices.put(checkJSON);
-                        }
-                    } catch (JSONException e) {
-                        Timber.e(e, "Parse checks exception.");
-                        MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, "Parse checks exception", MsgUtils.ToastLength.SHORT);
-                    }
-                }
-
-            } else {
-                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, "Debe ingresar al menos una factura", MsgUtils.ToastLength.LONG);
-            }
-
-            try{
-                comment = URLEncoder.encode(comment, "UTF-8");
-                reference = URLEncoder.encode(reference, "UTF-8");
-            }
-            catch (Exception e)
-            {
-                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, "Comentario contiene caracteres incorrectos", MsgUtils.ToastLength.LONG);
-            }
-
-            double total = transfer != null ? transfer.getAmount() : 0.0;
-            //SentPayment?userId=%d&clientId=%d&totalPaid=%d&cash=%s&transfer=%s&checks=%s%invoices=%s
-            String url = String.format(SettingsMy.getActualTenant().getUrl() + EndPoints.SENT_PAYMENT,
-                    user.getId(),
-                    payment.getClient().getId(),
-                    total,
-                    comment,
-                    joCash.toString(),
-                    joTransfer.toString(),
-                    joChecks.toString(),
-                    joInvoices.toString(),
-                    reference,
-                    payment.getId());
-
-            ((MainActivity) getActivity()).ClearPaymentData();
-
-            GsonRequest<JSONObject> req = new GsonRequest<>(Request.Method.GET, url, null, JSONObject.class,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(@NonNull JSONObject payment) {
-                            //progressDialog.cancel();
-                            Timber.d("Esto devolvio %s", payment);
-                            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Success), MsgUtils.ToastLength.SHORT);
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    //if (progressDialog != null) progressDialog.cancel();
-                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
-                }
-            }, getFragmentManager(), null);
-            req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-            req.setShouldCache(false);
-            MyApplication.getInstance().addToRequestQueue(req, CONST.SENT_PAYMENT_TAG);
-        } else {
-            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, "Usuario no logeado", MsgUtils.ToastLength.SHORT);
-            //error user is not login
-        }
     }
 
     private void putPayment(Client client, Cash cash, Transfer transfer, ArrayList<CheckPayment> checks, ArrayList<InvoiceItem> invoices, String comment, String refence) {
 
-        final User user = SettingsMy.getActiveUser();
-
-        if (user != null) {
-            JSONObject joTransfer = new JSONObject();
-            JSONObject joCash = new JSONObject();
-            JSONArray joChecks = new JSONArray();
-            JSONArray joInvoices = new JSONArray();
-
-            if(invoices != null  && invoices.size() > 0){
-                try
-                {
-                    for (InvoiceItem invoice : invoices)
-                    {
-                        JSONObject invoiceJSON = new JSONObject();
-                        invoiceJSON.put("DocumentNumber", invoice.getDocumentNumber());
-                        invoiceJSON.put("TotalAmount", invoice.getTotalAmount());
-                        invoiceJSON.put("PayedAmount", invoice.getPayedAmount());
-                        invoiceJSON.put("DocEntry", invoice.getDocEntry());
-                        joInvoices.put(invoiceJSON);
-                    }
-                    //jObject.put("StudentList", joInvoices);
-                } catch (JSONException e) {
-                    Timber.e(e, "Parse new Invoice exception.");
-                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, "Parse new Invoice exception.", MsgUtils.ToastLength.SHORT);
-                }
-
-                if (transfer != null) {
-                    try {
-                        joTransfer.put("ReferenceNumber", transfer.getNumber());
-                        joTransfer.put("Amount", transfer.getAmount());
-                        joTransfer.put("Date", transfer.getDueDate());
-                        joTransfer.put("GeneralAccount", transfer.getBank().getGeneralAccount());
-                    } catch (JSONException e) {
-                        Timber.e(e, "Parse new transfer exception.");
-                        MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, "Parse new transfer exception.", MsgUtils.ToastLength.SHORT);
-                    }
-                }
-
-                if (cash != null) {
-                    try {
-                        joCash.put("GeneralAccount", cash.getGeneralAccount());
-                        joCash.put("Amount", cash.getAmount());
-                    } catch (JSONException e) {
-                        Timber.e(e, "Parse new chash exception.");
-                        MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, "Parse new chash exception.", MsgUtils.ToastLength.SHORT);
-                    }
-                }
-
-                if(checks != null) {
-                    try {
-                        for (CheckPayment c : checks) {
-                            JSONObject checkJSON = new JSONObject();
-                            checkJSON.put("RefenceNumber", c.getCheckNumber());
-                            checkJSON.put("BankId", c.getBank().getId());
-                            checkJSON.put("Amount", c.getAmount());
-                            checkJSON.put("DueDate", c.getDate());
-                            joInvoices.put(checkJSON);
-                        }
-                    } catch (JSONException e) {
-                        Timber.e(e, "Parse checks exception.");
-                        MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, "Parse checks exception", MsgUtils.ToastLength.SHORT);
-                    }
-                }
-
-            } else {
-                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, "Debe ingresar al menos una factura", MsgUtils.ToastLength.LONG);
-            }
-
-            try{
-                comment = URLEncoder.encode(comment, "UTF-8");
-            }
-            catch (Exception e)
-            {
-                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, "Comentario contiene caracteres incorrectos", MsgUtils.ToastLength.LONG);
-            }
-
-            double total = transfer != null ? transfer.getAmount() : 0.0;
-            //AddPayment?userId=%d&clientId=%d&totalPaid=%d&cash=%s&transfer=%s&checks=%s%invoices=%s
-
-            //DEM July 30TH, comparar total en facturas con monto a pagar.
-            // Verificar como obtener el numero de facturas y eso incluirla en la condicion.
-
-            if(invoices.size() > 0) {
-                try {
-                    for (InvoiceItem invoice : invoices) {
-                        //JSONObject invoiceJSON = new JSONObject();
-                        //invoiceJSON.put("DocumentNumber", invoice.getDocumentNumber());
-                        //invoiceJSON.put("TotalAmount", invoice.getTotalAmount());
-                        //invoiceJSON.put("PayedAmount", invoice.getPayedAmount());
-                        //invoiceJSON.put("DocEntry", invoice.getDocEntry());
-                        //joInvoices.put(invoiceJSON);
-
-                        TotalFacturas += (invoice.getTotalAmount() - invoice.getPayedAmount());
-
-                    }
-                    //jObject.put("StudentList", joInvoices);
-                } catch (Exception e) {
-                    Timber.e(e, "Parse new Invoice exception.");
-                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, "Parse new Invoice exception.", MsgUtils.ToastLength.SHORT);
-                    return;
-                }
-
-            }
-
-            CardCode = client.getCardCode();
-            //DEM Gets all pending invoices.
-            //invoiceList = client.getInvoiceList();
-            Integer NumFacturasTotal = 0;
-            NumFacturasTotal = client.getInvoiceList().size();
-
-            //mCardCode = getArguments().getString(ARG_CARDCODE);
-            //getDocuments(CardCode);
-            // payment.getClient().getId()
-
-            //ArrayList<InvoiceItem> invoices2 = ((MainActivity) getActivity()).getInvoiceItems();
-
-            //DEM Otras Validaciones
-            if ( total == 0 )
-            {
-                PagoInvalido = false;
-                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, "Por favor ingrese una cantidad en total mayor a '0' .", MsgUtils.ToastLength.LONG);
-                TotalFacturas = 0;
-                total = 0;
-                NumFacturasTotal = 0;
-                return;
-            }
-
-            if ( NumFacturasTotal == 0 )
-            {
-                PagoInvalido = false;
-                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, "Por favor seleccione al menos una factura.", MsgUtils.ToastLength.LONG);
-                TotalFacturas = 0;
-                total = 0;
-                NumFacturasTotal = 0;
-                return;
-            }
-
-
-            //total = Lo que debe el cliente, TotalFacturas lo que va a pagar.
-            //invoices.size, son las facturas seleccionadas, NumFacturasTotal = Todas las facturas pendientes.
-            // Validacion. Si estoy pagando mas de mis facturas seleccionadas y tengo mas facturas,
-            // exigir seleccionar mas facturas, de esta manera no van a la cuenta puente.
-            //Si estoy pagando menos no hay problema, este se abonara a las facturas seleccionadas.
-            if ( (total > TotalFacturas ) && ( invoices.size() < NumFacturasTotal ) )
-            {
-                PagoInvalido = false;
-                MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, "Aun tiene facturas para asignar efectivo. Monto Ingresado: +" + total + ", Facturas Seleccionadas: " + TotalFacturas + ".", MsgUtils.ToastLength.LONG);
-                TotalFacturas = 0;
-                total = 0;
-                NumFacturasTotal = 0;
-                return;
-            }
-            else
-            {
-                PagoInvalido = true;
-            }
-
-            String url = String.format(SettingsMy.getActualTenant().getUrl() + EndPoints.ADD_PAYMENT,
-                    user.getId(),
-                    client.getId(),
-                    total,
-                    comment,
-                    joCash.toString(),
-                    joTransfer.toString(),
-                    joChecks.toString(),
-                    joInvoices.toString(),
-                    refence);
-
-            ((MainActivity) getActivity()).ClearPaymentData();
-
-            GsonRequest<JSONObject> req = new GsonRequest<>(Request.Method.GET, url, null, JSONObject.class,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(@NonNull JSONObject payment) {
-                            //progressDialog.cancel();
-                            Timber.d("Esto devolvio %s", payment);
-                            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Success), MsgUtils.ToastLength.SHORT);
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    //if (progressDialog != null) progressDialog.cancel();
-                    MsgUtils.logAndShowErrorMessage(getActivity(), error);
-                }
-            }, getFragmentManager(), null);
-            req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-            req.setShouldCache(false);
-            MyApplication.getInstance().addToRequestQueue(req, CONST.ADD_PAYMENT_TAG);
-        } else {
-            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, "Usuario no logeado", MsgUtils.ToastLength.SHORT);
-            //error user is not login
-        }
     }
 
     public void setFragments(View view){
@@ -770,7 +436,12 @@ public class PaymentMainFragment extends Fragment {
 
     public void cancelPayment(int id)
     {
-        String url = String.format(SettingsMy.getActualTenant().getUrl() + EndPoints.CANCEL_PAYMENT, id);
+        User user = SettingsMy.getActiveUser();
+
+        if(user == null)
+            return;
+
+        String url = String.format(EndPoints.PAYMENT_DELETE, id);
 
         GsonRequest<JSONObject> req = new GsonRequest<>(Request.Method.GET, url, null, JSONObject.class,
                 new Response.Listener<JSONObject>() {
@@ -786,7 +457,7 @@ public class PaymentMainFragment extends Fragment {
                 //if (progressDialog != null) progressDialog.cancel();
                 MsgUtils.logAndShowErrorMessage(getActivity(), error);
             }
-        }, getFragmentManager(), null);
+        }, getFragmentManager(), user.getAccessToken());
         req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
         req.setShouldCache(false);
         MyApplication.getInstance().addToRequestQueue(req, CONST.CANCEL_PAYMENT_TAG);
@@ -822,7 +493,7 @@ public class PaymentMainFragment extends Fragment {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        private int count = 3;
+        private int count = 2;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -832,22 +503,11 @@ public class PaymentMainFragment extends Fragment {
         public Fragment getItem(int position) {
             Fragment fragment = null;
 
-            switch (position){
-                case 0: fragment = payment == null ? PaymentGeneralFragment.newInstance(client) : PaymentGeneralFragment.newInstance(payment);
-                    break;
-                case 1:
-                    fragment = payment == null ? PaymentInvoiceFragment.newInstance(client.getInvoiceList()) : PaymentInvoiceFragment.newInstance(payment);
-                    break;
-                case 2: fragment = payment == null ? PaymentTransferFragment.newInstance(banks) : PaymentTransferFragment.newInstance(payment.getTransfer(), banks);
-                    break;
-                case 3: fragment = payment == null ? PaymentCashFragment.newInstance() : PaymentCashFragment.newInstance(payment.getCash());
-                    break;
-                case 4:
-                    fragment = payment == null ? PaymentCheckFragment.newInstance(banks) : PaymentCheckFragment.newInstance(payment, payment.getChecks());
-                    break;
-                default:
-                    fragment = null;
-            }
+            if(position == 0)
+                fragment = PaymentInvoiceFragment.newInstance(client);
+
+            if(position == 1)
+                fragment = PaymentTransferFragment.newInstance(client, banks);
 
             return fragment;
         }
@@ -860,56 +520,16 @@ public class PaymentMainFragment extends Fragment {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            /*Fragment fragment = fragments.get(position);
-            String title = "";
-            if(fragment instanceof PaymentGeneralFragment){
-                title = "General";
-            }
-            else if(fragment instanceof PaymentCashFragment){
-                title = "Efectivo";
-                double cash = ((PaymentCashFragment) fragment).cashValue;
-
-            }
-            else if(fragment instanceof PaymentTransferFragment){
-                title = "Transferencia";
-            }
-            else if(fragment instanceof PaymentCheckFragment){
-                title = "Cheque";
-            }
-            else if(fragment instanceof PaymentInvoiceFragment){
-                title = "Factura";
-            }
-            else{
-                title = "";
-            }*/
-
             String title = "";
 
             switch (position){
-                case 0:  title = "General";
+                case 0: title = "Factura";
                     break;
-                case 1: title = "Factura";
-                    break;
-                case 2: title = "Transferencia";
-                    break;
-                case 3: title = "Efectivo";
-                    break;
-                case 4: title = "Cheque";
+                case 1: title = "Datos";
                     break;
             }
 
             return title;
         }
     }
-
-    public String UpdateComment(String comment)
-    {
-        comment = comment.replace("Cheque|","");
-        comment = comment.replace("Deposito|","");
-        comment = comment.replace("Efectivo|","");
-        comment = comment.replace("Transferencia|","");
-
-        return  comment;
-    }
-
 }

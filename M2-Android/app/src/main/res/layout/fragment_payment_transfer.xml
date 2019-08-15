@@ -7,28 +7,87 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
+
+    <LinearLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <TextView
-                android:layout_marginTop="20dp"
-                android:textColor="@color/colorPrimaryDark"
+                android:id="@+id/payment_transfer_client_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:ellipsize="marquee"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:text="C0261" />
+
+            <TextView
+                android:id="@+id/payment_transfer_client_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:textColor="@color/colorAccentDark"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:text="ABARROTERIA POPULAR" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textAllCaps="true"
+                android:layout_marginTop="10dp"
                 android:textSize="12sp"
-                android:text="@string/Transfer" />
+                android:text="@string/Comment" />
+
+            <EditText
+                android:id="@+id/payment_transfer_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:lines="2"
+                android:text=""
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:enabled="true"
+                android:hint="@string/Comment" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textAllCaps="true"
+                android:layout_marginTop="10dp"
+                android:textSize="12sp"
+                android:text="@string/Receipt" />
+
+            <EditText
+                android:id="@+id/payment_transfer_receipt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:inputType="text"
+                android:lines="5"
+                android:text=""
+                android:enabled="true"
+                android:hint="@string/Receipt"/>
+        </LinearLayout>
 
             <TextView
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
+                android:textAllCaps="true"
                 android:textSize="12sp"
                 android:text="@string/Bank" />
 
@@ -43,6 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
+                android:textAllCaps="true"
                 android:textSize="12sp"
                 android:text="@string/Date" />
 
@@ -51,8 +111,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#000"
-                android:layout_marginLeft="1dp"
-                android:layout_marginStart="1dp"
                 android:text=""
                 android:inputType="date"
                 android:focusable="false"/>
@@ -62,6 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
+                android:textAllCaps="true"
                 android:textSize="12sp"
                 android:text="Tipo de Pago" />
 
@@ -73,33 +132,32 @@
             android:spinnerMode="dialog" />
 
             <TextView
-                android:id="@+id/document_balance_text"
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Reference"
                 android:textColor="@color/colorAccent"
+                android:textAllCaps="true"
                 android:textSize="12sp"
                 android:visibility="visible"
                 tools:text="@string/Reference" />
 
             <EditText
-                android:id="@+id/payment_transfer_reference_number"
+                android:id="@+id/payment_transfer_reference"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Zero"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
                 android:inputType="textNoSuggestions"
                 android:visibility="visible"
-                tools:text="@string/Zero" />
+                android:hint="@string/Reference" />
 
             <TextView
-                android:id="@+id/document_balance"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
+                android:textAllCaps="true"
                 android:textSize="12sp"
                 android:text="@string/Amount" />
 
@@ -110,37 +168,7 @@
                 android:textColor="@color/colorAccent"
                 android:inputType="numberDecimal"
                 android:textSize="12sp"
-                android:text="@string/Zero" />
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            android:textSize="12sp"
-            android:text="Razon de pago" />
-
-        <Spinner
-            android:id="@+id/payment_transfer_paymentreason"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:addStatesFromChildren="false"
-            android:entries="@array/PaymentReason"
-            android:spinnerMode="dialog" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
-
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginBottom="@dimen/base_margin_vertical_half"
-                    android:layout_marginTop="@dimen/base_margin_vertical_half"/>
-
-            </LinearLayout>
+                android:hint="@string/Amount"/>
         </LinearLayout>
     </ScrollView>
-
 </FrameLayout>
