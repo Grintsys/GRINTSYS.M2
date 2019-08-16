@@ -99,7 +99,7 @@ public class OrdersHistoryFragment extends Fragment {
         final Calendar beginCalendar = Calendar.getInstance();
         final Calendar endCalendar = Calendar.getInstance();
 
-        String myFormat = "yyyy/MM/dd";
+        String myFormat = "yyyy-MM-dd";
         final SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         beginCalendar.add(Calendar.DAY_OF_MONTH, -5);
@@ -209,7 +209,7 @@ public class OrdersHistoryFragment extends Fragment {
                     new Response.Listener<OrderListResult>() {
                     @Override
                     public void onResponse(OrderListResult response) {
-                        ordersMetadata = response.result.getMetadata();
+                        //ordersMetadata = response.result.getMetadata();
                         ordersHistoryRecyclerAdapter.addOrders(response.result.getOrders());
 
                         if (progressDialog != null) progressDialog.cancel();
@@ -220,7 +220,7 @@ public class OrdersHistoryFragment extends Fragment {
                     if (progressDialog != null) progressDialog.cancel();
                     MsgUtils.logAndShowErrorMessage(getActivity(), error);
                 }
-            }, getFragmentManager(), user.getAccessToken());
+            }, null, user.getAccessToken());
 
             req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
             req.setShouldCache(false);

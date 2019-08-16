@@ -6,15 +6,15 @@ import java.util.ArrayList;
  * Created by turupawn on 3/29/17.
  */
 public class BankResponse {
-    private ArrayList<Bank> banks;
+    private ArrayList<Bank> items;
 
     public ArrayList<Bank> getBanks()
     {
-        return banks;
+        return items;
     }
 
     public void setBanks(ArrayList<Bank> banks)
     {
-        this.banks = banks;
+        this.items = banks;
     }
 }

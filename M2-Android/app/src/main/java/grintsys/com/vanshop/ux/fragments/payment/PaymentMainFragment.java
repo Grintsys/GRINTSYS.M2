@@ -38,6 +38,7 @@ import grintsys.com.vanshop.SettingsMy;
 import grintsys.com.vanshop.api.EndPoints;
 import grintsys.com.vanshop.api.GsonRequest;
 import grintsys.com.vanshop.entities.Bank;
+import grintsys.com.vanshop.entities.BankListResult;
 import grintsys.com.vanshop.entities.BankResponse;
 import grintsys.com.vanshop.entities.User.User;
 import grintsys.com.vanshop.entities.client.Client;
@@ -73,12 +74,10 @@ public class PaymentMainFragment extends Fragment {
     private ProgressBar progressView;
     protected TextView cashText, transferText, checkText, totalText, totalInvoiceText;
     private Client client;
-    private ArrayList<Bank> banks;
     private Payment payment;
     private Button paymentSaveButton, paymentSentToSapButton, paymentCancelButton, paymentPrintButton;
 
-    //DEM July 30TH/ 2017 Sunday.
-    //Validacion para revisar si hay monto por asignar a facturas.
+
     double TotalFacturas=0;
     boolean PagoInvalido = true;
     String docs;
@@ -96,22 +95,14 @@ public class PaymentMainFragment extends Fragment {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static PaymentMainFragment newInstance(String cardCode) {
-        PaymentMainFragment fragment = new PaymentMainFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_CARDCODE, cardCode);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    /*
     public static PaymentMainFragment newInstance(Payment payment) {
         PaymentMainFragment fragment = new PaymentMainFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PAYMENT, payment);
         fragment.setArguments(args);
         return fragment;
-    }
+    }*/
 
     public static PaymentMainFragment newInstance(Client client) {
         PaymentMainFragment fragment = new PaymentMainFragment();
@@ -141,56 +132,14 @@ public class PaymentMainFragment extends Fragment {
                 case PROGRESS:
                     progressView.setVisibility(View.VISIBLE);
                     break;
+                case CONTENT:
+                    progressView.setVisibility(View.GONE);
                 default: // Content
                     progressView.setVisibility(View.GONE);
             }
         } else {
             Timber.e(new RuntimeException(), "Setting content visibility with null views.");
         }
-    }
-
-    private void getClient(String card_code) {
-        String url = String.format(SettingsMy.getActualTenant().getUrl() + EndPoints.CLIENT, card_code);
-        setContentVisible(CONST.VISIBLE.PROGRESS);
-
-        GsonRequest<Client> clientGsonRequest = new GsonRequest<>(Request.Method.GET, url, null, Client.class,
-                new Response.Listener<Client>() {
-                    @Override
-                    public void onResponse(@NonNull Client response) {
-                        client = response;
-                        getBanks();
-                        setContentVisible(CONST.VISIBLE.CONTENT);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                setContentVisible(CONST.VISIBLE.EMPTY);
-                MsgUtils.logAndShowErrorMessage(getActivity(), error);
-            }
-        });
-        clientGsonRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-        clientGsonRequest.setShouldCache(false);
-        MyApplication.getInstance().addToRequestQueue(clientGsonRequest, CONST.CLIENT_REQUESTS_TAG);
-    }
-
-    private void getBanks() {
-        setContentVisible(CONST.VISIBLE.PROGRESS);
-        GsonRequest<BankResponse> banksGsonRequest = new GsonRequest<>(Request.Method.GET, SettingsMy.getActualTenant().getUrl() + EndPoints.BANKS, null, BankResponse.class,
-                new Response.Listener<BankResponse>() {
-                    @Override
-                    public void onResponse(@NonNull BankResponse response) {
-                        banks = response.getBanks();
-                        setContentVisible(CONST.VISIBLE.CONTENT);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                MsgUtils.logAndShowErrorMessage(getActivity(), error);
-            }
-        });
-        banksGsonRequest.setRetryPolicy(MyApplication.getSimpleRetryPolice());
-        banksGsonRequest.setShouldCache(true);
-        MyApplication.getInstance().addToRequestQueue(banksGsonRequest, CONST.BANKS_TAG);
     }
 
     @Override
@@ -202,7 +151,7 @@ public class PaymentMainFragment extends Fragment {
         progressView = view.findViewById(R.id.payment_progress);
 
         //agregado Sept. 27.2017. Issues con invoices de pago anterior.    DEM.
-        ((MainActivity) getActivity()).ClearPaymentData();
+        //((MainActivity) getActivity()).ClearPaymentData();
 
         paymentSentToSapButton = view.findViewById(R.id.product_payment_main_sent_to_sap);
         paymentSaveButton = view.findViewById(R.id.product_payment_main_save);
@@ -230,7 +179,7 @@ public class PaymentMainFragment extends Fragment {
         paymentCancelButton.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                cancelPayment(payment.getId());
+                //cancelPayment(payment.getId());
                 ((MainActivity)getActivity()).ClearPaymentData();
                 ((MainActivity)getActivity()).onAccountSelected();
             }
@@ -301,51 +250,22 @@ public class PaymentMainFragment extends Fragment {
                 ((MainActivity) getActivity()).UpdateCash(payment.getCash());
                 ((MainActivity) getActivity()).UpdateChecks(payment.getChecks());
                 //((MainActivity) getActivity()).UpdateInvoiceItems(payment.getInvoices());
-                getBanks();
+               // getBanks();
             } else {
-                String cardcode = arguments.getString(ARG_CARDCODE, "");
                 client = (Client) arguments.getSerializable(ARG_CLIENT);
-                if(client == null)
-                    getClient(cardcode);
-                else {
-                    getBanks();
-                }
+                //getBanks();
             }
         }
 
-        if(payment != null) {
-            switch (payment.getStatus()){
-                case 1:
-                    paymentSaveButton.setVisibility(View.GONE);
-                    paymentSentToSapButton.setVisibility(View.GONE);
-                    paymentPrintButton.setVisibility(View.VISIBLE);
-                case 3:
-                    paymentSaveButton.setVisibility(View.GONE);
-                    paymentSaveButton.setVisibility(View.VISIBLE);
-                    paymentCancelButton.setVisibility(View.VISIBLE);
-                    break;
-                case 2:
-                    paymentSaveButton.setVisibility(View.GONE);
-                    paymentSentToSapButton.setVisibility(View.GONE);
-                    paymentCancelButton.setVisibility(View.GONE);
-                    paymentPrintButton.setVisibility(View.VISIBLE);
-                    break;
-                case 4:
-                    paymentCancelButton.setVisibility(View.GONE);
-                    paymentSaveButton.setVisibility(View.GONE);
-                    paymentSentToSapButton.setVisibility(View.GONE);
-                    paymentPrintButton.setVisibility(View.VISIBLE);
-                    break;
-                default:
-                    paymentCancelButton.setVisibility(View.VISIBLE);
-                    paymentSaveButton.setVisibility(View.VISIBLE);
-                    paymentSentToSapButton.setVisibility(View.GONE);
-            }
-        }
+        paymentCancelButton.setVisibility(View.VISIBLE);
+        paymentSaveButton.setVisibility(View.VISIBLE);
+        paymentSentToSapButton.setVisibility(View.GONE);
 
         mSectionsPagerAdapter = new PaymentMainFragment.SectionsPagerAdapter(getChildFragmentManager());
-        mViewPager = (ViewPager) view.findViewById(R.id.payment_view_pager);
+        mViewPager = view.findViewById(R.id.payment_view_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        setContentVisible(CONST.VISIBLE.CONTENT);
 
         return view;
     }
@@ -357,7 +277,6 @@ public class PaymentMainFragment extends Fragment {
         if (user == null && tenant == null)
             return;
 
-
         JSONObject joPayment = new JSONObject();
         JSONArray joInvoices = new JSONArray();
 
@@ -365,23 +284,24 @@ public class PaymentMainFragment extends Fragment {
         double payedAmount = ((MainActivity) getActivity()).GetAmount();
         String comment = ((MainActivity) getActivity()).getPaymentType() + "|" + ((MainActivity) getActivity()).getComment();
         String referenceNumber = ((MainActivity) getActivity()).getReferenceNumber();
-        Date payedDate = ((MainActivity) getActivity()).getDate();
+        Date payedDate = ((MainActivity) getActivity()).getDate() == null ?  new Date() : ((MainActivity) getActivity()).getDate();
         ArrayList<InvoiceItem> invoices = ((MainActivity) getActivity()).getInvoiceItems();
 
         String myFormat = "yyyy/MM/dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-        //TODO: FIX THIS WE MUST GET THE SPINNER PAYMENT
+
         int paymentType = 0;
 
         try {
             joPayment.put(JsonUtils.TAG_TENANT_ID, tenant.getId());
             joPayment.put(JsonUtils.TAG_BANK_ID, bank.getId());
+            joPayment.put(JsonUtils.TAG_CARD_CODE, client.getCardCode());
             joPayment.put(JsonUtils.TAG_PAYMENT_TYPE, paymentType);
             joPayment.put(JsonUtils.TAG_PAYED_AMOUNT_ID, payedAmount);
             joPayment.put(JsonUtils.TAG_COMMENT, comment);
             joPayment.put(JsonUtils.TAG_REFERENCE_NUMBER, referenceNumber);
-            joPayment.put(JsonUtils.TAG_PAYMENT_TYPE, sdf.format(payedDate));
+            joPayment.put(JsonUtils.TAG_PAYED_DATE, sdf.format(payedDate));
 
             if(invoices != null) {
                 for (InvoiceItem invoice : invoices) {
@@ -389,7 +309,7 @@ public class PaymentMainFragment extends Fragment {
                     invoiceJSON.put(JsonUtils.TAG_DOCUMENT_CODE, invoice.getDocumentNumber());
                     joInvoices.put(invoiceJSON);
                 }
-                joPayment.put(JsonUtils.TAG_PAYMENT_ITEM_LIST, joInvoices.toString());
+                joPayment.put(JsonUtils.TAG_PAYMENT_ITEM_LIST, joInvoices);
             }
         } catch (JSONException e) {
             String message = "Parse new transfer exception.";
@@ -397,19 +317,24 @@ public class PaymentMainFragment extends Fragment {
             MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, message, MsgUtils.ToastLength.SHORT);
         }
 
-        GsonRequest<JSONObject> req = new GsonRequest<>(Request.Method.GET, EndPoints.ADD_PAYMENT,null, JSONObject.class,
+        //setContentVisible(CONST.VISIBLE.PROGRESS);
+        GsonRequest<JSONObject> req = new GsonRequest<>(Request.Method.POST, EndPoints.ADD_PAYMENT, joPayment.toString(), JSONObject.class,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(@NonNull JSONObject payment) {
                         //progressDialog.cancel();
                         Timber.d("Esto devolvio %s", payment);
-                        MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Success), MsgUtils.ToastLength.SHORT);
+                        MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Success), MsgUtils.ToastLength.LONG);
+
+                        setContentVisible(CONST.VISIBLE.CONTENT);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //if (progressDialog != null) progressDialog.cancel();
                 MsgUtils.logAndShowErrorMessage(getActivity(), error);
+
+                setContentVisible(CONST.VISIBLE.CONTENT);
             }
         }, getFragmentManager(), user.getAccessToken());
         req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
@@ -422,14 +347,10 @@ public class PaymentMainFragment extends Fragment {
 
     }
 
-    private void putPayment(Client client, Cash cash, Transfer transfer, ArrayList<CheckPayment> checks, ArrayList<InvoiceItem> invoices, String comment, String refence) {
-
-    }
-
     public void setFragments(View view){
 
         mSectionsPagerAdapter = new PaymentMainFragment.SectionsPagerAdapter(getFragmentManager());
-        mViewPager = (ViewPager) view.findViewById(R.id.payment_view_pager);
+        mViewPager = view.findViewById(R.id.payment_view_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }
 
@@ -443,7 +364,7 @@ public class PaymentMainFragment extends Fragment {
 
         String url = String.format(EndPoints.PAYMENT_DELETE, id);
 
-        GsonRequest<JSONObject> req = new GsonRequest<>(Request.Method.GET, url, null, JSONObject.class,
+        GsonRequest<JSONObject> req = new GsonRequest<>(Request.Method.DELETE, url, null, JSONObject.class,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(@NonNull JSONObject payment) {
@@ -507,7 +428,7 @@ public class PaymentMainFragment extends Fragment {
                 fragment = PaymentInvoiceFragment.newInstance(client);
 
             if(position == 1)
-                fragment = PaymentTransferFragment.newInstance(client, banks);
+                fragment = PaymentTransferFragment.newInstance(client);
 
             return fragment;
         }

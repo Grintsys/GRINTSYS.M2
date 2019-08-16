@@ -39,12 +39,14 @@ public class JsonUtils {
     public static final String TAG_REFERENCE_NUMBER = "ReferenceNumber";
     public static final String TAG_DOCUMENT_CODE = "DocumentCode";
     public static final String TAG_PAYMENT_ITEM_LIST = "PaymentItemList";
+    public static final String TAG_CLIENT_ID = "ClientId";
 
     public static final String TAG_PRODUCT_VARIANT_ID = "ProductVariantId";
     public static final String TAG_QUANTITY = "Quantity";
 
     // ORDERS
     public static final String TAG_DATE_CREATED = "date_created";
+    public static final String TAG_PAYED_DATE = "PayedDate";
     public static final String TAG_STATUS = "status";
     public static final String TAG_TOTAL = "total";
     public static final String TAG_SHIPPING_TYPE = "shipping_type";

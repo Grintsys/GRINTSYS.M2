@@ -22,13 +22,17 @@ public class BankSpinnerAdapter extends ArrayAdapter<Bank> {
 
     private static final int layoutID = R.layout.spinner_item_bank_dropdown;
     private final LayoutInflater layoutInflater;
-    private List<Bank> bankList = new ArrayList<>();
+    private List<Bank> bankList;
 
     public BankSpinnerAdapter(Activity activity, ArrayList<Bank> banks) {
         super(activity, R.layout.spinner_item_sort);
         this.setDropDownViewResource(layoutID);
         this.bankList = banks;
         this.layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public void addBanks(List<Bank> bankList){
+        this.bankList.addAll(bankList);
     }
 
     public int getCount() {

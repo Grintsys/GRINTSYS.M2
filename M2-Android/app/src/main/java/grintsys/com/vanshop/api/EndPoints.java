@@ -31,11 +31,11 @@ public class EndPoints {
     public static String SHOPS_SINGLE             = "shop/GetShops/%d";
 
     public static String BANNERS                  = "banner/GetBanners";
-    public static String CLIENT                   = API_URL.concat("services/app/client/get?Id=%s");
+    public static String CLIENT                   = API_URL.concat("services/app/client/GetClient?Id=%s");
     public static String CLIENTS                  = API_URL.concat("services/app/client/GetClientBySearchQuery?tenantId=%d");
     public static String CLIENT_TRANSACTIONS      = "document/GetClientTransactions?cardcode=%s&begin=%s&end=%s";
     //public static final String DOCUMENTS                = API_URL.concat("/GetDocuments");
-    public static String INVOICES                 = API_URL.concat("services/app/client/GetClient?Id=%d");
+    public static String INVOICES                 = API_URL.concat("services/app/client/GetClientDocuments?Id=%d");
     //public static final String DOCUMENTS_DETAILS        = API_URL.concat("/Document?card_code=%s&include=%d");
     //public static final String CLIENTS_SINGLE           = API_URL.concat("/GetClient?card_code=%s");
     public static String PRODUCT                  = API_URL.concat("services/app/Product/GetProduct?Id=%d");
@@ -43,10 +43,11 @@ public class EndPoints {
     public static String PRODUCTS_SINGLE_RELATED  = "product/GetProduct/%d?include=related";
 
     public static String CART                     = API_URL.concat("services/app/cart/GetCart?tenantId=%d");
+    public static String CART_CREATE              = API_URL.concat("services/app/cart/CreateCart?tenantId=%d");
     public static String CART_ADD_ITEM            = API_URL.concat("services/app/cart/AddItemToCart");
     //public static final String CART_ITEM                = API_URL.concat("cart/Cart/%d");
     public static String CART_ITEM_UPDATE         = "cart/UpdateToCart?userId=%d&productCartItemId=%d&newQuantity=%d&newProductVariantId=%d";
-    public static String CART_ITEM_DELETE         = API_URL.concat("services/app/cart/DeleteItemToCart?id=%d");
+    public static String CART_ITEM_DELETE         = API_URL.concat("services/app/cart/DeleteI temToCart?id=%d");
     public static String CART_DISCOUNTS           = "cart/Cart/discounts";
     public static String ORDERS_RANGE             = API_URL.concat("services/app/order/GetOrders?tenantId=%d&begin=%s&end=%s");
     public static String ORDERS_CREATE            = API_URL.concat("services/app/order/CreateOrder");

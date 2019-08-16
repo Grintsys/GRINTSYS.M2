@@ -8,14 +8,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class Invoice {
     private int id;
-    @SerializedName("doc_num")
     private String docNum;
-    @SerializedName("card_code")
     private String cardCode;
-    @SerializedName("card_name")
     private String cardName;
     private Double total;
-    @SerializedName("doc_date")
     private String docDate;
 
     public int getId() {

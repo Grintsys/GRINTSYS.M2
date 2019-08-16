@@ -10,6 +10,14 @@
         android:layout_marginBottom="50dp"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/payment_document_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Content_is_empty"
+            android:textColor="@color/black"
+            android:visibility="invisible" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/payment_document_recycler"
             android:layout_width="match_parent"

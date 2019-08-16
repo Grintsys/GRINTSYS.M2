@@ -13,8 +13,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
@@ -23,11 +28,21 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
+import grintsys.com.vanshop.CONST;
+import grintsys.com.vanshop.MyApplication;
 import grintsys.com.vanshop.R;
+import grintsys.com.vanshop.SettingsMy;
+import grintsys.com.vanshop.api.EndPoints;
+import grintsys.com.vanshop.api.GsonRequest;
 import grintsys.com.vanshop.entities.Bank;
+import grintsys.com.vanshop.entities.BankListResult;
+import grintsys.com.vanshop.entities.User.User;
 import grintsys.com.vanshop.entities.client.Client;
+import grintsys.com.vanshop.entities.client.DocumentListResult;
 import grintsys.com.vanshop.entities.payment.Transfer;
+import grintsys.com.vanshop.entities.tenant.Tenant;
 import grintsys.com.vanshop.interfaces.BankDialogInterface;
+import grintsys.com.vanshop.utils.MsgUtils;
 import grintsys.com.vanshop.ux.MainActivity;
 import grintsys.com.vanshop.ux.adapters.BankSpinnerAdapter;
 import timber.log.Timber;
@@ -48,12 +63,13 @@ public class PaymentTransferFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private TextView clientCodeTextView, clientNameTextView;
-    private EditText receiptEdit;
+    private EditText receiptEdit, commentEdit;
     private Spinner bankSpinner;
     private EditText dateEdit;
     private Spinner paymentType;
     private EditText referenceEdit;
     private EditText amountEdit;
+    private ProgressBar progressView;
 
     private Bank selectedBank;
     private BankDialogInterface bankDialogInterface;
@@ -62,45 +78,84 @@ public class PaymentTransferFragment extends Fragment {
     private Transfer transfer;
     private Client client;
 
-    private ArrayList<Bank> banks;
+    //private ArrayList<Bank> banks;
 
     private OnFragmentInteractionListener mListener;
+    private BankSpinnerAdapter bankSpinnerAdapter;
 
     public PaymentTransferFragment() {
         // Required empty public constructor
     }
 
-    public static PaymentTransferFragment newInstance(Client client, ArrayList<Bank> banks) {
+    public static PaymentTransferFragment newInstance(Client client) {
         PaymentTransferFragment fragment = new PaymentTransferFragment();
 
         Bundle args = new Bundle();
         args.putSerializable(ARG_CLIENT, client);
-        args.putSerializable(ARG_BANKS, banks);
         fragment.setArguments(args);
-
         return fragment;
     }
-
-
-    /*
-    public static PaymentTransferFragment newInstance(Transfer transfer, ArrayList<Bank> banks) {
-        PaymentTransferFragment fragment = new PaymentTransferFragment();
-
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_TRANSFER, transfer);
-        args.putSerializable(ARG_BANK_LIST, banks);
-        fragment.setArguments(args);
-
-        return fragment;
-    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             client = (Client) getArguments().getSerializable(ARG_CLIENT);
-            banks = (ArrayList<Bank>) getArguments().getSerializable(ARG_BANKS);
+            loadBanks();
         }
+    }
+
+    private void setContentVisible(CONST.VISIBLE visible) {
+        if (progressView != null) {
+            switch (visible) {
+                case PROGRESS:
+                    progressView.setVisibility(View.VISIBLE);
+                    break;
+                case CONTENT:
+                    progressView.setVisibility(View.GONE);
+                default: // Content
+                    progressView.setVisibility(View.GONE);
+            }
+        } else {
+            Timber.e(new RuntimeException(), "Setting content visibility with null views.");
+        }
+    }
+
+    private void loadBanks(){
+        User user = SettingsMy.getActiveUser();
+        Tenant tenant = SettingsMy.getActualTenant();
+        if(tenant == null || user == null)
+            return;
+
+        //setContentVisible(CONST.VISIBLE.PROGRESS);
+        String url = String.format(EndPoints.BANKS, tenant.getId());
+
+        GsonRequest<BankListResult> req = new GsonRequest<>(Request.Method.GET, url, null, BankListResult.class,
+                new Response.Listener<BankListResult>() {
+                    @Override
+                    public void onResponse(BankListResult response) {
+                        Timber.d("Esto devolvio %s", response);
+                        bankSpinnerAdapter.addBanks(response.result.getBanks());
+                        bankSpinnerAdapter.notifyDataSetChanged();
+
+                        //setContentVisible(CONST.VISIBLE.CONTENT);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //if (progressDialog != null) progressDialog.cancel();
+                MsgUtils.logAndShowErrorMessage(getActivity(), error);
+            }
+        }, getFragmentManager(), user.getAccessToken());
+        req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
+        req.setShouldCache(true);
+        MyApplication.getInstance().addToRequestQueue(req, CONST.DOCUMENT_REQUESTS_TAG);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //setContentVisible(CONST.VISIBLE.CONTENT);
     }
 
     @Override
@@ -111,12 +166,13 @@ public class PaymentTransferFragment extends Fragment {
 
         clientCodeTextView =  view.findViewById(R.id.payment_transfer_client_code);
         clientNameTextView =  view.findViewById(R.id.payment_transfer_client_name);
+        commentEdit = view.findViewById(R.id.payment_transfer_comment);
         receiptEdit = view.findViewById(R.id.payment_transfer_receipt);
-        //bankSpinner = view.findViewById(R.id.payment_transfer_banks);
         dateEdit = view.findViewById(R.id.payment_transfer_date);
         paymentType = view.findViewById(R.id.payment_transfer_paymentTypes);
         referenceEdit = view.findViewById(R.id.payment_transfer_reference);
         amountEdit = view.findViewById(R.id.payment_transfer_amount);
+        progressView = view.findViewById(R.id.payment_progress);
 
         if(client != null){
             clientCodeTextView.setText(client.getCardCode());
@@ -152,12 +208,10 @@ public class PaymentTransferFragment extends Fragment {
         referenceEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -167,8 +221,23 @@ public class PaymentTransferFragment extends Fragment {
             }
         });
 
-        amountEdit.addTextChangedListener(new TextWatcher() {
+        commentEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String txt = commentEdit.getText().toString();
+                ((MainActivity)getActivity()).UpdateComment(txt);
+            }
+        });
+
+        amountEdit.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 String amountString = amountEdit.getText().toString();
                 if(amountString.length() > 0) {
@@ -244,7 +313,7 @@ public class PaymentTransferFragment extends Fragment {
             }
         });
 
-        prepareSpinner(view);
+        prepareBankSpinner(view);
 
         /*
         Bundle args = getArguments();
@@ -300,13 +369,10 @@ public class PaymentTransferFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void prepareSpinner(View view){
-
-        if(banks != null && banks.size() > 0  && selectedBank != null)
-            ((MainActivity)getActivity()).UpdateBank(this.banks.get(0));
+    public void prepareBankSpinner(View view){
 
         bankSpinner = view.findViewById(R.id.payment_transfer_banks);
-        final BankSpinnerAdapter bankSpinnerAdapter = new BankSpinnerAdapter(getActivity(), this.banks);
+        bankSpinnerAdapter = new BankSpinnerAdapter(getActivity(), new ArrayList<Bank>());
         bankSpinner.setAdapter(bankSpinnerAdapter);
         bankSpinner.setOnItemSelectedListener(null);
         bankSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

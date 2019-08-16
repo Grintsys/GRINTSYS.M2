@@ -7,12 +7,12 @@ public class User {
     private String accessToken;
     private String encryptedAccessToken;
     private long expireInSeconds;
-    private String name;
+    private String fullName;
     private String street;
     private String city;
     private String houseNumber;
     private String zip;
-    private String email;
+    private String emailAddress;
     private String phone;
     private String gender;
     private String country;
@@ -80,11 +80,11 @@ public class User {
     }
 
     public String getName() {
-        return name;
+        return fullName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.fullName = name;
     }
 
     public String getStreet() {
@@ -120,11 +120,11 @@ public class User {
     }
 
     public String getEmail() {
-        return email;
+        return emailAddress;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.emailAddress = email;
     }
 
     public String getPhone() {
@@ -153,13 +153,11 @@ public class User {
         if (userId != user.userId) return false;
         if (accessToken != null ? !accessToken.equals(user.accessToken) : user.accessToken != null)
             return false;
-        if (name != null ? !name.equals(user.name) : user.name != null) return false;
         if (street != null ? !street.equals(user.street) : user.street != null) return false;
         if (city != null ? !city.equals(user.city) : user.city != null) return false;
         if (houseNumber != null ? !houseNumber.equals(user.houseNumber) : user.houseNumber != null)
             return false;
         if (zip != null ? !zip.equals(user.zip) : user.zip != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
         if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
         if (gender != null ? !gender.equals(user.gender) : user.gender != null) return false;
         return !(country != null ? !country.equals(user.country) : user.country != null);
@@ -170,12 +168,10 @@ public class User {
     public int hashCode() {
         int result = (int) (userId ^ (userId >>> 32));
         result = 31 * result + (accessToken != null ? accessToken.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (street != null ? street.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (houseNumber != null ? houseNumber.hashCode() : 0);
         result = 31 * result + (zip != null ? zip.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
         result = 31 * result + (country != null ? country.hashCode() : 0);
@@ -187,12 +183,10 @@ public class User {
         return "User{" +
                 "id=" + userId +
                 ", accessToken='" + accessToken + '\'' +
-                ", name='" + name + '\'' +
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
                 ", houseNumber='" + houseNumber + '\'' +
                 ", zip='" + zip + '\'' +
-                ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", gender='" + gender + '\'' +
                 ", country='" + country + '\'' +

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.location.SettingInjectorService;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -143,12 +144,7 @@ public class ProductMatrixFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    new FragmentPostToCartAsyncTask().execute();
-                } catch (Exception e ){
-                    Timber.e("Error on AddtoCard: %s", e.getMessage());
-                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, e.getMessage(), MsgUtils.ToastLength.SHORT);
-                }
+                createCart();
             }
         });
 
@@ -156,6 +152,58 @@ public class ProductMatrixFragment extends Fragment {
 
         return view;
     }
+
+    private void createCart(){
+
+        User user = SettingsMy.getActiveUser();
+        Tenant tenant = SettingsMy.getActualTenant();
+
+        if(user == null && tenant == null)
+            return;
+
+        JSONObject jo = new JSONObject();
+        try {
+            jo.put(JsonUtils.TAG_TENANT_ID, tenant.getId());
+        } catch (JSONException e) {
+            String message = "Parse add to cart";
+            Timber.e(e, message);
+            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, message, MsgUtils.ToastLength.SHORT);
+            return;
+        }
+
+        GsonRequest<Result> createToCart = new GsonRequest<>(Request.Method.POST, EndPoints.CART_CREATE, jo.toString(), Result.class,
+                new Response.Listener<Result>() {
+                    @Override
+                    public void onResponse(@NonNull Result response) {
+
+                        if (BuildConfig.DEBUG) Timber.d("Cart created Success: %s", response.success);
+                        //Analytics.logAddProductToCart(product.getRemoteId(), product.getCode(), 0.0);
+
+                        //here we go!!!
+                        try {
+                            new FragmentPostToCartAsyncTask().execute();
+                        } catch (Exception e ){
+                            Timber.e("Error on AddtoCard: %s", e.getMessage());
+                            MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_INTERNAL_ERROR, e.getMessage(), MsgUtils.ToastLength.SHORT);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                MsgUtils.logAndShowErrorMessage(getActivity(), error);
+            }
+        }, null, user.getAccessToken());
+
+        createToCart.setRetryPolicy(MyApplication.getDefaultRetryPolice());
+        createToCart.setShouldCache(false);
+        MyApplication.getInstance().addToRequestQueue(createToCart, CONST.CART_REQUESTS_TAG);
+
+
+    }
+
+
+
 
     private void addProductToCart(ProductVariant variant, long tenantId, String token, String cardcode) {
 
@@ -475,7 +523,7 @@ public class ProductMatrixFragment extends Fragment {
                                     ((MainActivity) getActivity()).onCartSelected(0);
                             }
                         });
-                TextView textView = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+                TextView textView = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
                 textView.setTextColor(Color.WHITE);
                 snackbar.show();
 

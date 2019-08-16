@@ -246,10 +246,12 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         this.transfer.setBank(bank);
     }
 
-    public void setComment(String comment){
+
+        */
+    public void UpdateComment(String comment){
         this.comment = comment;
     }
-        */
+
 
     public void setPaymentType(String paymentType){
         this.paymentType = paymentType;
@@ -859,13 +861,6 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         replaceFragment(fragment, InvoiceHistoryFragment.class.getSimpleName());
     }
 
-    public void onPaymentSelected(String cardcode){
-        clearBackStack();
-        Timber.d("Called onPaymentSelected");
-        Fragment fragment = PaymentMainFragment.newInstance(cardcode);
-        replaceFragment(fragment, PaymentMainFragment.class.getSimpleName());
-    }
-
     public void onPaymentClientSelected(Client client){
         clearBackStack();
         Timber.d("Called onPaymentSelected");
@@ -1061,7 +1056,6 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     public void onDocumentSelected(int clientId) {
 
         Timber.d("OnClientOptionSelected card_code: %d", clientId);
-
         clearBackStack();
         Fragment fragment = DocumentsFragment.newInstance(clientId);
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -1204,6 +1198,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         replaceFragment(fragment, ClientTransactionsFragment.class.getSimpleName());
     }
 
+    /*
     public void onPaymentSelected(Payment payment) {
         if (payment != null) {
             ClearPaymentData();
@@ -1212,7 +1207,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         } else {
             Timber.e("Creating payment detail with null data.");
         }
-    }
+    }*/
 
     @Override
     public void onBackPressed() {

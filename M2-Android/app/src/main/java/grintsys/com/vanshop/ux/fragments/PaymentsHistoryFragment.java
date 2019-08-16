@@ -35,6 +35,7 @@ import grintsys.com.vanshop.entities.User.User;
 import grintsys.com.vanshop.entities.payment.Payment;
 import grintsys.com.vanshop.entities.payment.PaymentListResult;
 import grintsys.com.vanshop.entities.payment.PaymentResponse;
+import grintsys.com.vanshop.entities.tenant.Tenant;
 import grintsys.com.vanshop.interfaces.PaymentsRecyclerInterface;
 import grintsys.com.vanshop.listeners.OnSingleClickListener;
 import grintsys.com.vanshop.utils.EndlessRecyclerScrollListener;
@@ -85,11 +86,11 @@ public class PaymentsHistoryFragment extends Fragment {
 
         empty = view.findViewById(R.id.payment_history_empty);
         content = view.findViewById(R.id.payment_history_content);
-        beginEdit = (EditText) view.findViewById(R.id.payment_history_begin);
-        endEdit = (EditText) view.findViewById(R.id.payment_history_end);
-        searchButton = (Button) view.findViewById(R.id.payment_history_ok_button);
+        beginEdit = view.findViewById(R.id.payment_history_begin);
+        endEdit = view.findViewById(R.id.payment_history_end);
+        searchButton = view.findViewById(R.id.payment_history_ok_button);
 
-        String myFormat = "yyyy/MM/dd";
+        String myFormat = "yyyy-MM-dd";
         final SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         endCalendar = Calendar.getInstance();
@@ -163,12 +164,12 @@ public class PaymentsHistoryFragment extends Fragment {
      * @param view root fragment view.
      */
     private void preparePaymentsHistoryRecycler(View view) {
-        paymentsRecycler = (RecyclerView) view.findViewById(R.id.payments_history_recycler);
+        paymentsRecycler = view.findViewById(R.id.payments_history_recycler);
         paymentsHistoryRecyclerAdapter = new PaymentsHistoryRecyclerAdapter(new PaymentsRecyclerInterface() {
             @Override
             public void onPaymentSelected(View v, Payment payment) {
                 Activity activity = getActivity();
-                if (activity instanceof MainActivity) ((MainActivity) activity).onPaymentSelected(payment);
+                //if (activity instanceof MainActivity) ((MainActivity) activity).onPaymentSelected(payment);
             }
         });
         paymentsRecycler.setAdapter(paymentsHistoryRecyclerAdapter);
@@ -198,10 +199,11 @@ public class PaymentsHistoryFragment extends Fragment {
      */
     private void loadPayments(String url) {
         User user = SettingsMy.getActiveUser();
-        if (user != null) {
+        Tenant tenant = SettingsMy.getActualTenant();
+        if (user != null && tenant != null) {
             progressDialog.show();
             if (url == null) {
-                url = String.format(EndPoints.PAYMENTS, user.getId(),beginEdit.getText().toString(),endEdit.getText().toString());
+                url = String.format(EndPoints.PAYMENTS, tenant.getId(),beginEdit.getText().toString(),endEdit.getText().toString());
             }
             paymentsHistoryRecyclerAdapter.clear();
             GsonRequest<PaymentListResult> req = new GsonRequest<>(Request.Method.GET, url, null, PaymentListResult.class,

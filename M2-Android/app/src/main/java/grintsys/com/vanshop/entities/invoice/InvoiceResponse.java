@@ -10,13 +10,13 @@ import java.util.List;
 
 public class InvoiceResponse {
 
-    private List<Invoice> invoices;
+    private List<Invoice> items;
 
     public List<Invoice> getInvoices() {
-        return invoices;
+        return items;
     }
 
     public void setInvoices(List<Invoice> invoices) {
-        this.invoices = invoices;
+        this.items = invoices;
     }
 }

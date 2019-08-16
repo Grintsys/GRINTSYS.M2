@@ -95,7 +95,10 @@
                 android:id="@+id/payment_transfer_banks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:spinnerMode="dialog"/>
+                android:spinnerMode="dialog"
+                android:padding="4dp"
+                android:minHeight="5dp"
+                android:minWidth="10dp"/>
 
             <TextView
                 android:layout_marginTop="10dp"
