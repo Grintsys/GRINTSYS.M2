@@ -91,9 +91,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             viewHolderProduct.cartProductName.setText(cartProductItem.getVariant().getCode());
             viewHolderProduct.cartProductPrice.setText(cartProductItem.getTotalItemPriceFormatted());
-            viewHolderProduct.cartProductDetails.setText(context.getString(
-                    R.string.format_semicolon_prefix, context.getString(R.string.Warehouse),
-                    cartProductItem.getVariant().getWarehouseCode()));
+            viewHolderProduct.cartProductDetails.setText(cartProductItem.getVariant().getWarehouseCode());
             viewHolderProduct.cartProductQuantity.setText(context.getString(R.string.format_quantity,
                     cartProductItem.getQuantity()));
             viewHolderProduct.cartProductDiscount.setText(String.valueOf(cartProductItem.getVariant().getDiscountPrice()));

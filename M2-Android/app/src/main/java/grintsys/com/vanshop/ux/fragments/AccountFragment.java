@@ -116,7 +116,8 @@ public class AccountFragment extends Fragment {
             // Sync user data if fragment created (not reuse from backstack)
             if (savedInstanceState == null && !mAlreadyLoaded) {
                 mAlreadyLoaded = true;
-                //syncUserData(user);
+                //refreshScreen(user);
+                syncUserData(user);
                 //this is not needed because when in logg in i get all the information at the same time
             } else {
                 refreshScreen(user);
@@ -136,7 +137,7 @@ public class AccountFragment extends Fragment {
         return view;
     }
 
-    private void syncUserData(@NonNull User user) {
+    private void syncUserData(@NonNull final User user) {
         String url = String.format(EndPoints.USER_SINGLE, user.getId());
         pDialog.show();
 
@@ -145,6 +146,7 @@ public class AccountFragment extends Fragment {
                     @Override
                     public void onResponse(@NonNull UserResult response) {
                         Timber.d("response: %s", response.toString());
+                        response.result.setAccessToken(user.getAccessToken());
                         SettingsMy.setActiveUser(response.result);
                         refreshScreen(response.result);
                         if (pDialog != null) pDialog.cancel();

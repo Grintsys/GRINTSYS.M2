@@ -47,10 +47,11 @@ public class PaymentsHistoryRecyclerAdapter extends RecyclerView.Adapter<Payment
         Payment payment = getPaymentItem(position);
         holder.bindContent(payment);
 
-        holder.paymentStatusTv.setText(String.valueOf(payment.getStatusText()));
-        holder.paymentClientNameTv.setText(Utils.truncate(payment.getClient().getName(), 40));
-        holder.paymentTotalPayedTv.setText(String.valueOf(payment.getTransfer().getAmount()));
-        holder.paymentDateTv.setText(String.valueOf(payment.getCreatedDate()));
+        holder.paymentStatusTv.setText(payment.getStatus());
+        String cardCode = payment.cardCode == null ? "" : payment.cardCode;
+        holder.paymentClientNameTv.setText(Utils.truncate(cardCode, 40));
+        holder.paymentTotalPayedTv.setText(String.valueOf(payment.getTotalPaid()));
+        holder.paymentDateTv.setText(Utils.truncate(payment.getCreatedDate(), 40));
     }
 
     private Payment getPaymentItem(int position) {

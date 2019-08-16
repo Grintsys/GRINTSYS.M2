@@ -1,34 +1,29 @@
 package grintsys.com.vanshop.entities.order;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
-
-import grintsys.com.vanshop.entities.Metadata;
 
 public class OrderResponse {
 
-    private Metadata metadata;
-
-    private List<Order> orders;
+    public int totalCount;
+    private List<Order> items;
 
     public OrderResponse() {
     }
 
-    public Metadata getMetadata() {
+    /*public Metadata getMetadata() {
         return metadata;
     }
 
     public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
-    }
+    }*/
 
     public List<Order> getOrders() {
-        return orders;
+        return items;
     }
 
     public void setOrders(List<Order> orders) {
-        this.orders = orders;
+        this.items = orders;
     }
 
     @Override
@@ -38,23 +33,19 @@ public class OrderResponse {
 
         OrderResponse that = (OrderResponse) o;
 
-        if (metadata != null ? !metadata.equals(that.metadata) : that.metadata != null) return false;
-        return !(orders != null ? !orders.equals(that.orders) : that.orders != null);
-
+        return !(items != null ? !items.equals(that.items) : that.items != null);
     }
 
     @Override
     public int hashCode() {
-        int result = metadata != null ? metadata.hashCode() : 0;
-        result = 31 * result + (orders != null ? orders.hashCode() : 0);
+        int result = 31 + (items != null ? items.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "OrderResponse{" +
-                "metadata=" + metadata +
-                ", orders=" + orders +
+                ", orders=" + items +
                 '}';
     }
 }

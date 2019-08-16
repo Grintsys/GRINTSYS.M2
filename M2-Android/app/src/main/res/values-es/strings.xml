@@ -40,20 +40,26 @@
     <string name="Products_not_found">Productos no encontrodos.</string>
     <string name="Product_not_found">Producto no encontrado</string>
     <string name="ADD_TO_CART">AGREGAR AL CARRITO</string>
+    <string name="SEND_TO_A_FRIEND">ENVIAR A UN AMIGO</string>
     <string name="RECOMMENDED">RECOMENDACIONES</string>
     <string name="Select_size">Seleccionar Talla</string>
     <string name="Product">Producto</string>
     <string name="All">Todo</string>
 
     <!-- Products sort options -->
+    <string name="Recommended">Recomendado</string>
     <string name="Whats_new">Lo Nuevo</string>
+    <string name="Highest_price">Mas caro</string>
+    <string name="Lowest_price">Mas barato</string>
 
 
     <!-- User related strings -->
     <string name="Unknown_user">Usuario Desconocido</string>
     <string name="Profile">Perfil</string>
     <string name="Name_colon">Nombre:</string>
+    <string name="Address_colon">Direccion:</string>
     <string name="Email_colon">Correo:</string>
+    <string name="Phone_colon">Telefono:</string>
 
     <string name="Account">Cuenta</string>
     <string name="Email">Correo</string>
@@ -72,6 +78,7 @@
     <string name="Save">Guardar</string>
 
     <string name="My_orders">Mis Ordenes</string>
+    <string name="Branches">Derivados</string>
     <string name="Settings">Configuraciones</string>
 
 
@@ -81,6 +88,7 @@
     <string name="Log_in_to_shop_via">Iniciar vía</string>
     <string name="Log_in_to_shop_via_email">Iniciar vía correo</string>
     <string name="Dont_have_an_account">No tienes cuenta?</string>
+    <string name="Skip">Saltar</string>
     <string name="Forgot_your_password">Olvidaste Contrasena?</string>
     <string name="Email_for_recovery">Correo alterno</string>
     <string name="Reset">Resetear</string>
@@ -88,6 +96,7 @@
     <string name="Print">Imprimir</string>
     <string name="Log_me_in">Log me in</string>
     <string name="E_MAIL">E-MAIL</string>
+    <string name="FACEBOOK">FACEBOOK</string>
     <string name="Register">Registrar</string>
     <string name="Male">Hombre</string>
     <string name="Female">Mujer</string>
@@ -111,31 +120,47 @@
     <string name="Update_item">Actualizar:</string>
     <string name="The_item_has_been_successfully_removed">El articulo fue eliminado correctamente</string>
     <string name="Discount_code">Codigo de descuento</string>
+    <string name="Do_you_have_a_discount_code">Tienes codigo de descuento?</string>
     <string name="Enter_the_discount_code">Digita codigo de descuento</string>
     <string name="Internal_error_reload_cart_please">Error internto, por favor recarga carrito</string>
     <string name="Customer">Cliente</string>
     <string name="Success">Finalizado</string>
+    <string name="Quota">Cuota</string>
 
     <!-- Order related strings-->
     <string name="Begin">Inicio</string>
     <string name="Status">Estado</string>
     <string name="Back">Atras</string>
     <string name="End">Final</string>
+    <string name="DeliveryDate">Fecha de envio</string>
+    <string name="Chart">Graficas</string>
+    <string name="Order">Orden</string>
+    <string name="Order_colon">Orden:</string>
     <string name="Date_created">Creación</string>
+    <string name="Date_created_colon">Fecha de creación:</string>
     <string name="Total_price">Precio Total</string>
     <string name="Order_summary">Resumen</string>
     <string name="Order_history">Historico</string>
     <string name="Your_orders_history_is_empty">Tu historico de ordenes esta vacio</string>
+    <string name="Order_details">Detalle de ordenes</string>
     <string name="Shipping">Envío</string>
     <string name="Payment">Pago</string>
     <string name="PaymentProcess">Pago esta comenzando a procesarse</string>
+    <string name="Shipping_method">Metodo de Envío</string>
+    <string name="Choose_shipping_method">Escoge metodo de envio</string>
+    <string name="Choose_payment_method">Escoge metodo de pago</string>
+    <string name="Shipping_details">Detalle de envio</string>
+    <string name="Note">Nota</string>
     <string name="Click_on_Order_to_allow_our_Terms_and_Conditions">Has clic en la orden para permitir nuestros <![CDATA[<b><font color=#ee1f65>terminos y condiciones</b>]]></string>
     <string name="Finish_order">Finalizar orden</string>
     <string name="Shipping_is_empty">Envío esta vacio</string>
     <string name="Personal_pickup">Recoger </string>
+    <string name="Shipping_type_colon">Tipo de envio:</string>
+    <string name="Shipping_price_colon">Precio de envio:</string>
     <string name="free">Gratis</string>
     <string name="Summary">Resumen</string>
     <string name="Total_colon">Total:</string>
+    <string name="Comment_colon">Comentario:</string>
     <string name="Comment">Comentario</string>
     <string name="AddCheck">Agregar cheque</string>
 
@@ -164,8 +189,10 @@
     <!-- Format strings -->
     <string name="format_space_prefix"> %1$s</string>
     <string name="format_comma_prefix">, %1$s</string>
+    <string name="format_string_division">%1$s / %2$s</string>
     <string name="format_quantity">%1$d u</string>
     <string name="format_quantity_lines">%1$d Lineas</string>
+    <string name="format_string_quantity">%1$s %2$dx</string>
     <string name="format_plus">+ %1$s</string>
     <string name="format_number">%1$d</string>
     <string name="format_price_range">%1$d %2$s - %3$d %4$s</string>
@@ -189,12 +216,14 @@
     <string name="Price">Precio</string>
     <string name="Seller">Vendedor</string>
     <string name="Choose_seller">Escoger Vendedor</string>
+    <string name="AccountStatus">Estado de Cuenta</string>
     <string name="AccountPayment">Efectuar Pago</string>
     <string name="Warehouse">Bodega</string>
     <string name="Discount">Descuento:</string>
     <string name="Printer">Impresora</string>
     <string name="Payments">Mis Cobros</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hola!</string>
 
     <!-- Invoice Related Data -->
     <string name="CompanyName">VAN HEUSEN DE C.A.</string>
@@ -214,17 +243,30 @@
     <string name="TotalAfterDiscount">Total despues del descuento</string>
     <string name="IVA">ISV</string>
     <string name="NameAndSignature">Nombre y Firma</string>
+    <string name="Cash">Efectivo</string>
+    <string name="Check">Cheque</string>
     <string name="Transfer">Transferencia</string>
 
     <string name="Document">Numero de Factura</string>
+    <string name="DocumentCode">Codigo de Documento</string>
     <string name="CreatedDate">Creacion</string>
+    <string name="DueDate">F. Vencimiento</string>
+    <string name="TotalAmount">Total</string>
+    <string name="PayedAmount">Pago</string>
+    <string name="Selected">Seleccionado: </string>
 
     <!-- Payment Related Strings -->
     <string name="Stats">Estadisticas</string>
+    <string name="created_date">Fecha Creacion</string>
     <string name="due_date">Vencimiento</string>
     <string name="total_amount">Total</string>
+    <string name="payed_amount">A Pagar</string>
     <string name="Balance">Balance</string>
     <string name="BalanceDue">V. adeudado</string>
+    <string name="InOrder">En Ordenes</string>
+    <string name="CreditLimit">Limite de Credito</string>
+    <string name="PayCondition">Condicion de Pago</string>
+    <string name="BeginOrder">Comenzar Orden</string>
     <string name="SubTotal">Subtotal</string>
     <string name="ISV">ISV</string>
     <string name="DueDays">D. atrazados</string>
@@ -232,19 +274,25 @@
     <string name="Bank">Banco</string>
     <string name="CheckNumber">Numero de cheque</string>
     <string name="PaymentHistory">Historial de pagos</string>
+    <string name="MyPayments">Mis Pagos</string>
     <string name="Client">Cliente</string>
     <string name="Clients">Clientes</string>
     <string name="Reference">Referencia</string>
     <string name="Your_payment_history_is_empty">Tu historico de cobros esta vacio</string>
+    <string name="Sku">SKU</string>
+    <string name="Type">Tipo</string>
     <string name="Description">Descripcion</string>
     <string name="ClientTransactions">Transacciones</string>
     <string name="ShippingDate">Fecha de Envio</string>
     <string name="QuotaMonth">Cuota Mensual</string>
     <string name="QuotaMonthAccum">Cuota semanal acumulada</string>
     <string name="Week">Semana</string>
+    <string name="Fields">Campos</string>
     <string name="Reports">Reportes</string>
+    <string name="Target">Meta</string>
     <string name="DailyQuota">Cuota Diaria</string>
     <string name="Inventory">Inventario</string>
+    <string name="Refund">Devolucion</string>
     <string name="SendToSap">Enviar a SAP</string>
     <string name="Receipt">No. Recibo</string>
 
@@ -262,5 +310,4 @@
         <item>No estaba el responsable (fuera de ciudad)</item>
         <item>Fecha Re-programada</item>
     </string-array>
-
 </resources>

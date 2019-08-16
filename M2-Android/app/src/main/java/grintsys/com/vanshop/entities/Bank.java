@@ -6,15 +6,14 @@ import com.google.gson.annotations.SerializedName;
 public class Bank implements Serializable {
     private int id;
     private String name;
-
-    @SerializedName("general_account")
-    private String GeneralAccount;
+    private String generalAccount;
+    private String formatCode;
 
     public Bank(int id, String name, String GeneralAccount)
     {
         this.id = id;
         this.name = name;
-        this.GeneralAccount = GeneralAccount;
+        this.generalAccount = GeneralAccount;
     }
 
     public int getId() {
@@ -34,10 +33,10 @@ public class Bank implements Serializable {
     }
 
     public String getGeneralAccount() {
-        return GeneralAccount;
+        return generalAccount;
     }
 
     public void setGeneralAccount(String generalAccount) {
-        GeneralAccount = generalAccount;
+        generalAccount = generalAccount;
     }
 }

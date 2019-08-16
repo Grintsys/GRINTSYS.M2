@@ -55,6 +55,7 @@ import com.google.zxing.integration.android.IntentResult;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import grintsys.com.vanshop.BuildConfig;
@@ -157,14 +158,45 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     private ArrayList<CheckPayment> checks = new ArrayList<>();
     private ArrayList<Document> invoices = new ArrayList<>();
     private ArrayList<InvoiceItem> invoiceItems = new ArrayList<>();
-    private Transfer transfer = new Transfer();
+    //private Transfer transfer = new Transfer();
     private Cash cash = new Cash();
     private List<ProductVariant> elements = new ArrayList<>();
-    private String comment = "";
-    //DEM 08/15/2017
-    private String paymentType = "";
-    private String paymentReason = "";
+
+    private String receiptNumber = "";
+    private Bank bank;
+    private Date date;
     private String referenceNumber = "";
+    private double amount = 0.0;
+    private String comment = "";
+    private String paymentType = "";
+
+    public void UpdateBank(Bank bank){
+        this.bank = bank;
+    }
+
+    public void UpdateDate(Date date){
+        this.date = date;
+    }
+
+    public Date getDate(){
+        return this.date;
+    }
+
+    public void UpdateReceipt(String receiptNumber){
+        this.receiptNumber = receiptNumber;
+    }
+
+    public void UpdateAmount(double amount){
+        this.amount = amount;
+    }
+
+    public String GetReceiptNumner(){
+        return this.receiptNumber;
+    }
+
+    public Double GetAmount(){
+        return this.amount;
+    }
 
     public void UpdateCash(Cash cash){
         this.cash = cash;
@@ -183,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         this.checks = checks;
     }
 
+    /*
     public void UpdateTransfer(Transfer transfer){
         this.transfer = transfer;
     }
@@ -196,43 +229,39 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         this.transfer.setDueDate(date);
     }
 
+
     public void UpdateTransferReferenceNumber(String number)
     {
         this.transfer.setNumber(number);
     }
+
+    public void UpdateReceiptNumber(String number)
+    {
+        this.transfer.set(number);
+    }
+
 
     public void UpdateTransferBank(Bank bank)
     {
         this.transfer.setBank(bank);
     }
 
-    public void setComment(String comment){
+
+        */
+    public void UpdateComment(String comment){
         this.comment = comment;
     }
+
 
     public void setPaymentType(String paymentType){
         this.paymentType = paymentType;
     }
 
-    public void setPaymentReason(String paymentReason) { this.paymentReason = paymentReason;}
-
     public void setReferenceNumber(String reference){
         this.referenceNumber = reference;
     }
 
-    public void addCheck(CheckPayment check) {
-        if(!this.checks.contains(check)){
-            this.checks.add(check);
-        }
-    }
-
-    public void restCheck(CheckPayment check) {
-        if(this.checks.contains(check)) {
-            this.checks.remove(check);
-        }
-    }
-
-    public Transfer getTransfer() { return transfer; }
+    public Bank getBank() { return bank; }
     public Cash getCash() {return cash; }
     public ArrayList<CheckPayment> getChecks(){ return this.checks; }
     public ArrayList<InvoiceItem> getInvoiceItems(){ return this.invoiceItems; }
@@ -247,9 +276,6 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         return this.paymentType;
     }
 
-    public String getPaymentReason(){
-        return this.paymentReason;
-    }
     //DEM. Added August 23.
     public String SKU;
     public String getScanSKU(){
@@ -304,12 +330,13 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     public void ClearPaymentData(){
 
         //clearBackStack();
+        this.receiptNumber = "";
+        this.date = new Date();
         this.comment = "";
         this.referenceNumber = "";
         this.checks.clear();
         this.invoices.clear();
         this.invoiceItems.clear();
-        this.transfer = new Transfer();
         this.cash = new Cash();
     }
 
@@ -834,13 +861,6 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         replaceFragment(fragment, InvoiceHistoryFragment.class.getSimpleName());
     }
 
-    public void onPaymentSelected(String cardcode){
-        clearBackStack();
-        Timber.d("Called onPaymentSelected");
-        Fragment fragment = PaymentMainFragment.newInstance(cardcode);
-        replaceFragment(fragment, PaymentMainFragment.class.getSimpleName());
-    }
-
     public void onPaymentClientSelected(Client client){
         clearBackStack();
         Timber.d("Called onPaymentSelected");
@@ -1036,7 +1056,6 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     public void onDocumentSelected(int clientId) {
 
         Timber.d("OnClientOptionSelected card_code: %d", clientId);
-
         clearBackStack();
         Fragment fragment = DocumentsFragment.newInstance(clientId);
         if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -1179,6 +1198,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         replaceFragment(fragment, ClientTransactionsFragment.class.getSimpleName());
     }
 
+    /*
     public void onPaymentSelected(Payment payment) {
         if (payment != null) {
             ClearPaymentData();
@@ -1187,7 +1207,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         } else {
             Timber.e("Creating payment detail with null data.");
         }
-    }
+    }*/
 
     @Override
     public void onBackPressed() {

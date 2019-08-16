@@ -14,28 +14,22 @@ import grintsys.com.vanshop.entities.client.Client;
 
 public class Payment implements Serializable {
 
-    @SerializedName("id")
     private int id;
     private String vendor;
-    @SerializedName("doc_entry")
     private String docEntry;
-    @SerializedName("total")
-    private Double totalPaid;
-    @SerializedName("last_error")
+    private Double payedAmount;
     private String lastError;
+    public String cardCode;
     private String comment;
     private Date date;
-    @SerializedName("created_date")
-    private String createdDate;
+    private String creationTime;
     private Client client;
     private Cash cash;
     private Transfer transfer;
     private ArrayList<CheckPayment> checks;
     private ArrayList<InvoiceItem> invoices;
-    private int status;
-    @SerializedName("status_text")
+    private String status;
     private String statusText;
-    @SerializedName("reference_number")
     private String referenceNumber;
 
     public Payment() {}
@@ -45,7 +39,7 @@ public class Payment implements Serializable {
         this.id = id;
         this.vendor = vendor;
         this.docEntry = docEntry;
-        this.totalPaid = totalPaid;
+        this.payedAmount = totalPaid;
         this.lastError = lastError;
         this.date = date;
         this.client = client;
@@ -63,11 +57,11 @@ public class Payment implements Serializable {
     }
 
     public String getCreatedDate() {
-        return createdDate;
+        return creationTime;
     }
 
     public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
+        this.creationTime = createdDate;
     }
 
     public String getStatusText() {
@@ -94,11 +88,11 @@ public class Payment implements Serializable {
         this.invoices = invoices;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -127,11 +121,11 @@ public class Payment implements Serializable {
     }
 
     public Double getTotalPaid() {
-        return totalPaid;
+        return payedAmount;
     }
 
     public void setTotalPaid(Double totalPaid) {
-        this.totalPaid = totalPaid;
+        this.payedAmount = totalPaid;
     }
 
     public String getLastError() {

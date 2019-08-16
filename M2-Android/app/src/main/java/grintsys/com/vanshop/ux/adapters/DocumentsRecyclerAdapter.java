@@ -18,6 +18,7 @@ import grintsys.com.vanshop.R;
 import grintsys.com.vanshop.entities.client.Document;
 import grintsys.com.vanshop.interfaces.DocumentRecyclerInterface;
 import grintsys.com.vanshop.ux.MainActivity;
+import timber.log.Timber;
 
 /**
  * Created by alienware on 2/1/2017.
@@ -47,8 +48,13 @@ public class DocumentsRecyclerAdapter extends RecyclerView.Adapter<DocumentsRecy
     }
 
     public void addDocuments(List<Document> documents){
-        this.documents = documents;
-        notifyDataSetChanged();
+
+        if (documents != null && !documents.isEmpty()) {
+            this.documents.addAll(documents);
+            notifyDataSetChanged();
+        } else {
+            Timber.e("Adding empty documents list.");
+        }
     }
 
     public void clear() {

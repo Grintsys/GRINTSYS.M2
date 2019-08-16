@@ -23,19 +23,15 @@ public class Order {
 
     private String totalFormatted;
 
-    @SerializedName("items")
     private List<OrderItem> products;
     private Client client;
     private String seller;
     private String comment;
-    @SerializedName("delivery_date")
     private String deliveryDate;
 
-    @SerializedName("sales_perso n_code")
     private int salesPersonCode;
     private int series;
 
-    @SerializedName("card_code")
     private String cardCode;
 
     public Order() {

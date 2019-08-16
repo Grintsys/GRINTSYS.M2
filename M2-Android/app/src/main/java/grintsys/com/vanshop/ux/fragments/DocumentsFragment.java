@@ -102,7 +102,7 @@ public class DocumentsFragment extends Fragment {
         Timber.d("%s - onCreateView", this.getClass().getSimpleName());
         View view = inflater.inflate(R.layout.fragment_documents, container, false);
 
-        //this.loadMoreProgress = (ProgressBar) view.findViewById(R.id.documents_load_more_progress);
+        this.loadMoreProgress = (ProgressBar) view.findViewById(R.id.documents_load_more_progress);
 
         Bundle startBundle = getArguments();
         if (startBundle != null) {
@@ -132,14 +132,14 @@ public class DocumentsFragment extends Fragment {
             Timber.e(new RuntimeException(), "Run category fragment without arguments.");
         }
 
-        //clientCode = (TextView) view.findViewById(R.id.document_client_code);
-        //clientName = (TextView) view.findViewById(R.id.document_client_name);
-        //clientAddress = (TextView) view.findViewById(R.id.document_address);
-        //clientCreditLimit =  (TextView) view.findViewById(R.id.document_document_credit_limit);
-        //clientBalance = (TextView) view.findViewById(R.id.document_balance);
-        //clientInOrders = (TextView) view.findViewById(R.id.document_orders);
-        //clientPayCondition = (TextView) view.findViewById(R.id.document_document_pay_condition);
-        //documentTransactions = (Button) view.findViewById(R.id.document_transactions);
+        clientCode = (TextView) view.findViewById(R.id.document_client_code);
+        clientName = (TextView) view.findViewById(R.id.document_client_name);
+        clientAddress = (TextView) view.findViewById(R.id.document_address);
+        clientCreditLimit =  (TextView) view.findViewById(R.id.document_document_credit_limit);
+        clientBalance = (TextView) view.findViewById(R.id.document_balance);
+        clientInOrders = (TextView) view.findViewById(R.id.document_orders);
+        clientPayCondition = (TextView) view.findViewById(R.id.document_document_pay_condition);
+        documentTransactions = (Button) view.findViewById(R.id.document_transactions);
 
         documentTransactions.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -148,7 +148,7 @@ public class DocumentsFragment extends Fragment {
             }
         });
 
-        //documentBegin = (Button) view.findViewById(R.id.document_begin);
+        documentBegin = view.findViewById(R.id.document_begin);
         documentBegin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -173,7 +173,7 @@ public class DocumentsFragment extends Fragment {
     }
 
     private void prepareClientRecycler(View view) {
-        //this.documentsRecycler = (RecyclerView) view.findViewById(R.id.documents_recycler);
+        this.documentsRecycler = view.findViewById(R.id.documents_recycler);
         documentsRecycler.addItemDecoration(new RecyclerMarginDecorator(getActivity(), RecyclerMarginDecorator.ORIENTATION.BOTH));
         documentsRecycler.setItemAnimator(new DefaultItemAnimator());
         documentsRecycler.setHasFixedSize(true);
@@ -259,7 +259,6 @@ public class DocumentsFragment extends Fragment {
         loadMoreProgress.setVisibility(View.VISIBLE);
 
         String url = String.format(EndPoints.INVOICES, clientId);
-
         User user = SettingsMy.getActiveUser();
 
         if(user == null)
@@ -268,8 +267,8 @@ public class DocumentsFragment extends Fragment {
         GsonRequest<DocumentListResult> getDocumentRequest = new GsonRequest<>(Request.Method.GET, url, null, DocumentListResult.class,
                 new Response.Listener<DocumentListResult>() {
                     @Override
-                    public void onResponse(@NonNull DocumentListResult response) {
-//                        Timber.d("response:" + response.toString());
+                    public void onResponse(DocumentListResult response) {
+                        Timber.d("response:" + response.toString());
                         documentsRecyclerAdapter.addDocuments(response.result.getDocuments());
                         checkEmptyContent();
                         clientCode.setText(response.result.getClientCardCode());
@@ -279,9 +278,7 @@ public class DocumentsFragment extends Fragment {
                         clientBalance.setText(NumberFormat.getNumberInstance(Locale.US).format(response.result.getBalance()));
                         clientInOrders.setText(NumberFormat.getNumberInstance(Locale.US).format(response.result.getInOrders()));
                         clientPayCondition.setText(response.result.getPayCondition());
-
                         loadMoreProgress.setVisibility(View.GONE);
-
                     }
                 }, new Response.ErrorListener() {
             @Override

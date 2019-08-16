@@ -25,7 +25,9 @@ public class BluetoothPrinterPayment {
 
     public static String print(Context context,
                                String bluetooth_mac_address,
-                               String date, Client client, String seller,
+                               String date,
+                               Client client,
+                               String seller,
                                List<InvoiceItem> invoices,
                                double sub_total,
                                double discount,
