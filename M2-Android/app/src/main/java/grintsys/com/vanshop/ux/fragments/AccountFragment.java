@@ -122,9 +122,9 @@ public class AccountFragment extends Fragment {
             } else {
                 refreshScreen(user);
             }
-        } else {
+        } /*else {
             refreshScreen(null);
-        }
+        }*/
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

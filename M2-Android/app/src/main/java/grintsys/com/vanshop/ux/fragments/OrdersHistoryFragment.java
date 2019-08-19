@@ -103,6 +103,7 @@ public class OrdersHistoryFragment extends Fragment {
         final SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         beginCalendar.add(Calendar.DAY_OF_MONTH, -5);
+        endCalendar.add(Calendar.DAY_OF_MONTH, 1);
         beginEdit.setText(sdf.format(beginCalendar.getTime()));
         endEdit.setText(sdf.format(endCalendar.getTime()));
 

@@ -142,11 +142,11 @@ public class OrderCreateFragment extends Fragment {
         });
 
         SharedPreferences prefs = getSettings();
-        String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "" );
-        String name = prefs.getString(PREF_CLIENT_NAME_SELECTED, "");
+        final String card_code = prefs.getString(PREF_CLIENT_CARD_CODE_SELECTED, "" );
+        final String name = prefs.getString(PREF_CLIENT_NAME_SELECTED, "");
         summaryText.setText(getString(R.string.Summary) + " - " + getString(R.string.Customer) + ": " + card_code + " - " + name);
 
-        orderTotalPriceTv = (TextView) view.findViewById(R.id.order_create_summary_total_price);
+        orderTotalPriceTv = view.findViewById(R.id.order_create_summary_total_price);
         TextView termsAndConditionsTv = (TextView) view.findViewById(R.id.order_create_summary_terms_and_condition);
         termsAndConditionsTv.setText(this.fromHtml(getString(R.string.Click_on_Order_to_allow_our_Terms_and_Conditions)));
         termsAndConditionsTv.setOnClickListener(new OnSingleClickListener() {
@@ -167,7 +167,7 @@ public class OrderCreateFragment extends Fragment {
                 //TODO: Fix Seller Selection
                 Order order = new Order();
                 order.setDeliveryDate(deliveryDateEdit.getText().toString());
-                order.setComment(commentEditText.getText().toString());
+                order.setComment("M2|" + card_code +"|" + name + "|" + commentEditText.getText().toString());
                 v.clearFocus();
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
