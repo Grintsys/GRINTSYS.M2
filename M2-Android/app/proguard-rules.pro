@@ -10,3 +10,18 @@
 # Add any project specific keep options here:
 
 # http://proguard.sourceforge.net/index.html#manual/usage.html
+
+#### -- Picasso --
+ -dontwarn com.squareup.picasso.**
+
+ #### -- OkHttp --
+
+ -dontwarn com.squareup.okhttp.internal.**
+
+ #### -- Apache Commons --
+
+ -dontwarn org.apache.commons.logging.**
+
+ -dontwarn okhttp3.internal.platform.ConscryptPlatform.**
+
+ -dontwarn java.io.**

@@ -307,6 +307,7 @@ public class PaymentMainFragment extends Fragment {
                 for (InvoiceItem invoice : invoices) {
                     JSONObject invoiceJSON = new JSONObject();
                     invoiceJSON.put(JsonUtils.TAG_DOCUMENT_CODE, invoice.getDocumentNumber());
+                    invoiceJSON.put(JsonUtils.TAG_DOC_ENTRY, invoice.getDocEntry());
                     joInvoices.put(invoiceJSON);
                 }
                 joPayment.put(JsonUtils.TAG_PAYMENT_ITEM_LIST, joInvoices);

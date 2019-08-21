@@ -92,6 +92,8 @@ public class OrderCreateFragment extends Fragment {
     private User selectedSeller = null;
     private Calendar myCalendar;
 
+    private boolean isRunning = false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -281,6 +283,11 @@ public class OrderCreateFragment extends Fragment {
     }
 
     private void postOrder(final Order order) {
+
+        //TODO: pedidos dobles por doble click a  boton
+        if(!isRunning)
+            isRunning = true;
+
         final User user = SettingsMy.getActiveUser();
 
         SharedPreferences prefs = getSettings();
@@ -324,6 +331,8 @@ public class OrderCreateFragment extends Fragment {
                         @Override
                         public void onResponse(Result response) {
 
+                            isRunning = false;
+
                             Timber.d("create order: %s", response.toString());
                             MainActivity.updateCartCountNotification();
 
@@ -341,6 +350,7 @@ public class OrderCreateFragment extends Fragment {
                 public void onErrorResponse(VolleyError error) {
                     if (progressDialog != null) progressDialog.cancel();
                     MsgUtils.logAndShowErrorMessage(getActivity(), error);
+                    isRunning = false;
                 }
             }, getFragmentManager(), user.getAccessToken());
             req.setRetryPolicy(MyApplication.getSimpleRetryPolice());
@@ -358,5 +368,6 @@ public class OrderCreateFragment extends Fragment {
         MyApplication.getInstance().cancelPendingRequests(CONST.USERS_TAG);
         MyApplication.getInstance().cancelPendingRequests(CONST.ORDER_CREATE_REQUESTS_TAG);
         if (progressDialog != null) progressDialog.cancel();
+        isRunning = false;
     }
 }

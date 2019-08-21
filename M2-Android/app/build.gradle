@@ -22,24 +22,12 @@ android {
     dexOptions {
         javaMaxHeapSize "3g"
     }
-    /*signingConfigs {
-        release {
-            try {
-                storeFile file("openshopKeystore.jks")
-                storePassword KEYSTORE_PASSWORD
-                keyAlias KEYSTORE_ALIAS
-                keyPassword KEY_PASSWORD
-            } catch (ex) {
-                //throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD, KEYSTORE_ALIAS and KEY_PASSWORD in gradle.properties." + ex)
-            }
-        }
-    }*/
     defaultConfig {
         applicationId 'grintsys.com.vanshop'
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 10
-        versionName "4.0"
+        versionCode 11
+        versionName "4.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //comment this line if you have problem with releases
         signingConfig signingConfigs.release
@@ -54,30 +42,19 @@ android {
         release {
             minifyEnabled false
             debuggable false
-            //signingConfig signingConfigs.release
-
-            // For release build should be added custom proGuard
-//            minifyEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    flavorDimensions 'tier'
+
     productFlavors {
         Modern {
             minSdkVersion 28
-            applicationId 'grintsys.com.vanshop'
-            signingConfig signingConfigs.release
-            versionCode 10
-            versionName '4.0'
-        }
-        Legacy {
-            minSdkVersion 15
-            applicationId 'grintsys.com.vanshop'
-            signingConfig signingConfigs.release
-            versionCode 10
-            versionName '4.0'
         }
     }
     sourceSets {
@@ -94,6 +71,7 @@ task clearData(type: Exec) {
 
 repositories {
     jcenter()
+    mavenCentral()
     maven {
         url "https://maven.google.com"
     }

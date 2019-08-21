@@ -38,6 +38,7 @@ public class JsonUtils {
     public static final String TAG_PAYED_AMOUNT_ID = "PayedAmount";
     public static final String TAG_REFERENCE_NUMBER = "ReferenceNumber";
     public static final String TAG_DOCUMENT_CODE = "DocumentCode";
+    public static final String TAG_DOC_ENTRY = "DocEntry";
     public static final String TAG_PAYMENT_ITEM_LIST = "PaymentItemList";
     public static final String TAG_CLIENT_ID = "ClientId";
 

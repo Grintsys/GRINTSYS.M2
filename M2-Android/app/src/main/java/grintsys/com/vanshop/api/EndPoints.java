@@ -49,7 +49,7 @@ public class EndPoints {
     public static String CART_ITEM_UPDATE         = "cart/UpdateToCart?userId=%d&productCartItemId=%d&newQuantity=%d&newProductVariantId=%d";
     public static String CART_ITEM_DELETE         = API_URL.concat("services/app/cart/DeleteItemToCart?id=%d");
     public static String CART_DISCOUNTS           = "cart/Cart/discounts";
-    public static String ORDERS_RANGE             = API_URL.concat("services/app/order/GetOrders?tenantId=%d&begin=%s&end=%s");
+    public static String ORDERS_RANGE             = API_URL.concat("services/app/order/GetOrdersByUser?tenantId=%d&begin=%s&end=%s");
     public static String ORDERS_CREATE            = API_URL.concat("services/app/order/CreateOrder");
     public static String ORDERS_SINGLE            = API_URL.concat("services/app/order/GetOrder?Id=%d");
     public static String BRANCHES                 = "%d/branches";
