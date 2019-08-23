@@ -63,3 +63,7 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
+M2-Android/app/Legacy/release/app.aab
+M2-Android/app/Modern/debug/app.aab
+M2-Android/app/Modern/release/app.aab
+M2-Android/app/Modern/release/output.json
