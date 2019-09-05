@@ -19,8 +19,33 @@ public class User {
     private String printBluetoothAddress;
 
     private int salesPersonId;
+    private int collectorId;
 
     public User() {
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public int getCollectorId() {
+        return collectorId;
+    }
+
+    public void setCollectorId(int collectorId) {
+        this.collectorId = collectorId;
     }
 
     public void setAccessToken(String accessToken) {

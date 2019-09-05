@@ -38,16 +38,6 @@ public class OrderCreateSuccessDialogFragment extends DialogFragment {
         OrderCreateSuccessDialogFragment orderCreateSuccessDialogFragment = new OrderCreateSuccessDialogFragment();
         orderCreateSuccessDialogFragment.sampleApplication = sampleApplication;
         return orderCreateSuccessDialogFragment;
-
-
-/*
-        Bundle args = new Bundle();
-        args.putString(CLIENT_PARAM, searchQuery);
-
-        ClientsFragment fragment = new ClientsFragment();
-        fragment.setArguments(args);
-        return fragment;
-        */
     }
 
     @Override

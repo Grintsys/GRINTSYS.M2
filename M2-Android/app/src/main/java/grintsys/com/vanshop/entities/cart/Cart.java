@@ -13,7 +13,7 @@ public class Cart {
     private double subtotal;
     private double totalPrice;
 
-    private double ISV;
+    private double isv;
 
     private String subtotalPriceFormatted;
 
@@ -31,11 +31,11 @@ public class Cart {
     }
 
     public double getISV() {
-        return ISV;
+        return isv;
     }
 
     public void setISV(double ISV) {
-        this.ISV = ISV;
+        this.isv = ISV;
     }
 
     public long getId() {
@@ -91,7 +91,7 @@ public class Cart {
     }
 
     public String getIsvPriceFormatted() {
-        return currency + " " + String.format(Locale.US, "%.2f", ISV);
+        return currency + " " + String.format(Locale.US, "%.2f", isv);
     }
 
     public void setIsvPriceFormatted(String isvPriceFormatted) {

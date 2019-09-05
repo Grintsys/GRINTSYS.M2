@@ -202,9 +202,6 @@ public class ProductMatrixFragment extends Fragment {
 
     }
 
-
-
-
     private void addProductToCart(ProductVariant variant, long tenantId, String token, String cardcode) {
 
             JSONObject jo = new JSONObject();
@@ -217,7 +214,6 @@ public class ProductMatrixFragment extends Fragment {
                 String message = "Parse add to cart";
                 Timber.e(e, message);
                 MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, message, MsgUtils.ToastLength.SHORT);
-                return;
             }
             if (BuildConfig.DEBUG) Timber.d("Add to Cart: %s", jo.toString());
 
@@ -241,28 +237,6 @@ public class ProductMatrixFragment extends Fragment {
             addToCart.setShouldCache(false);
             MyApplication.getInstance().addToRequestQueue(addToCart, CONST.PRODUCT_ADD_TO_CART_TAG);
     }
-
-    private void addProductToWishList(ProductVariant variant, User user) {
-        String url = String.format(EndPoints.WISHLIST_CREATE, user.getId(), variant.getId());
-        JsonRequest addToCart = new JsonRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if (BuildConfig.DEBUG) Timber.d("AddToCartResponse: %s", response);
-                //TODO: FIX ANALYTIC ADD PRODUCT TO CART CHECHO
-                Analytics.logAddProductToCart(product.getRemoteId(), product.getCode(), 0.0);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                MsgUtils.logAndShowErrorMessage(getActivity(), error);
-            }
-        }, getFragmentManager(), user.getAccessToken());
-        addToCart.setRetryPolicy(MyApplication.getDefaultRetryPolice());
-        addToCart.setShouldCache(false);
-        MyApplication.getInstance().addToRequestQueue(addToCart, CONST.PRODUCT_ADD_TO_CART_TAG);
-    }
-
-
 
     private void getProduct(final long productId) {
         String url = String.format(EndPoints.PRODUCT, productId);

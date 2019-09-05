@@ -340,7 +340,19 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         this.cash = new Cash();
     }
 
-    public void updateQuantity(ProductVariant variant, int quantity){
+    public void AddOrUpdateQuantity(ProductVariant variant){
+        if(!this.elements.contains(variant)){
+            this.elements.add(variant);
+        }
+
+        /*else{
+            int index = this.elements.indexOf(variant);
+            ProductVariant e = this.elements.get(index);
+            e.setNew_quantity(quantity);
+        }*/
+    }
+
+    public void AddItem(ProductVariant variant, int quantity){
         if(!this.elements.contains(variant)){
             this.elements.add(variant);
         }else{

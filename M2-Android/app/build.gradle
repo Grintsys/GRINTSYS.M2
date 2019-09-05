@@ -7,7 +7,7 @@ android {
         release {
             keyAlias 'key0'
             keyPassword 'javier01'
-            storeFile file('C:/Users/serpel/Documents/BAC/key_2shopv2.jks')
+            storeFile file('C:/Users/serpel/Documents/Van Heusen/keystorem2.jks')
             storePassword 'javier01'
         }
     }
@@ -24,10 +24,10 @@ android {
     }
     defaultConfig {
         applicationId 'grintsys.com.vanshop'
-        minSdkVersion 15
+        minSdkVersion 23
         targetSdkVersion 28
-        versionCode 11
-        versionName "4.1"
+        versionCode 12
+        versionName "4.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //comment this line if you have problem with releases
         signingConfig signingConfigs.release
@@ -54,7 +54,7 @@ android {
 
     productFlavors {
         Modern {
-            minSdkVersion 28
+            minSdkVersion 23
         }
     }
     sourceSets {

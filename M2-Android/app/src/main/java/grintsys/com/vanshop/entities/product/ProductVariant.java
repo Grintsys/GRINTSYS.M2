@@ -37,6 +37,10 @@ public class ProductVariant implements Serializable {
         this.new_quantity = new_quantity;
     }
 
+    public void addQty(int qty) {
+        this.new_quantity += qty;
+    }
+
     public long getId() {
         return id;
     }

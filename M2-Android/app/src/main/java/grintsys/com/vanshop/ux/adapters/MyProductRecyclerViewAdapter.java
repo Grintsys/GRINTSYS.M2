@@ -139,44 +139,22 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
             minuImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    try{
-                        int quantity = mItem.getNew_quantity();
-//                        if(quantity > 0) {
-                            //((MainActivity) mContext).updateQuantity(mItem, quantity);
-                            mItem.setNew_quantity(--quantity);
-                            new_quantity.setText(String.valueOf(mItem.getNew_quantity()));
-                        //  view.startAnimation(animation);
-                        //                      }
-                    }catch (Exception e){
-                        Timber.e(e.getMessage());
+                    if(mItem.getNew_quantity() > 0) {
+                        mItem.addQty(-1);
+                        new_quantity.setText(String.valueOf(mItem.getNew_quantity()));
+                        ((MainActivity) mContext).AddOrUpdateQuantity(mItem);
                     }
+                    view.startAnimation(animation);
                 }
             });
 
             plusImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    try{
-                        int quantity = mItem.getNew_quantity();
-                        if(quantity <= CONST.MaxQuantityOrder) {
-                            //((MainActivity) mContext).updateQuantity(mItem, quantity);
-
-                             //new_quantity.setText(BuildConfig.VERSION_NAME);
-
-                            //NOV 29TH. 2017. Bloquear el ingreso mayor a Disponible.
-                            //if ( Integer.valueOf(is_committed.getText().toString().replace("Available: ","")) - quantity + 1 >= 0 )
-                            //{
-                                mItem.setNew_quantity(++quantity);
-                                new_quantity.setText(String.valueOf(mItem.getNew_quantity()));
-                                //view.startAnimation(animation);
-                            //}
-
-                        }
-                    }catch (Exception e){
-                        Timber.e(e.getMessage());
-                    }
+                    mItem.addQty(1);
+                    new_quantity.setText(String.valueOf(mItem.getNew_quantity()));
+                    ((MainActivity) mContext).AddOrUpdateQuantity(mItem);
+                    view.startAnimation(animation);
                 }
             });
 
@@ -193,25 +171,13 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
 
                 @Override
                 public void afterTextChanged(Editable editable) {
+
+                    //apply if i want to set manual quanity
                     String quantityString = new_quantity.getText().toString();
+                    int quantityTmp = Integer.parseInt(quantityString);
 
-                    if(!quantityString.isEmpty()) {
-                        int quantity = Integer.parseInt(quantityString);
-                            if(quantity > 0)
-
-                                //Si hay Disponible
-                                //if ( Integer.valueOf(is_committed.getText().toString().replace("Available: ","")) - quantity >= 0 )
-                                //{
-                                    ((MainActivity) mContext).updateQuantity(mItem, quantity);
-                                //}
-                        //else
-                                //No hay disponible
-                        //      {
-                        //          new_quantity.setText(is_committed.getText().toString().replace("Available: ",""));
-                        //          ((MainActivity) mContext).updateQuantity(mItem, Integer.valueOf(is_committed.getText().toString().replace("Available: ","")));
-                        //      }
-
-                    }
+                    if(quantityTmp != mItem.getNew_quantity())
+                        ((MainActivity) mContext).AddOrUpdateQuantity(mItem);
                 }
             });
         }

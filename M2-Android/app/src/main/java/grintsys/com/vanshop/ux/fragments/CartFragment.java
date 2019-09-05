@@ -153,7 +153,7 @@ public class CartFragment extends Fragment {
                                 cartRecyclerAdapter.refreshItems(cart.result);
 
                                 cartItemCountTv.setText(getString(R.string.format_quantity_lines, cart.result.getProductCount()));
-                                cartTotalPriceTv.setText(NumberFormat.getNumberInstance(Locale.US).format(cart.result.getTotalPrice()));
+                                cartTotalPriceTv.setText(cart.result.getTotalPriceFormatted());
                             }
                         }
                     }, new Response.ErrorListener() {

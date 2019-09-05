@@ -111,19 +111,19 @@ public class AccountFragment extends Fragment {
         });
 
         User user = SettingsMy.getActiveUser();
+        refreshScreen(user);
+        /*
         if (user != null) {
             Timber.d("user: %s", user.toString());
             // Sync user data if fragment created (not reuse from backstack)
             if (savedInstanceState == null && !mAlreadyLoaded) {
                 mAlreadyLoaded = true;
-                //refreshScreen(user);
-                syncUserData(user);
+                refreshScreen(user);
+                //syncUserData(user);
                 //this is not needed because when in logg in i get all the information at the same time
             } else {
                 refreshScreen(user);
             }
-        } /*else {
-            refreshScreen(null);
         }*/
 
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +138,10 @@ public class AccountFragment extends Fragment {
     }
 
     private void syncUserData(@NonNull final User user) {
+
+        if(user.getId() <= 0)
+            return;
+
         String url = String.format(EndPoints.USER_SINGLE, user.getId());
         pDialog.show();
 
