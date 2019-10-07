@@ -295,6 +295,7 @@
     <string name="Refund">Devolucion</string>
     <string name="SendToSap">Enviar a SAP</string>
     <string name="Receipt">No. Recibo</string>
+    <string name="Endpoint">Endpoint</string>
 
     <string-array name="PaymentTypes">
         <item>Cheque</item>

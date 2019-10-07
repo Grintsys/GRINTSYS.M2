@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,6 +27,37 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/base_margin_vertical_half"
             android:background="@drawable/spinner_selector_black_baseline"/>
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Endpoint"
+            android:textAllCaps="true"
+            android:textColor="@color/textBlack"
+            android:padding="0dp"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimaryLight">
+
+            <EditText
+                android:id="@+id/settings_endpoint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/Endpoint"
+                android:inputType="textPersonName"
+                android:nextFocusForward="@+id/order_create_street"
+                android:singleLine="true"
+                android:textColor="@color/textPrimary"/>
+        </android.support.design.widget.TextInputLayout>
+
     </LinearLayout>
 
     <!--<View-->
@@ -69,7 +102,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="16dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:weightSum="1">
 
         <Button

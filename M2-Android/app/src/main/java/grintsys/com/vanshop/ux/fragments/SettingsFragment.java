@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -24,6 +27,7 @@ import grintsys.com.vanshop.SettingsMy;
 import grintsys.com.vanshop.api.EndPoints;
 import grintsys.com.vanshop.api.GsonRequest;
 import grintsys.com.vanshop.entities.tenant.Tenant;
+import grintsys.com.vanshop.entities.tenant.TenantResponse;
 import grintsys.com.vanshop.entities.tenant.TenantResult;
 import grintsys.com.vanshop.utils.MsgUtils;
 import grintsys.com.vanshop.utils.Utils;
@@ -40,6 +44,9 @@ import timber.log.Timber;
 public class SettingsFragment extends Fragment {
 
     private ProgressDialog progressDialog;
+    private Button applyButton;
+    private Tenant selectedTenant;
+    private EditText endpointTextView;
 
     /**
      * Spinner offering all available shops.
@@ -66,6 +73,32 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        endpointTextView = view.findViewById(R.id.settings_endpoint);
+        endpointTextView.setText(EndPoints.API_URL);
+
+        applyButton = view.findViewById(R.id.settings_apply);
+        applyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String endpoint = endpointTextView.getText().toString();
+
+                if(selectedTenant != null
+                        && selectedTenant.getId() != SettingsMy.getActualNonNullShop(getActivity()).getId()
+                        && !endpoint.equals(EndPoints.API_URL)){
+                    EndPoints.API_URL = endpoint;
+                    RestartDialogFragment rdf = RestartDialogFragment.newInstance(selectedTenant);
+                    rdf.show(getFragmentManager(), RestartDialogFragment.class.getSimpleName());
+                } else if(!endpoint.equals(EndPoints.API_URL)) {
+                    EndPoints.API_URL = endpoint;
+                } else if(selectedTenant != null
+                        && selectedTenant.getId() != SettingsMy.getActualNonNullShop(getActivity()).getId()){
+                    RestartDialogFragment rdf = RestartDialogFragment.newInstance(selectedTenant);
+                    rdf.show(getFragmentManager(), RestartDialogFragment.class.getSimpleName());
+                }
+            }
+        });
+
         requestShops();
         return view;
     }
@@ -75,12 +108,12 @@ public class SettingsFragment extends Fragment {
      */
     private void requestShops() {
         if (progressDialog != null) progressDialog.show();
-        GsonRequest<TenantResult> getShopsRequest = new GsonRequest<>(Request.Method.GET, SettingsMy.getActualTenant().getUrl() +  EndPoints.TENANTS, null, TenantResult.class,
-                new Response.Listener<TenantResult>() {
+        GsonRequest<TenantResponse> getShopsRequest = new GsonRequest<>(Request.Method.GET, EndPoints.TENANTS, null, TenantResponse.class,
+                new Response.Listener<TenantResponse>() {
                     @Override
-                    public void onResponse(@NonNull TenantResult response) {
+                    public void onResponse(@NonNull TenantResponse response) {
                         Timber.d("Available shops response: %s", response.toString());
-                        setSpinShops(response.getTenantList());
+                        setSpinShops(response.result.getTenantList());
                         if (progressDialog != null) progressDialog.cancel();
                     }
                 }, new Response.ErrorListener() {
@@ -115,13 +148,7 @@ public class SettingsFragment extends Fragment {
         spinShopSelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Tenant selectedTenant = (Tenant) parent.getItemAtPosition(position);
-                if (selectedTenant != null && selectedTenant.getId() != SettingsMy.getActualNonNullShop(getActivity()).getId()) {
-                    RestartDialogFragment rdf = RestartDialogFragment.newInstance(selectedTenant);
-                    rdf.show(getFragmentManager(), RestartDialogFragment.class.getSimpleName());
-                } else {
-                    Timber.e("Selected null or same shop.");
-                }
+                selectedTenant = (Tenant) parent.getItemAtPosition(position);
             }
 
             @Override

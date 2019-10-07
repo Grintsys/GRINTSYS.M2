@@ -22,7 +22,7 @@
         android:id="@+id/order_history_item_sap_id"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.15"
+        android:layout_weight="0.30"
         android:gravity="start"
         android:textSize="14sp"
         tools:text="125364"/>
@@ -31,7 +31,7 @@
         android:id="@+id/order_history_item_dateCreated"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.30"
+        android:layout_weight="0.20"
         android:gravity="start"
         android:textSize="14sp"
         tools:text="2017/01/01"/>
@@ -49,7 +49,7 @@
         android:id="@+id/order_history_item_totalPrice"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.25"
+        android:layout_weight="0.20"
         android:gravity="end"
         android:textSize="14sp"
         android:textStyle="bold"

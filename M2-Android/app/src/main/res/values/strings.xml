@@ -314,6 +314,7 @@
     <string name="DailyQuota">Daily Couta</string>
     <string name="Refund">Refund</string>
     <string name="Receipt">No. Receipt</string>
+    <string name="Endpoint">Endpoint</string>
 
     <string-array name="PaymentTypes">
         <item>Cheque</item>
