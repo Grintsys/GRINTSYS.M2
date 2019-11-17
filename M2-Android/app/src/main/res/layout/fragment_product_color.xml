@@ -105,7 +105,9 @@
                     android:layout_marginLeft="4dp"
                     android:layout_marginTop="25dp"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <ImageView
                         android:id="@+id/product_color_minus_image"
@@ -123,6 +125,7 @@
                         android:layout_marginLeft="@dimen/round_minus_plus_size"
                         android:background="#00000000"
                         android:inputType="number"
+                        android:digits="1234567890"
                         android:text="0"
                         android:maxLength="4"
                         android:textColor="@color/colorAccent"

@@ -11,9 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import android.view.View.OnKeyListener;
+import android.view.KeyEvent;
 
 import java.util.List;
 
@@ -143,18 +147,20 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
                         mItem.addQty(-1);
                         new_quantity.setText(String.valueOf(mItem.getNew_quantity()));
                         ((MainActivity) mContext).AddOrUpdateQuantity(mItem);
+                        view.startAnimation(animation);
                     }
-                    view.startAnimation(animation);
                 }
             });
 
             plusImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mItem.addQty(1);
-                    new_quantity.setText(String.valueOf(mItem.getNew_quantity()));
-                    ((MainActivity) mContext).AddOrUpdateQuantity(mItem);
-                    view.startAnimation(animation);
+                    if(mItem.getNew_quantity() < (mItem.getQuantity() - mItem.getIs_committed())){
+                        mItem.addQty(1);
+                        new_quantity.setText(String.valueOf(mItem.getNew_quantity()));
+                        ((MainActivity) mContext).AddOrUpdateQuantity(mItem);
+                        view.startAnimation(animation);
+                    }
                 }
             });
 
@@ -172,12 +178,37 @@ public class MyProductRecyclerViewAdapter extends RecyclerView.Adapter<MyProduct
                 @Override
                 public void afterTextChanged(Editable editable) {
 
-                    //apply if i want to set manual quanity
-                    String quantityString = new_quantity.getText().toString();
-                    int quantityTmp = Integer.parseInt(quantityString);
+                }
+            });
+            new_quantity.setOnKeyListener(new OnKeyListener() {
+                public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
+                    //If the keyevent is a key-down event on the "enter" button
+                    if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
-                    if(quantityTmp != mItem.getNew_quantity())
-                        ((MainActivity) mContext).AddOrUpdateQuantity(mItem);
+                        //apply if i want to set manual quanity
+                        String quantityString = new_quantity.getText().toString();
+                        int quantityTmp = Integer.parseInt(quantityString);
+
+                        if(quantityTmp != mItem.getNew_quantity() && quantityTmp >= 0 )
+                        {
+                            if(quantityTmp > (mItem.getQuantity() - mItem.getIs_committed()))
+                            {
+                                quantityTmp = (mItem.getQuantity() - mItem.getIs_committed());
+                                new_quantity.setText(String.valueOf(quantityTmp));
+                            }
+
+                            mItem.setNew_quantity(quantityTmp);
+                            ((MainActivity) mContext).AddOrUpdateQuantity(mItem);
+                            view.startAnimation(animation);
+                        }
+
+                        InputMethodManager _inputMethodManager = (InputMethodManager)mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        _inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+                        new_quantity.setCursorVisible(false);
+
+                        return true;
+                    }
+                    return false;
                 }
             });
         }
