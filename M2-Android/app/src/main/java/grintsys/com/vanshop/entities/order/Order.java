@@ -16,14 +16,14 @@ public class Order {
     private String status;
 
     private int itemCount;
-    private double subtotal;
+    private double subTotal;
     private double discount;
-    private double IVA;
+    private double iva;
     private double total;
 
     private String totalFormatted;
 
-    private List<OrderItem> products;
+    private List<OrderItem> items;
     private Client client;
     private String seller;
     private String comment;
@@ -126,11 +126,11 @@ public class Order {
     }
 
     public double getSubtotal() {
-        return subtotal;
+        return subTotal;
     }
 
     public void setSubtotal(double subtotal) {
-        this.subtotal = subtotal;
+        this.subTotal = subtotal;
     }
 
     public double getDiscount() {
@@ -142,11 +142,11 @@ public class Order {
     }
 
     public double getIVA() {
-        return IVA;
+        return iva;
     }
 
     public void setIVA(double IVA) {
-        this.IVA = IVA;
+        this.iva = IVA;
     }
 
     public double getTotal() {
@@ -158,11 +158,11 @@ public class Order {
     }
 
     public List<OrderItem> getProducts() {
-        return products;
+        return items;
     }
 
     public void setProducts(List<OrderItem> products) {
-        this.products = products;
+        this.items = products;
     }
 
     public Client getClient() {
@@ -194,7 +194,7 @@ public class Order {
         if (creationTime != null ? !creationTime.equals(order.creationTime) : order.creationTime != null) return false;
         if (status != null ? !status.equals(order.status) : order.status != null) return false;
         if (totalFormatted != null ? !totalFormatted.equals(order.totalFormatted) : order.totalFormatted != null) return false;
-        if (products != null ? !products.equals(order.products) : order.products != null) return false;
+        if (items != null ? !items.equals(order.items) : order.items != null) return false;
         return !(comment != null ? !comment.equals(order.comment) : order.comment != null);
     }
 
@@ -205,7 +205,7 @@ public class Order {
         result = 31 * result + (creationTime != null ? creationTime.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (totalFormatted != null ? totalFormatted.hashCode() : 0);
-        result = 31 * result + (products != null ? products.hashCode() : 0);
+        result = 31 * result + (items != null ? items.hashCode() : 0);
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
         return result;
     }
@@ -219,7 +219,7 @@ public class Order {
                 ", status='" + status + '\'' +
                 ", total=" + total +
                 ", totalFormatted='" + totalFormatted + '\'' +
-                ", products=" + products +
+                ", products=" + items +
                 ", note='" + comment + '\'' +
                 '}';
     }

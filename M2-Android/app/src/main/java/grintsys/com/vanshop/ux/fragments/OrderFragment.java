@@ -22,6 +22,7 @@ import grintsys.com.vanshop.api.EndPoints;
 import grintsys.com.vanshop.api.GsonRequest;
 import grintsys.com.vanshop.entities.User.User;
 import grintsys.com.vanshop.entities.order.Order;
+import grintsys.com.vanshop.entities.order.OrderResult;
 import grintsys.com.vanshop.utils.MsgUtils;
 import grintsys.com.vanshop.utils.RecyclerMarginDecorator;
 import grintsys.com.vanshop.utils.Utils;
@@ -90,13 +91,14 @@ public class OrderFragment extends Fragment {
         User user = SettingsMy.getActiveUser();
         if (user != null) {
             //String url = String.format(EndPoints.ORDERS_SINGLE, SettingsMy.getActualNonNullShop(getActivity()).getId(), orderId);
-            String url = String.format(SettingsMy.getActualTenant().getUrl() + EndPoints.ORDERS_SINGLE, orderId);
+            String url = String.format(EndPoints.ORDERS_SINGLE, orderId);
+
             progressDialog.show();
 
-            GsonRequest<Order> req = new GsonRequest<>(Request.Method.GET, url, null, Order.class, new Response.Listener<Order>() {
+            GsonRequest<OrderResult> req = new GsonRequest<>(Request.Method.GET, url, null, OrderResult.class, new Response.Listener<OrderResult>() {
                 @Override
-                public void onResponse(Order response) {
-                    orderRecyclerAdapter.addOrder(response);
+                public void onResponse(OrderResult response) {
+                    orderRecyclerAdapter.addOrder(response.result);
                     if (progressDialog != null) progressDialog.cancel();
                 }
             }, new Response.ErrorListener() {
