@@ -23,6 +23,11 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import grintsys.com.vanshop.R;
 import grintsys.com.vanshop.entities.filtr.DeserializerFilters;
 import grintsys.com.vanshop.entities.filtr.Filters;
@@ -107,6 +112,34 @@ public class Utils {
             return isoDate;
         }
     }
+
+    public static String currentDateToString() {
+
+            Date date = Calendar.getInstance().getTime();
+            DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy hh.mm.ss a");
+            String strDate = dateFormat.format(date);
+
+            return strDate;
+    }
+
+    public static String stringDateFormat(String _str, String _pattern){
+        return dateToString(stringToDate(_str,_pattern),_pattern);
+    }
+
+    public static String dateToString(Date _date, String _pattern) {
+        return new SimpleDateFormat(_pattern).format(_date);
+    }
+
+    public static Date stringToDate(String _str, String _pattern) {
+        try{
+            return new SimpleDateFormat(_pattern).parse(_str);
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return new Date();
+    }
+
 
     /**
      * Method replace ordinary {@link URLSpan} with {@link DefensiveURLSpan}.

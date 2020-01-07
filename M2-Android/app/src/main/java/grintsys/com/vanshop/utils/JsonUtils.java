@@ -32,12 +32,16 @@ public class JsonUtils {
     public static final String TAG_PHONE = "phone";
     public static final String TAG_GENDER = "gender";
     public static final String TAG_BLUETOOTH = "bluetooth";
-    public static final String TAG_TENANT_ID = "tenantId";
+    public static final String TAG_TENANT_ID = "TenantId";
 
     public static final String TAG_BANK_ID = "BankId";
+    public static final String TAG_USER_ID = "UserId";
     public static final String TAG_PAYED_AMOUNT_ID = "PayedAmount";
+    public static final String TAG_PAYED_STATUS = "Status";
     public static final String TAG_REFERENCE_NUMBER = "ReferenceNumber";
     public static final String TAG_DOCUMENT_CODE = "DocumentCode";
+    public static final String TAG_TOTAL_AMOUNT = "TotalAmount";
+    public static final String TAG_BALANCE_DUE = "BalanceDue";
     public static final String TAG_DOC_ENTRY = "DocEntry";
     public static final String TAG_PAYMENT_ITEM_LIST = "PaymentItemList";
     public static final String TAG_CLIENT_ID = "ClientId";

@@ -296,11 +296,22 @@
     <string name="SendToSap">Enviar a SAP</string>
     <string name="Receipt">No. Recibo</string>
     <string name="Endpoint">Endpoint</string>
+    <string name="PaymentType">Tipo de Pago</string>
+    <string name="PaymentPageTitleInvoice">Facturas</string>
+    <string name="PaymentPageTitleData">Datos</string>
+
+    <string name="PaymentValidateComment">El comentario es obligatorio y no puede quedar vacío.</string>
+    <string name="PaymentValidateReference">El número de referencia es obligatorio y no puede quedar vacío.</string>
+    <string name="PaymentValidateAmount">El monto del pago debe ser mayor a L0.00</string>
+    <string name="PaymentValidateType">El tipo de pago es obligatorio y no puede quedar vacío.</string>
+    <string name="PaymentValidateBank">El banco es obligatorio y puede quedar vacío.</string>
+    <string name="PaymentValidateDate">La fecha de pago es obligatoria y no puede quedar vacía.</string>
+    <string name="PaymentValidateInvoice">No ha elegido ninguna factura para aplicar el pago.</string>
+    <string name="PaymentValidateInvoiceTotal">El monto del pago es superior al total de la(s) factura(s) seleccionada(s)</string>
 
     <string-array name="PaymentTypes">
-        <item>Cheque</item>
-        <item>Deposito</item>
         <item>Efectivo</item>
+        <item>Cheque</item>
         <item>Transferencia</item>
     </string-array>
 

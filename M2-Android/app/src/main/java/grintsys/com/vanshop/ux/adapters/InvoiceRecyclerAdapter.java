@@ -16,6 +16,8 @@ import grintsys.com.vanshop.R;
 import grintsys.com.vanshop.entities.client.Document;
 import grintsys.com.vanshop.interfaces.InvoiceRecyclerInterface;
 
+import static grintsys.com.vanshop.utils.Utils.dateToString;
+
 /**
  * Created by alienware on 3/28/2017.
  */

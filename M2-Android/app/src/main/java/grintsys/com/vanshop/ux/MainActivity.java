@@ -54,6 +54,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -117,6 +118,8 @@ import timber.log.Timber;
 //DEM August 21st -2017
 import grintsys.com.vanshop.ux.fragments.TakeInventoryFragment;
 
+import static grintsys.com.vanshop.utils.Utils.stringToDate;
+
 /**
  * Application is based on one core activity, which handles fragment operations.
  */
@@ -168,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     private String referenceNumber = "";
     private double amount = 0.0;
     private String comment = "";
-    private String paymentType = "";
+    private int paymentType = 0;
 
     public void UpdateBank(Bank bank){
         this.bank = bank;
@@ -203,7 +206,6 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     }
 
     public void UpdateInvoiceItems(ArrayList<InvoiceItem> items) {
-        this.invoiceItems.clear();
         this.invoiceItems = items;
     }
 
@@ -253,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     }
 
 
-    public void setPaymentType(String paymentType){
+    public void setPaymentType(int paymentType){
         this.paymentType = paymentType;
     }
 
@@ -272,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     }
 
     //DEM. Added August 15.
-    public String getPaymentType(){
+    public int getPaymentType(){
         return this.paymentType;
     }
 
@@ -302,8 +304,10 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
             InvoiceItem i = new InvoiceItem();
             i.setDocumentNumber(item.getDocumentCode());
             i.setDocEntry(item.getDocEntry());
-            i.setPayedAmount(item.getBalanceDue());
+            i.setBalanceDue(item.getBalanceDue());
             i.setTotalAmount(item.getTotalAmount());
+            i.setOverdueDays(item.getOverdueDays());
+
 
             this.invoiceItems.add(i);
         }
@@ -328,16 +332,24 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
     }
 
     public void ClearPaymentData(){
-
-        //clearBackStack();
-        this.receiptNumber = "";
-        this.date = new Date();
         this.comment = "";
         this.referenceNumber = "";
-        this.checks.clear();
-        this.invoices.clear();
+        this.amount = 0.00;
+        this.paymentType = 0;
+        this.bank = null;
+        this.date = null;
         this.invoiceItems.clear();
-        this.cash = new Cash();
+    }
+
+    public Double sumImvoices(){
+        ArrayList<InvoiceItem> invoices = getInvoiceItems();
+        double invoicesTotalAmount = 0;
+        if(invoices != null) {
+            for (InvoiceItem invoice : invoices) {
+                invoicesTotalAmount = invoicesTotalAmount + invoice.getBalanceDue();
+            }
+        }
+        return invoicesTotalAmount;
     }
 
     public void AddOrUpdateQuantity(ProductVariant variant){

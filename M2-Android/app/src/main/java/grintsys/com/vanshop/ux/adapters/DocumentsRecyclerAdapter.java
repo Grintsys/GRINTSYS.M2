@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,6 +20,8 @@ import grintsys.com.vanshop.entities.client.Document;
 import grintsys.com.vanshop.interfaces.DocumentRecyclerInterface;
 import grintsys.com.vanshop.ux.MainActivity;
 import timber.log.Timber;
+
+import static grintsys.com.vanshop.utils.Utils.dateToString;
 
 /**
  * Created by alienware on 2/1/2017.

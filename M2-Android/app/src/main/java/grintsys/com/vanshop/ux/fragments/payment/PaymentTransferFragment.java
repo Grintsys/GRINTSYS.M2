@@ -10,6 +10,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -39,13 +41,22 @@ import grintsys.com.vanshop.entities.BankListResult;
 import grintsys.com.vanshop.entities.User.User;
 import grintsys.com.vanshop.entities.client.Client;
 import grintsys.com.vanshop.entities.client.DocumentListResult;
+import grintsys.com.vanshop.entities.payment.InvoiceItem;
 import grintsys.com.vanshop.entities.payment.Transfer;
 import grintsys.com.vanshop.entities.tenant.Tenant;
 import grintsys.com.vanshop.interfaces.BankDialogInterface;
+import grintsys.com.vanshop.utils.JsonUtils;
 import grintsys.com.vanshop.utils.MsgUtils;
 import grintsys.com.vanshop.ux.MainActivity;
 import grintsys.com.vanshop.ux.adapters.BankSpinnerAdapter;
 import timber.log.Timber;
+
+import android.view.View.OnKeyListener;
+import android.view.KeyEvent;
+import android.view.inputmethod.InputMethodManager;
+import java.text.NumberFormat;
+
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -174,29 +185,18 @@ public class PaymentTransferFragment extends Fragment {
         amountEdit = view.findViewById(R.id.payment_transfer_amount);
         progressView = view.findViewById(R.id.payment_progress);
 
+        final Animation animation = AnimationUtils.loadAnimation(getContext(),R.anim.slide_away_appear);
+
         if(client != null){
             clientCodeTextView.setText(client.getCardCode());
             clientNameTextView.setText(client.getName());
-        }
-
-        String pay = "";
-
-        pay = ((MainActivity)getActivity()).getPaymentType();
-        if ( pay.equals(""))
-        {
-            ((MainActivity)getActivity()).setPaymentType(paymentType.getSelectedItem().toString());
-        }
-        else
-        {
-            String[] pays = getResources().getStringArray(R.array.PaymentTypes);
-            paymentType.setSelection(Arrays.asList(pays).indexOf(pay));
         }
 
         //Add Item change on paymentTypes Dropdown:
         paymentType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                ((MainActivity)getActivity()).setPaymentType(paymentType.getSelectedItem().toString());
+                ((MainActivity)getActivity()).setPaymentType((int)paymentType.getSelectedItemId());
             }
 
             @Override
@@ -216,8 +216,17 @@ public class PaymentTransferFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String number = referenceEdit.getText().toString();
-                ((MainActivity)getActivity()).setReferenceNumber(number);
+                String str = referenceEdit.getText().toString();
+                ((MainActivity)getActivity()).setReferenceNumber(str);
+            }
+        });
+        referenceEdit.setOnKeyListener(new OnKeyListener() {
+            public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
+                if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    view.startAnimation(animation);
+                    return true;
+                }
+                return false;
             }
         });
 
@@ -232,66 +241,113 @@ public class PaymentTransferFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String txt = commentEdit.getText().toString();
-                ((MainActivity)getActivity()).UpdateComment(txt);
+                String str = commentEdit.getText().toString();
+                ((MainActivity)getActivity()).UpdateComment(str);
             }
         });
 
         amountEdit.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                String amountString = amountEdit.getText().toString();
-                if(amountString.length() > 0) {
-                    ((MainActivity)getActivity()).UpdateAmount( Double.parseDouble(amountString));
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            private String current = "";
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!s.toString().equals(current)){
+                    try {
+                        amountEdit.removeTextChangedListener(this);
+
+                        String cleanString = s.toString().replaceAll("[L,.]", "");
+
+                        double parsed = Double.parseDouble(cleanString);
+                        String formatted = NumberFormat.getCurrencyInstance(new Locale("es", "HN")).format((parsed/100));
+
+                        current = formatted;
+                        amountEdit.setText(formatted);
+                        amountEdit.setSelection(formatted.length());
+
+                        amountEdit.addTextChangedListener(this);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
 
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+        amountEdit.setOnKeyListener(new OnKeyListener() {
+            public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
+
+                if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+
+                    double invoicesTotalAmount = ((MainActivity) getActivity()).sumImvoices();
+
+                    String amountString = amountEdit.getText().toString().replaceAll("[L,]", "");
+                    Double amountDouble = 0.00;
+
+                    if(!amountString.isEmpty()){
+                        amountDouble = Double.parseDouble(amountString);
+                    }
+
+                    if(amountDouble > 0.00 && amountDouble <= invoicesTotalAmount) {
+                        ((MainActivity)getActivity()).UpdateAmount(amountDouble);
+                        view.startAnimation(animation);
+                    }
+
+                    if(amountDouble>invoicesTotalAmount || amountDouble <= 0.00) {
+                        amountEdit.setText(NumberFormat.getCurrencyInstance(new Locale("es", "HN")).format(invoicesTotalAmount));
+                        ((MainActivity)getActivity()).UpdateAmount(invoicesTotalAmount);
+                        view.startAnimation(animation);
+                    }
+
+                    InputMethodManager _inputMethodManager = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    _inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+                    amountEdit.clearFocus();
+
+                    return true;
+                }
+                return false;
+            }
         });
 
         receiptEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String number = receiptEdit.getText().toString();
-                ((MainActivity)getActivity()).UpdateReceipt(number);
+                String str = receiptEdit.getText().toString();
+                ((MainActivity)getActivity()).UpdateReceipt(str);
             }
         });
-
-        amountEdit.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
-                String amount_string = amountEdit.getText().toString();
-                if(!amount_string.isEmpty()) {
-                    double amount = Double.parseDouble(amount_string);
-                    ((MainActivity)getActivity()).UpdateAmount(amount);
+        receiptEdit.setOnKeyListener(new OnKeyListener() {
+            public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
+                if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    view.startAnimation(animation);
+                    return true;
                 }
+                return false;
             }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
 
         final Calendar myCalendar = Calendar.getInstance();
 
-        String myFormat = "yyyy/MM/dd";
+        String myFormat = "yyyy/MMM/dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        dateEdit.setText(sdf.format(myCalendar.getTime()));
+        //dateEdit.setText(sdf.format(myCalendar.getTime()));
         dateEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DatePickerDialog(getContext(),
+                DatePickerDialog dpd = new DatePickerDialog(getContext(),
                         R.style.MyDatePicker,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
@@ -300,7 +356,7 @@ public class PaymentTransferFragment extends Fragment {
                                 myCalendar.set(Calendar.MONTH, monthOfYear);
                                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                                String myFormat = "yyyy/MM/dd";
+                                String myFormat = "yyyy/MMM/dd";
                                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                                 dateEdit.setText(sdf.format(myCalendar.getTime()));
                                 ((MainActivity)getActivity()).UpdateDate(myCalendar.getTime());
@@ -309,39 +365,15 @@ public class PaymentTransferFragment extends Fragment {
                         myCalendar.get(Calendar.YEAR),
                         myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)
-                ).show();
+                );
+
+                dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
+                dpd.show();
             }
         });
 
         prepareBankSpinner(view);
-
-        /*
-        Bundle args = getArguments();
-        if (args != null) {
-            transfer = (Transfer) args.getSerializable(ARG_TRANSFER);
-            banks = (ArrayList<Bank>) getArguments().getSerializable(ARG_BANK_LIST);
-
-            if(transfer != null){
-                referenceNumberEdit.setText(transfer.getNumber());
-                amountEdit.setText(String.valueOf(transfer.getAmount()));
-                dateEdit.setText(transfer.getDueDate());
-                ((MainActivity)getActivity()).UpdateTransferDate(transfer.getDueDate());
-
-
-                if(transfer.getBank() != null && bankSpinner != null){
-                    int index = 0;
-                    for(int i=0; i<this.banks.size() ; i++){
-                        if(this.banks.get(i).getGeneralAccount().equals(transfer.getBank().getGeneralAccount()))
-                        {
-                            index = i;
-                            break;
-                        }
-                    }
-                    bankSpinner.setSelection(index);
-                }
-            }
-        }
-        */
 
         return view;
     }

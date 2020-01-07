@@ -3,6 +3,7 @@ package grintsys.com.vanshop.entities.payment;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by alienware on 4/5/2017.
@@ -16,8 +17,12 @@ public class InvoiceItem implements Serializable {
     public String documentNumber;
     @SerializedName("total_amount")
     public double totalAmount;
-    @SerializedName("total_payed")
+    @SerializedName("balance_due")
+    public double balanceDue;
+    @SerializedName("payed_amount")
     public double payedAmount;
+    @SerializedName("overdue_days")
+    public Double overdueDays;
 
     public InvoiceItem(){ }
 
@@ -45,11 +50,15 @@ public class InvoiceItem implements Serializable {
         this.totalAmount = totalAmount;
     }
 
-    public double getPayedAmount() {
-        return payedAmount;
-    }
+    public double getBalanceDue() { return balanceDue; }
 
-    public void setPayedAmount(double payedAmount) {
-        this.payedAmount = payedAmount;
-    }
+    public void setBalanceDue(double balanceDue) { this.balanceDue = balanceDue; }
+
+    public double getPayedAmount() { return payedAmount; }
+
+    public void setPayedAmount(double payedAmount) { this.payedAmount = payedAmount; }
+
+    public Double getOverdueDays() { return overdueDays; }
+
+    public void setOverdueDays(Double documentDate) { this.overdueDays = documentDate; }
 }

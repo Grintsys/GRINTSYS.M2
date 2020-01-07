@@ -129,42 +129,6 @@ public class BluetoothPrinterPayment {
             //    e.printStackTrace();
         }
 
-        //docExPCL_LP.writeText(invoices.get(0).getDocumentNumber() +
-        //        '\t' + invoices.get(0).getTotalAmount());
-
-        //DEM, August 14TH- 2017. Aca iria el loop de las facturas.
-        //if(invoices!=null) {
-        /*
-            for (int i = 0; i < invoices.size(); i++)
-            {
-
-                //try {
-                //    Thread.sleep(2000);
-                //} catch (InterruptedException e) {
-                //    e.printStackTrace();
-                //}
-
-                //try {
-                //    TimeUnit.SECONDS.sleep(10);
-                //} catch (InterruptedException e) {
-                //    e.printStackTrace();
-                //}
-
-                //Documento = invoices.get(i).getDocumentNumber();
-
-                //docExPCL_LP.writeText(invoices.get(i).getDocumentNumber() + "         " + invoices.get(i).getPayedAmount());
-                //docExPCL_LP.writeText( Documento+ "     " + df.format(invoices.get(i).getTotalAmount()), paramExPCL_LP);
-               // docExPCL_LP.writeText(TotaDocumento, paramExPCL_LP);
-
-                docExPCL_LP.writeText(invoices.get(i).getDocumentNumber() +
-                        '\t' + invoices.get(i).getPayedAmount());
-
-
-            }
-        //}
-
-        */
-
         paramExPCL_LP.setIsUnderline(true);
         docExPCL_LP.writeText("                                                ", paramExPCL_LP);
 

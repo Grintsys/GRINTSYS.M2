@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import grintsys.com.vanshop.R;
 import grintsys.com.vanshop.entities.payment.Payment;
@@ -47,11 +49,15 @@ public class PaymentsHistoryRecyclerAdapter extends RecyclerView.Adapter<Payment
         Payment payment = getPaymentItem(position);
         holder.bindContent(payment);
 
-        holder.paymentStatusTv.setText(payment.getStatus());
         String cardCode = payment.cardCode == null ? "" : payment.cardCode;
+        String paymentStatus = new String[]{"CreadoEnAplicacion","CreadoEnSAP","Error","CanceladoPorFinanzas","Autorizado"}[Integer.parseInt(payment.getStatus())];
+        String paymentDate = Utils.stringDateFormat(payment.getCreatedDate().substring(0,10), "dd/MMM/yyyy");
+        String paymentAmountWithCurrency = NumberFormat.getCurrencyInstance(new Locale("es", "HN")).format(payment.getTotalPaid());
+
         holder.paymentClientNameTv.setText(Utils.truncate(cardCode, 40));
-        holder.paymentTotalPayedTv.setText(String.valueOf(payment.getTotalPaid()));
-        holder.paymentDateTv.setText(Utils.truncate(payment.getCreatedDate(), 40));
+        holder.paymentStatusTv.setText(paymentStatus);
+        holder.paymentDateTv.setText(paymentDate);
+        holder.paymentTotalPayedTv.setText(paymentAmountWithCurrency);
     }
 
     private Payment getPaymentItem(int position) {
