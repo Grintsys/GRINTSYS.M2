@@ -1,9 +1,13 @@
 package grintsys.com.vanshop.ux.fragments.payment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Picture;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -45,10 +49,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -97,7 +103,7 @@ public class PaymentMainFragment extends Fragment {
     private static final String ARG_CARDCODE = "cardcode";
     private static final String ARG_CLIENT = "client-payment";
     private static final String ARG_PAYMENT = "payment";
-    private static final String[] paymentTypes = new String[]{"Efectivo","Cheque","Transferencia"};
+    private static final String[] paymentTypes = new String[]{"Efectivo","Cheque","Transferencia","Efectivo Dolar $","Máquina POS"};
 
     // TODO: Rename and change types of parameters
     private String mCardCode;
@@ -209,9 +215,8 @@ public class PaymentMainFragment extends Fragment {
 
                     updateInvoicesDetailPayedAmount();
                     sendPaymentToDraft();
-                    ((MainActivity) getActivity()).onAccountSelected();
+                    //((MainActivity) getActivity()).onAccountSelected();
 
-                    //clearPaymentDataDetail();
                 }catch (Exception ex){
                     MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, ex.getMessage(), MsgUtils.ToastLength.LONG);
                     ex.printStackTrace();
@@ -222,9 +227,22 @@ public class PaymentMainFragment extends Fragment {
         paymentCancelButton.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                cancelPayment(payment.getId());
-                ((MainActivity)getActivity()).ClearPaymentData();
-                ((MainActivity)getActivity()).onAccountSelected();
+                try{
+
+                    ((MainActivity)getActivity()).ClearPaymentData();
+                    ((MainActivity)getActivity()).onAccountSelected();
+
+                    String tmpPath = getContext().getExternalFilesDir(null).toString()+"/pdfFileTest.pdf";
+                    ConverterProperties converterProperties = new ConverterProperties();
+                    PdfDocument pdf = new PdfDocument(new PdfWriter(tmpPath));
+                    pdf.setDefaultPageSize(new PageSize(210, 550));
+                    HtmlConverter.convertToPdf("<html><body>M2 PDF TEST</body></html>",
+                                                pdf,
+                                                converterProperties);
+                }catch (Exception ex){
+                    MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, ex.getMessage(), MsgUtils.ToastLength.LONG);
+                    ex.printStackTrace();
+                }
             }
         });
 
@@ -239,7 +257,7 @@ public class PaymentMainFragment extends Fragment {
                 String respuesta ="";
 
                 ArrayList<InvoiceItem> invoices = ((MainActivity) getActivity()).getInvoiceItems();
-                Client client = payment.getClient();
+                Client client = new Client();
 
                 String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
                 String PaymentId = "";
@@ -260,7 +278,7 @@ public class PaymentMainFragment extends Fragment {
                                 0.0,
                                 payment.getComment(),
                                 PaymentId,
-                                payment.getTotalPaid());
+                                payment.getPayedAmount());
                     }else
                     {
                         //MsgUtils.showToast((Activity)context, MsgUtils.TOAST_TYPE_MESSAGE, context.getString(R.string.Internal_error), MsgUtils.ToastLength.SHORT);
@@ -289,8 +307,8 @@ public class PaymentMainFragment extends Fragment {
             if(payment != null){
                 ((MainActivity) getActivity()).ClearPaymentData();
                 //((MainActivity) getActivity()).UpdateTransfer(payment.getTransfer());
-                ((MainActivity) getActivity()).UpdateCash(payment.getCash());
-                ((MainActivity) getActivity()).UpdateChecks(payment.getChecks());
+                //((MainActivity) getActivity()).UpdateCash(payment.getCash());
+                //((MainActivity) getActivity()).UpdateChecks(payment.getChecks());
                 //((MainActivity) getActivity()).UpdateInvoiceItems(payment.getInvoices());
                // getBanks();
             } else {
@@ -313,15 +331,7 @@ public class PaymentMainFragment extends Fragment {
     }
 
     private void clearPaymentDataDetail(){
-
-        ((MainActivity)getActivity()).UpdateComment("");
-        ((MainActivity)getActivity()).setReferenceNumber("");
-        ((MainActivity)getActivity()).UpdateAmount(0.00);
-        ((MainActivity)getActivity()).setPaymentType(0);
-        ((MainActivity)getActivity()).UpdateBank(null);
-        ((MainActivity)getActivity()).UpdateDate(null);
-        ((MainActivity)getActivity()).UpdateInvoiceItems(null);
-
+        ((MainActivity)getActivity()).ClearPaymentData();
     }
 
     private String getFilePath(){
@@ -334,11 +344,12 @@ public class PaymentMainFragment extends Fragment {
         String htmlTemplate = "<tr class='service'> <td class='tableitem'> <p class='itemtext'>@DocNum</p> </td> <td class='tableitem'> <p class='itemtext'>@BalanceDue</p> </td> <td class='tableitem'> <p class='itemtext'>@PayedAmount</p> </td> </tr>";
         ArrayList<InvoiceItem> invoices = ((MainActivity) getActivity()).getInvoiceItems();
 
+        Locale _locale = ((MainActivity) getActivity()).getPaymentType()==3 ? new Locale("en", "US"):new Locale("es", "HN");
         String str = "";
         for (InvoiceItem item : invoices) {
             str = str + htmlTemplate.replace("@DocNum",item.documentNumber)
                                     .replace("@BalanceDue", NumberFormat.getCurrencyInstance(new Locale("es", "HN")).format(item.balanceDue))
-                                    .replace("@PayedAmount", NumberFormat.getCurrencyInstance(new Locale("es", "HN")).format(item.payedAmount));
+                                    .replace("@PayedAmount", NumberFormat.getCurrencyInstance(_locale).format(item.payedAmount));
         }
 
         return str;
@@ -364,40 +375,66 @@ public class PaymentMainFragment extends Fragment {
     private void createFilePDF(AddPaymentResponse paymentResponse){
 
         try{
-            //updateInvoicesDetailPayedAmount();
+            Locale _locale =  ((MainActivity) getActivity()).getPaymentType() ==3 ?new Locale("en","US"):new Locale("es","HN");
 
-            String htmlTemplate = "<html lang='en'><head> <title>CodePen - POS Receipt Template Html Css</title> <style> #invoice-POS { box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5); padding: 2mm; margin: 0 auto; width: 44mm; background: #FFF;background-image: url('KAD.png');background-repeat: repeat-y;background-position: 50% 50%;background-size: 90px 40px; background-color: rgba(255,255,255,0.9); background-blend-mode: lighten;} #invoice-POS::selection { background: #f31544; color: #FFF; } #invoice-POS::moz-selection { background: #f31544; color: #FFF; } #invoice-POS h1 { font-size: 1.5em; color: #222; } #invoice-POS h2 { font-size: .9em; } #invoice-POS h3 { font-size: 1.2em; font-weight: 300; line-height: 2em; } #invoice-POS p { font-size: .7em; color: #666; line-height: 1.2em; } #invoice-POS #top, #invoice-POS #mid, #invoice-POS #bot { /* Targets all id with 'col-' */ border-bottom: 1px solid #EEE; } #invoice-POS #top { min-height: 10px; } #invoice-POS #mid { min-height: 80px; } #invoice-POS #bot { min-height: 50px; } #invoice-POS #top .logo { height: 60px; width: 60px; background: url(http://michaeltruong.ca/images/logo1.png) no-repeat; background-size: 60px 60px; } #invoice-POS .clientlogo { float: left; height: 60px; width: 60px; background: url(http://michaeltruong.ca/images/client.jpg) no-repeat; background-size: 60px 60px; border-radius: 50px; } #invoice-POS .info { display: block; margin-left: 0; } #invoice-POS .title { float: right; } #invoice-POS .title p { text-align: right; } #invoice-POS table { width: 100%; border-collapse: collapse; } #invoice-POS .tabletitle { font-size: .5em; background: #EEE; } #invoice-POS .service { border-bottom: 1px solid #EEE; } #invoice-POS .item { width: 17mm; } #invoice-POS .itemtext { font-size: .5em; } #invoice-POS #legalcopy { margin-top: 5mm; } </style> <script> window.console = window.console || function(t) {}; </script> <script> if (document.location.search.match(/type=embed/gi)) { window.parent.postMessage('resize', '*'); } </script></head><body translate='no'> <div id='invoice-POS' > <center id='top'> <!--<div class='logo'></div>--> <div class='info'> <h3>Recibo de Pago</h3> </div> </center> <div id='mid'> <div class='info'> <h2>VAN HEUSEN DE C.A.</h2> <p> Dirección : Col. San Fernando Ave. Juan Pablo II, frente a la Leyde. Apartado Postal #1. San Pedro Sula, Honduras, C.A. <br> Correo : vheusen@kattangroup.com <br> Teléfono : (504)2516-0100<br> Fax : (504)2516-4080<br> R.T.N. : 05019995143200 <br> </p> </div> <div class='info'> <h2>Recibo # @Receipt</h2> <p> Fecha de Recibo : @RDate <br> Cliente : @Client <br> R.T.N. : @CRTN <br> </p> </div> </div> <div id='bot'> <div id='table'> <table> <tbody> <tr class='tabletitle'> <td class='item'> <h2>Factura</h2></td> <td class='Hours'> <h2>Monto Pendiente</h2></td> <td class='Rate'> <h2>Monto Aplicado</h2></td> </tr>@PaymentItems <tr class='tabletitle'> <td></td> <td class='Rate'> <h2>Total</h2></td> <td class='payment'> <h2>@TotalAmount</h2></td> </tr> </tbody> </table> </div> <div id='legalcopy'> <p class='legal'>Forma de Pago : @PaymentType <br> No. de Referencia : @ReferenceNumber<br> Fecha de Pago : @PayedDate <br> Vendedor : @UserName<br><br><strong>¡ Gracias por su pago !</strong>&nbsp; </p> </div> </div> </div></body></html>";
+            String documentTitle = "Recibo de Pago";
+            String receipt = String.valueOf(paymentResponse.getPaymentId());
+            String payedDate = dateToString(((MainActivity) getActivity()).getDate(),"dd-MM-yyyy");
+            String rDate = dateToString(new Date(),"dd-MM-yyyy HH:mm:ss");
+            String _client = client.getCardCode() + " " + client.getName();
+            String cRTN = client.getRtn();
+            String paymentType = paymentTypes[((MainActivity) getActivity()).getPaymentType()];
+            String referenceNumber = ((MainActivity) getActivity()).getReferenceNumber();
+            String userName = SettingsMy.getActiveUser().getName();
+            String totalAmount = NumberFormat.getCurrencyInstance(_locale).format(((MainActivity) getActivity()).GetAmount());
+            String bank = ((MainActivity) getActivity()).getBank().getName();
+            String note = "";
 
-            htmlTemplate = htmlTemplate.replace("@PaymentItems",getHtmlInvoicesDetail());
-            htmlTemplate = htmlTemplate.replace("@Receipt",String.valueOf(paymentResponse.getPaymentId()));
-            htmlTemplate = htmlTemplate.replace("@PayedDate",dateToString(((MainActivity) getActivity()).getDate(),"dd-MM-yyyy"));
-            htmlTemplate = htmlTemplate.replace("@RDate",dateToString(new Date(),"dd-MM-yyyy HH:mm:ss"));
-            htmlTemplate = htmlTemplate.replace("@Client",client.getCardCode() + " " + client.getName());
-            htmlTemplate = htmlTemplate.replace("@CRTN",client.getRtn());
-            htmlTemplate = htmlTemplate.replace("@PaymentType",paymentTypes[((MainActivity) getActivity()).getPaymentType()]);
-            htmlTemplate = htmlTemplate.replace("@ReferenceNumber",((MainActivity) getActivity()).getReferenceNumber());
-            htmlTemplate = htmlTemplate.replace("@UserName",SettingsMy.getActiveUser().getName());
-            htmlTemplate = htmlTemplate.replace("@TotalAmount",NumberFormat.getCurrencyInstance(new Locale("es", "HN")).format(((MainActivity) getActivity()).GetAmount()));
+            if(paymentType.equals("Cheque")){
+                documentTitle = "Recibo Provisional Por Cheque Pos Fechado";
+                note = "<div id='legalcopy'><p class='legal'><strong>Nota:</strong> Este recibo es de caracter provisional y sera reemplazado por su recibo de pago al momento que su cheque sea cobrado.</p></div>";
+            }
+
+            String htmlTemplate = "<html lang='en'><head> <title> @DocumentTitle </title> <style> #invoice-POS { box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5); padding: 2mm; margin: 0 auto; width: 44mm; background: #FFF;background-image: url('KD1.png');background-repeat: repeat-y;background-position: 50% 50%;background-size: 90px 40px; background-color: rgba(255,255,255,0.9); background-blend-mode: lighten;} #invoice-POS::selection { background: #f31544; color: #FFF; } #invoice-POS::moz-selection { background: #f31544; color: #FFF; } #invoice-POS h1 { font-size: 1.5em; color: #222; } #invoice-POS h2 { font-size: .9em; } #invoice-POS h3 { font-size: 1.2em; font-weight: 300; line-height: 2em; } #invoice-POS p { font-size: .7em; color: #666; line-height: 1.2em; } #invoice-POS #top, #invoice-POS #mid, #invoice-POS #bot { /* Targets all id with 'col-' */ border-bottom: 1px solid #EEE; } #invoice-POS #top { min-height: 10px; } #invoice-POS #mid { min-height: 80px; } #invoice-POS #bot { min-height: 50px; } #invoice-POS #top .logo { height: 60px; width: 60px; background: url(http://michaeltruong.ca/images/logo1.png) no-repeat; background-size: 60px 60px; } #invoice-POS .clientlogo { float: left; height: 60px; width: 60px; background: url(http://michaeltruong.ca/images/client.jpg) no-repeat; background-size: 60px 60px; border-radius: 50px; } #invoice-POS .info { display: block; margin-left: 0; } #invoice-POS .title { float: right; } #invoice-POS .title p { text-align: right; } #invoice-POS table { width: 100%; border-collapse: collapse; } #invoice-POS .tabletitle { font-size: .5em; background: #EEE; } #invoice-POS .service { border-bottom: 1px solid #EEE; } #invoice-POS .item { width: 17mm; } #invoice-POS .itemtext { font-size: .5em; } #invoice-POS #legalcopy { margin-top: 5mm; } </style> <script> window.console = window.console || function(t) {}; </script> <script> if (document.location.search.match(/type=embed/gi)) { window.parent.postMessage('resize', '*'); } </script></head><body translate='no'> <div id='invoice-POS' > <center id='top'> <!--<div class='logo'></div>--> <div class='info'> <h3>@DocumentTitle</h3> </div> </center> <div id='mid'> <div class='info'> <h2>VAN HEUSEN DE C.A.</h2> <p> Dirección : Col. San Fernando Ave. Juan Pablo II, frente a la Leyde. Apartado Postal #1. San Pedro Sula, Honduras, C.A. <br> Correo : vheusen@kattangroup.com <br> Teléfono : (504)2516-0100<br> Fax : (504)2516-4080<br> R.T.N. : 05019995143200 <br> </p> </div> <div class='info'> <h2>Recibo # @Receipt</h2> <p> Fecha de Recibo : @RDate <br> Cliente : @Client <br> R.T.N. : @CRTN <br> </p> </div> </div> <div id='bot'> <div id='table'> <table> <tbody> <tr class='tabletitle'> <td class='item'> <h2>Factura</h2></td> <td class='Hours'> <h2>Monto Pendiente</h2></td> <td class='Rate'> <h2>Monto Aplicado</h2></td> </tr>@PaymentItems <tr class='tabletitle'> <td></td> <td class='Rate'> <h2>Total</h2></td> <td class='payment'> <h2>@TotalAmount</h2></td> </tr> </tbody> </table> </div> <div id='legalcopy'> <p class='legal'>Forma de Pago : @PaymentType <br> No. de Referencia : @ReferenceNumber <br> Banco : @Bank <br> Fecha de Pago : @PayedDate <br> Vendedor : @UserName<br><br><strong>¡ Gracias por su pago !</strong>&nbsp; </p>@Note</div> </div> </div></body></html>";
+
+            htmlTemplate = htmlTemplate.replace("@DocumentTitle",documentTitle)
+                                       .replace("@Receipt",receipt)
+                                       .replace("@PayedDate",payedDate)
+                                       .replace("@RDate",rDate)
+                                       .replace("@Client",_client)
+                                       .replace("@CRTN",cRTN)
+                                       .replace("@PaymentType",paymentType)
+                                       .replace("@ReferenceNumber",referenceNumber)
+                                       .replace("@UserName",userName)
+                                       .replace("@TotalAmount",totalAmount)
+                                       .replace("@Bank",bank)
+                                       .replace("@PaymentItems",getHtmlInvoicesDetail())
+                                       .replace("@Note",note);
 
             String tmpPath = getContext().getExternalFilesDir(null).toString()+"/pdfFileWithoutWaterMark.pdf";
 
             ConverterProperties converterProperties = new ConverterProperties();
 
             PdfDocument pdf = new PdfDocument(new PdfWriter(tmpPath));
-            pdf.setDefaultPageSize(new PageSize(210, 500));
+            pdf.setDefaultPageSize(new PageSize(210, 550));
 
 
             HtmlConverter.convertToPdf(htmlTemplate,pdf,converterProperties);
 
             String path = getFilePath();
-            String IMG = getContext().getExternalFilesDir(null).toString()+"/KAD.png";
 
             PdfDocument pdfDoc = new PdfDocument(new PdfReader(tmpPath), new PdfWriter(path));
             com.itextpdf.layout.Document doc = new com.itextpdf.layout.Document(pdfDoc);
             int n = pdfDoc.getNumberOfPages();
 
             // image watermark
-            ImageData img = ImageDataFactory.create(IMG);
+            Drawable d = getContext().getDrawable(R.drawable.kadlogo);
+            Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] bitmapdata = stream.toByteArray();
+
+            ImageData img = ImageDataFactory.create(bitmapdata);
             //  Implement transformation matrix usage in order to scale image
             float w = img.getWidth();
             float h = img.getHeight();
@@ -453,7 +490,7 @@ public class PaymentMainFragment extends Fragment {
             throw new IOException(getString(R.string.PaymentValidateAmount));
         }
 
-        if(paymentType < 0 || paymentType > 3){
+        if(paymentType < 0 || paymentType > 4){
             throw new IOException(getString(R.string.PaymentValidateType));
         }
 
@@ -534,7 +571,9 @@ public class PaymentMainFragment extends Fragment {
                         Timber.d("Esto devolvio %s", response);
                         MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Success), MsgUtils.ToastLength.LONG);
                         createFilePDF(response.result);
+                        clearPaymentDataDetail();
                         setContentVisible(CONST.VISIBLE.CONTENT);
+                        ((MainActivity) getActivity()).onOpenClientFragment();
                     }
                 }, new Response.ErrorListener() {
             @Override

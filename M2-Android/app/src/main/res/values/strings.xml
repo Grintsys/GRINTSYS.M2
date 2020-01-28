@@ -332,6 +332,8 @@
         <item>Cash</item>
         <item>Check</item>
         <item>Bank Transference</item>
+        <item>Cash Dollar $</item>
+        <item>POS Machine</item>
     </string-array>
 
     <string-array name="PaymentReason">

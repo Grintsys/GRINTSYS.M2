@@ -338,7 +338,9 @@ public class MainActivity extends AppCompatActivity implements DrawerFragment.Fr
         this.paymentType = 0;
         this.bank = null;
         this.date = null;
+
         this.invoiceItems.clear();
+        this.invoices.clear();
     }
 
     public Double sumImvoices(){

@@ -313,6 +313,8 @@
         <item>Efectivo</item>
         <item>Cheque</item>
         <item>Transferencia</item>
+        <item>Efectivo Dolar $</item>
+        <item>Máquina POS</item>
     </string-array>
 
     <string-array name="PaymentReason">

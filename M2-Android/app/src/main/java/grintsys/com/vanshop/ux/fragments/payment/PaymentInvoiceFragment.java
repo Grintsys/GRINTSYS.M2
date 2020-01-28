@@ -99,6 +99,7 @@ public class PaymentInvoiceFragment extends Fragment {
                         if(response.result.getDocuments().size() <= 0)
                             paymentTextView.setVisibility(View.GONE);
 
+                        ((MainActivity)getActivity()).ClearPaymentData();
                         documentsRecyclerAdapter.addDocuments(response.result.getDocuments());
                         //documentsRecyclerAdapter.notifyDataSetChanged();
                         //MsgUtils.showToast(getActivity(), MsgUtils.TOAST_TYPE_MESSAGE, getString(R.string.Success), MsgUtils.ToastLength.SHORT);

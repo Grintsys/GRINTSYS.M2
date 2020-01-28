@@ -15,164 +15,92 @@ import grintsys.com.vanshop.entities.client.Client;
 public class Payment implements Serializable {
 
     private int id;
-    private String vendor;
+    private int tenantId;
     private String docEntry;
     private Double payedAmount;
-    private String lastError;
-    public String cardCode;
+    private String lastMessage;
+    private int status;
+    private String statusDesc;
     private String comment;
-    private Date date;
-    private String creationTime;
-    private Client client;
-    private Cash cash;
-    private Transfer transfer;
-    private ArrayList<CheckPayment> checks;
-    private ArrayList<InvoiceItem> invoices;
-    private String status;
-    private String statusText;
     private String referenceNumber;
+    private String creationTime;
+    private long userId;
+    private int bankId;
+    private int type;
+    private String typeDesc;
+    private String payedDate;
+    private String cardCode;
+    private String cardName;
+    private String userName;
+    private ArrayList<InvoiceItem> invoices;
 
     public Payment() {}
 
     public Payment(int id, String vendor, String docEntry, Double totalPaid, String lastError, Date date, Client client, Cash cash, Transfer transfer, ArrayList<CheckPayment> checks)
     {
         this.id = id;
-        this.vendor = vendor;
+        //this.vendor = vendor;
         this.docEntry = docEntry;
         this.payedAmount = totalPaid;
-        this.lastError = lastError;
+        /*this.lastError = lastError;
         this.date = date;
         this.client = client;
         this.cash = cash;
         this.transfer = transfer;
-        this.checks = checks;
+        this.checks = checks;*/
     }
 
-    public String getReferenceNumber() {
-        return referenceNumber;
-    }
+    public int getId(){ return this.id; }
+    public void setId(int val){this.id = val;}
 
-    public void setReferenceNumber(String referenceNumber) {
-        this.referenceNumber = referenceNumber;
-    }
+    public int getTenantId(){return this.tenantId;}
+    public void setTenantId(int val){this.tenantId = val;}
 
-    public String getCreatedDate() {
-        return creationTime;
-    }
+    public String getDocEntry(){return this.docEntry;}
+    public void setDocEntry(String val){this.docEntry = val;}
 
-    public void setCreatedDate(String createdDate) {
-        this.creationTime = createdDate;
-    }
+    public Double getPayedAmount(){return this.payedAmount;}
+    public void setPayedAmount(Double val){this.payedAmount = val;}
 
-    public String getStatusText() {
-        return statusText;
-    }
+    public String getLastMessage(){return this.lastMessage;}
+    public void setLastMessage(String val){this.lastMessage = val;}
 
-    public void setStatusText(String statusText) {
-        this.statusText = statusText;
-    }
+    public int getStatus(){return this.status;}
+    public void setStatus(int val){this.status = val;}
 
-    public String getComment() {
-        return comment;
-    }
+    public String getStatusDesc(){return this.statusDesc;}
+    public void setStatusDesc(String val){this.statusDesc = val;}
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+    public String getComment(){return this.comment;}
+    public void setComment(String val){this.comment = val;}
 
-    public ArrayList<InvoiceItem> getInvoices() {
-        return invoices;
-    }
+    public String getReferenceNumber(){return this.referenceNumber;}
+    public void setReferenceNumber(String val){this.referenceNumber = val;}
 
-    public void setInvoices(ArrayList<InvoiceItem> invoices) {
-        this.invoices = invoices;
-    }
+    public String getCreationTime(){return this.creationTime;}
+    public void setCreationTime(String val){this.creationTime = val;}
 
-    public String getStatus() {
-        return status;
-    }
+    public long getUserId(){return this.userId;}
+    public void setUserId(long val){this.userId = val;}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public int getBankId(){return this.bankId;}
+    public void setBankId(int val){this.bankId = val;}
 
-    public int getId() {
-        return id;
-    }
+    public int getType(){return this.type;}
+    public void setType(int val){this.type = val;}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public String getTypeDesc(){return this.typeDesc;}
+    public void setTypeDesc(String val){this.typeDesc = val;}
 
-    public String getVendor() {
-        return vendor;
-    }
+    public String getPayedDate(){return this.payedDate;}
+    public void setPayedDate(String val){this.payedDate = val;}
 
-    public void setVendor(String vendor) {
-        this.vendor = vendor;
-    }
+    public String getCardCode(){return this.cardCode;}
+    public void setCardCode(String val){this.cardCode = val;}
 
-    public String getDocEntry() {
-        return docEntry;
-    }
+    public String getCardName(){return this.cardName;}
+    public void setCardName(String val){this.cardName = val;}
 
-    public void setDocEntry(String docEntry) {
-        this.docEntry = docEntry;
-    }
-
-    public Double getTotalPaid() {
-        return payedAmount;
-    }
-
-    public void setTotalPaid(Double totalPaid) {
-        this.payedAmount = totalPaid;
-    }
-
-    public String getLastError() {
-        return lastError;
-    }
-
-    public void setLastError(String lastError) {
-        this.lastError = lastError;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public Cash getCash() {
-        return cash;
-    }
-
-    public void setCash(Cash cash) {
-        this.cash = cash;
-    }
-
-    public Transfer getTransfer() {
-        return transfer;
-    }
-
-    public void setTransfer(Transfer transfer) {
-        this.transfer = transfer;
-    }
-
-    public ArrayList<CheckPayment> getChecks() {
-        return checks;
-    }
-
-    public void setChecks(ArrayList<CheckPayment> checks) {
-        this.checks = checks;
-    }
+    public String getUserName(){return this.userName;}
+    public void setUserName(String val){this.userName = val;}
 }

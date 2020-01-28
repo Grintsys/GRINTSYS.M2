@@ -49,10 +49,12 @@ public class PaymentsHistoryRecyclerAdapter extends RecyclerView.Adapter<Payment
         Payment payment = getPaymentItem(position);
         holder.bindContent(payment);
 
-        String cardCode = payment.cardCode == null ? "" : payment.cardCode;
-        String paymentStatus = new String[]{"CreadoEnAplicacion","CreadoEnSAP","Error","CanceladoPorFinanzas","Autorizado"}[Integer.parseInt(payment.getStatus())];
-        String paymentDate = Utils.stringDateFormat(payment.getCreatedDate().substring(0,10), "dd/MMM/yyyy");
-        String paymentAmountWithCurrency = NumberFormat.getCurrencyInstance(new Locale("es", "HN")).format(payment.getTotalPaid());
+        Locale _locale = payment.getType() == 3 ? new Locale("en", "US") : new Locale("es", "HN");
+
+        String cardCode = payment.getCardCode() == null ? "" : payment.getCardCode();
+        String paymentStatus = payment.getStatusDesc();
+        String paymentDate = Utils.stringDateFormat(payment.getPayedDate().substring(0,10), "dd/MMM/yyyy");
+        String paymentAmountWithCurrency = NumberFormat.getCurrencyInstance(_locale).format(payment.getPayedAmount());
 
         holder.paymentClientNameTv.setText(Utils.truncate(cardCode, 40));
         holder.paymentStatusTv.setText(paymentStatus);

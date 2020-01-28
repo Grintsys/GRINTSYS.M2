@@ -196,7 +196,12 @@ public class PaymentTransferFragment extends Fragment {
         paymentType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                ((MainActivity)getActivity()).setPaymentType((int)paymentType.getSelectedItemId());
+                int _index = (int)paymentType.getSelectedItemId();
+                ((MainActivity)getActivity()).setPaymentType(_index);
+
+                /*if(_index == 3){
+                    amountEdit.setText(NumberFormat.getCurrencyInstance(new Locale("en", "US")).format(amountEdit.getText()));
+                }*/
             }
 
             @Override
@@ -258,10 +263,11 @@ public class PaymentTransferFragment extends Fragment {
                     try {
                         amountEdit.removeTextChangedListener(this);
 
-                        String cleanString = s.toString().replaceAll("[L,.]", "");
+                        String cleanString = s.toString().replaceAll("[$L,.]", "");
 
                         double parsed = Double.parseDouble(cleanString);
-                        String formatted = NumberFormat.getCurrencyInstance(new Locale("es", "HN")).format((parsed/100));
+                        Locale _locale = (int)paymentType.getSelectedItemId() == 3 ? new Locale("en", "US") : new Locale("es", "HN");
+                        String formatted = NumberFormat.getCurrencyInstance(_locale).format((parsed/100));
 
                         current = formatted;
                         amountEdit.setText(formatted);
@@ -286,7 +292,7 @@ public class PaymentTransferFragment extends Fragment {
 
                     double invoicesTotalAmount = ((MainActivity) getActivity()).sumImvoices();
 
-                    String amountString = amountEdit.getText().toString().replaceAll("[L,]", "");
+                    String amountString = amountEdit.getText().toString().replaceAll("[$L,]", "");
                     Double amountDouble = 0.00;
 
                     if(!amountString.isEmpty()){
@@ -299,9 +305,14 @@ public class PaymentTransferFragment extends Fragment {
                     }
 
                     if(amountDouble>invoicesTotalAmount || amountDouble <= 0.00) {
-                        amountEdit.setText(NumberFormat.getCurrencyInstance(new Locale("es", "HN")).format(invoicesTotalAmount));
-                        ((MainActivity)getActivity()).UpdateAmount(invoicesTotalAmount);
-                        view.startAnimation(animation);
+                        try{
+                            Locale _locale = (int)paymentType.getSelectedItemId() == 3 ? new Locale("en", "US") : new Locale("es", "HN");
+                            amountEdit.setText(NumberFormat.getCurrencyInstance(_locale).format(invoicesTotalAmount));
+                            ((MainActivity)getActivity()).UpdateAmount(invoicesTotalAmount);
+                            view.startAnimation(animation);
+                        }catch (Exception ex){
+                            ex.printStackTrace();
+                        }
                     }
 
                     InputMethodManager _inputMethodManager = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -367,7 +378,7 @@ public class PaymentTransferFragment extends Fragment {
                         myCalendar.get(Calendar.DAY_OF_MONTH)
                 );
 
-                dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                //dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
 
                 dpd.show();
             }

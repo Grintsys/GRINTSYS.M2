@@ -9,7 +9,7 @@ public class EndPoints {
      */
 
     //production server
-    public static String API_URL                  = "http://192.168.1.28:62114/api/";
+    public static String API_URL                  = "http://181.199.177.162:8000/api/";
     public static final String TENANTS            = API_URL.concat("services/app/Tenant/GetAll");
     public static String CATEGORIES               = API_URL.concat("services/app/category/getAll");
 
